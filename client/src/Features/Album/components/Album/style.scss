@@ -1,0 +1,12 @@
+.album {
+  &__thumdnai {
+    & > img {
+      width: 190px;
+      border-radius: 0.5rem;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
+  }
+}

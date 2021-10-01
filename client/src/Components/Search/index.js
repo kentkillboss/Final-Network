@@ -1,0 +1,147 @@
+import React, { useState, useEffect } from 'react';
+
+import { alpha, Box, makeStyles } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import { getDataAPI } from 'api/fetchData';
+import { useSelector, useDispatch } from 'react-redux';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import { Link } from 'react-router-dom';
+
+import SearchCard from './searchCard';
+
+Search.propTypes = {};
+
+const useStyles = makeStyles((theme) => ({
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(1),
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+  },
+  close: {
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: '-27px',
+  },
+  card: {
+    padding: theme.spacing(1),
+    position: 'absolute',
+    // width: '254px',
+    minWidth: '254px',
+  },
+  link: {
+    textDecoration: 'none',
+  },
+}));
+
+function Search(props) {
+  const classes = useStyles();
+  const [search, setSearch] = useState('');
+  const [users, setUsers] = useState([]);
+  const [load, setLoad] = useState(false);
+
+  const { auth } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (search) {
+      setLoad(true);
+      getDataAPI(`search?username=${search}`, auth.token)
+        .then((res) => setUsers(res.data.users))
+        .catch((err) => {
+          dispatch({
+            type: GLOBALTYPES.ALERT,
+            payload: {
+              err: err.response.data.msg,
+            },
+          });
+        });
+      setLoad(false);
+    } else {
+      setUsers([]);
+    }
+  }, [search, auth.token, dispatch]);
+
+  const handleClose = () => {
+    setSearch('');
+    setUsers([]);
+  };
+  // const hanldeSearch = async (e) => {
+  //   e.preventDefault();
+  //   if (!search) return;
+  //   try {
+  //     const res = await getDataAPI(`search?username=${search}`, auth.token);
+  //     setUsers(res.data.users);
+  //   } catch (err) {
+  //     dispatch({
+  //       type: GLOBALTYPES.ALERT,
+  //       payload: {
+  //         err: err.response.data.msg,
+  //       },
+  //     });
+  //   }
+  // };
+  return (
+    <form>
+      <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+          value={search}
+          onChange={(e) => setSearch(e.target.value.toLowerCase().replace(/ /g, ''))}
+        />
+        {/* <CloseRoundedIcon className={classes.close} /> */}
+        {/* <button type="submit">Search</button> */}
+      </div>
+      {/* <div className={classes.card}> */}
+      {/* {users.map((user) => (
+        <Link key={user._id} to={`/profile/${user._id}`}>
+          <SearchCard user={user} />
+        </Link>
+      ))} */}
+      <Box className={classes.card}>
+        {search ? <SearchCard search={search} user={users} onSubmit={handleClose} /> : ''}
+      </Box>
+      {/* </div> */}
+    </form>
+  );
+}
+
+export default Search;

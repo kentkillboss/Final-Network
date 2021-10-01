@@ -1,0 +1,60 @@
+.MuiPaper-root.MuiCard-root.MuiPaper-elevation1.MuiPaper-rounded {
+  margin: 40px;
+}
+.MuiPaper-elevation1 {
+  box-shadow: 0px 2px 7px 0px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 1px 1px 3px 1px rgb(0 0 0 / 12%);
+}
+.user_profile_cap {
+  width: 95%;
+  margin: auto;
+  height: 100%;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.user_profile_cover {
+  height: 63%;
+}
+.user_profile_cover img {
+  width: 100%;
+  height: 100%;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.user_profile_headline {
+  padding: 10px;
+  font-size: 16px;
+}
+.user_profile_headline img {
+  border: 1px solid #eeeeee;
+  width: 170px;
+  height: 170px;
+  float: left;
+  margin: -108px 38px 0px 56px;
+  position: relative;
+  background-color: white;
+  border-radius: 50%;
+  background-color: white;
+}
+.user_profile_headline h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 29px;
+  font-weight: bold;
+  display: block;
+}
+.user_profile_headline span {
+  font-size: 15px;
+  font-family: verdana;
+  color: gray;
+}
+.btnEdit {
+  float: right;
+}
