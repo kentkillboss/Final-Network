@@ -43,7 +43,7 @@ function PostFooter({ post }) {
         <IconButton aria-label="add to favorites">
           <LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
         </IconButton>
-        <Link to={`/post${post._id}`}>
+        <Link to={`/post/${post._id}`}>
           <IconButton aria-label="add to favorites">
             <ChatBubbleOutlineRoundedIcon />
           </IconButton>

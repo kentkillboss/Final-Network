@@ -105,7 +105,11 @@ function EditProfileForm({ setEdit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(updateProfileUser({ userData, avatar, auth }));
+    // if (!alert.loading) {
+    //   setEdit(false);
+    // }
   };
+
   return (
     <div>
       <Dialog open={setEdit}>
@@ -209,7 +213,7 @@ function EditProfileForm({ setEdit }) {
             <RadioField name="gender" label="Male" form={form} /> */}
           </DialogContent>
           <DialogActions className={classes.btn}>
-            <Button color="primary" mg={1} type="submit" fullWidth variant="contained">
+            <Button disabled={alert.loading} color="primary" mg={1} type="submit" fullWidth variant="contained">
               Subscribe
             </Button>
           </DialogActions>

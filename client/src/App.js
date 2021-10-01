@@ -1,14 +1,11 @@
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
-// import Header from './Components/Header';
 import NotFound from './Components/NotFound';
-import AlbumFeature from './Features/Album';
-import TodoFeature from './Features/Todo';
+
 import Login from './Features/Auth/Components/Login';
 import Register from './Features/Auth/Components/Register';
 import Home from 'Features/Home';
-import Products from 'Features/Product';
-import CartFeature from 'Features/Cart';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { refreshToken } from 'Redux/Action/authAction';
@@ -46,12 +43,8 @@ function App() {
           {status && <StatusModal />}
           <Switch>
             <Route path="/" component={auth.token ? Home : Login} exact />
-            <Route path="/todos" component={TodoFeature} />
-            <Route path="/album" component={AlbumFeature} />
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
-            <Route path="/products" component={Products} />
-            <Route path="/cart" component={CartFeature} />
             <Route path="/post/:id" component={Post} />
             <PrivateRouter path="/message" component={Message} />
             <PrivateRouter path="/discover" component={Discover} />

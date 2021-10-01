@@ -174,7 +174,7 @@ export default function Header() {
         }}
         getContentAnchorEl={null}
       >
-        <MenuItem>
+        <MenuItem onClick={handleClose}>
           <Link className={classes.link} to={`/profile/${auth.user._id}`}>
             Profile
           </Link>
