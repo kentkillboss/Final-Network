@@ -2,19 +2,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { Link, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AccountCircle, ShoppingCart } from '@material-ui/icons';
-import { Badge, Box, Menu, MenuItem } from '@material-ui/core';
-// import { logout } from 'Features/Auth/userSlice';
-// import { cartItemCountSelector } from 'Features/Cart/selectors';
+import { Box, Menu, MenuItem } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router';
-// import MiniCart from 'Features/Product/Components/MiniCart';
-// import { hideMiniCart } from 'Features/Cart/cartSlice';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import ExploreRoundedIcon from '@material-ui/icons/ExploreRounded';
 import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
@@ -22,8 +14,6 @@ import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import Logo from '../../social-network.svg';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import SearchIcon from '@material-ui/icons/Search';
-import InputBase from '@material-ui/core/InputBase';
 import Search from 'Components/Search';
 import Avatar from 'Components/Avatar/Avatar';
 const useStyles = makeStyles((theme) => ({
@@ -59,8 +49,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header() {
   const classes = useStyles();
-  // const loggedInUser = useSelector((state) => state.user.current);
-  // const cartItemCount = useSelector(cartItemCountSelector);
   const history = useHistory();
   // const isLoggedIn = !!loggedInUser.id;
   const [anchorEl, setAnchorEl] = React.useState(null);
