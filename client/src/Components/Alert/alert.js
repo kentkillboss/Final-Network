@@ -7,7 +7,7 @@ import Loading from 'Components/Loading';
 import Notistack from './Notistack';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 
-Notify.propTypes = {};
+// Notify.propTypes = {};
 // const useStyles = makeStyles((theme) => ({
 //   progress: {
 //     top: theme.spacing(1),
@@ -15,7 +15,7 @@ Notify.propTypes = {};
 //   },
 // }));
 
-function Notify(props) {
+function Alert(props) {
   //   const classes = useStyles();
   const { alert } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -42,4 +42,4 @@ function Notify(props) {
   );
 }
 
-export default Notify;
+export default Alert;
