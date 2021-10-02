@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, CardHeader, IconButton, makeStyles } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -13,6 +13,8 @@ import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import StatusModal from '../Status/StatusModal';
+import { deletePost } from 'Redux/Action/postAction';
+import { BASE_URL } from 'utils/config';
 
 PostContent.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,7 @@ function PostContent({ post }) {
   const { auth } = useSelector((state) => state);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,6 +38,16 @@ function PostContent({ post }) {
   };
   const handleEditPost = () => {
     dispatch({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } });
+  };
+  const handleDeletePost = () => {
+    if (window.confirm('Are you sure want to delete this post?')) {
+      dispatch(deletePost({ post, auth }));
+      history.push('/');
+    }
+  };
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`);
+    setAnchorEl(null);
   };
   return (
     <>
@@ -55,13 +68,13 @@ function PostContent({ post }) {
             <MenuItem onClick={handleEditPost}>
               <EditRoundedIcon className={classes.icon} /> Edit
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleDeletePost}>
               <DeleteRoundedIcon className={classes.icon} />
               Delete
             </MenuItem>
           </Box>
         )}
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleCopyLink}>
           <FileCopyRoundedIcon className={classes.icon} />
           Copy Link
         </MenuItem>
