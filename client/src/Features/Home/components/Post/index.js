@@ -13,6 +13,7 @@ import { useState } from 'react';
 import LoadIcon from 'images/load.gif';
 import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import PostLoading from 'Components/Loading/SkeletonPost';
 
 Posts.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   box: {
     width: '100%',
     marginTop: theme.spacing(1),
+    // boxShadow: 'rgba(0, 0, 0, 0.24) 0px 2px 5px',
   },
 }));
 function Posts(props) {
@@ -61,7 +63,7 @@ function Posts(props) {
           </Card>
         ))}
       </InfiniteScroll>
-      {load && <img src={LoadIcon} alt="loading" />}
+      {load && <PostLoading />}
 
       <LoadMoreBtn result={posts.result} page={posts.page} load={load} handleLoadMore={handleLoadMore} />
     </Box>
