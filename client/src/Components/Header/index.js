@@ -26,21 +26,25 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import Search from 'Components/Search';
 import Avatar from 'Components/Avatar/Avatar';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 const useStyles = makeStyles((theme) => ({
   root: {
+
+  },
+  grow: {
     flexGrow: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
-    flexGrow: 0.5,
     display: 'flex',
     alignItems: 'center',
   },
   navbarlink: {
     color: '#fff',
-    margin: theme.spacing(3),
+    marginRight: theme.spacing(2.5),
   },
   link: {
     textDecoration: 'none',
@@ -55,6 +59,16 @@ const useStyles = makeStyles((theme) => ({
     width: '121%',
     height: '43px',
   },
+  logo: {
+    fontSize: '30px',
+    fontWeight: 'bold',
+    display: 'none',
+    paddingRight: '10px',
+    color: '#fafafa',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  }
 }));
 
 export default function Header() {
@@ -104,7 +118,7 @@ export default function Header() {
     },
     {
       text: 'Message',
-      icon: <ForumRoundedIcon fontSize="large" />,
+      icon: <TelegramIcon fontSize="large" />,
       path: '/message',
     },
     {
@@ -115,18 +129,25 @@ export default function Header() {
   ];
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      
+      <AppBar position="fixed">
         <Toolbar>
+        <div className={classes.grow} />
           <Box className={classes.title}>
-            <Link to="/">
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                {/* <MenuIcon /> */}
+            <Link to="/" style={{color: '#212529', textDecoration:'none'}}>
+              {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                 <MenuIcon /> 
                 <img className={classes.img} src={Logo} alt="Logo" />
-              </IconButton>
+                
+              </IconButton> */}
+              <Typography className={classes.logo} variant="h6" noWrap onClick={() => window.scrollTo({top: 0})}>
+                TA-Network
+              </Typography>
             </Link>
             <Search />
           </Box>
-          <Box flexGrow="1">
+          <div className={classes.grow} />
+          <Box>
             {navLinkItem.map((link, index) => (
               <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>
                 {link.icon}
@@ -155,7 +176,9 @@ export default function Header() {
             {/* <AccountCircle fontSize="large" /> */}
             {/* <img src={auth.user.avatar} alt="avatar" className={classes.user} /> */}
             <Avatar src={auth.user.avatar} size={classes.user} />
+            <ArrowDropDownIcon />
           </IconButton>
+          <div className={classes.grow} />
         </Toolbar>
       </AppBar>
       <Menu

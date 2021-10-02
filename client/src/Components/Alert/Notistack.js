@@ -33,7 +33,7 @@ const Notistack = ({ msg, handleShow, bgColor }) => {
       <Snackbar open='true' anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
-        }} autoHideDuration={6000} onClose={handleClose}>
+        }} autoHideDuration={300} onClose={handleClose}>
         <Alert onClose={handleShow} severity={bgColor}>
           {msg.body}
         </Alert>

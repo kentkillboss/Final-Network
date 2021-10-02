@@ -1,5 +1,6 @@
 html {
-  background-color: rgb(244, 244, 244);
+  background-color: white;
+  margin-left: calc(100vw - 100%);
 }
 
 body {
@@ -22,6 +23,7 @@ code {
   width: 100%;
   min-height: 100vh;
   background: white;
+  padding-top: 80px;
 }
 #theme {
   display: none;

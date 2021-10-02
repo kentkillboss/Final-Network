@@ -8,7 +8,6 @@ import PostLoading from 'Components/Loading/SkeletonPost';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing(10),
   },
   paper: {},
 }));

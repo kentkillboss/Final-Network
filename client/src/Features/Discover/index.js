@@ -6,6 +6,7 @@ import LoadIcon from 'images/load.gif';
 import PostThumb from 'Features/Profile/components/PostThumb';
 import LoadMoreBtn from './components/LoadMoreBtn';
 import { getDataAPI } from 'api/fetchData';
+import { Grid } from '@material-ui/core';
 
 Discover.propTypes = {};
 
@@ -29,6 +30,9 @@ function Discover(props) {
 
   return (
     <div>
+      <Grid container> 
+      <Grid item xs={2}></Grid>
+      <Grid item xs={8}>
       {discover.loading ? (
         <img src={LoadIcon} alt="loading" />
       ) : (
@@ -38,7 +42,11 @@ function Discover(props) {
       {!discover.loading && (
         <LoadMoreBtn result={discover.result} page={discover.page} load={load} handleLoadMore={handleLoadMore} />
       )}
+      </Grid>
+      <Grid item xs={2}></Grid>
+      </Grid>
     </div>
+    
   );
 }
 
