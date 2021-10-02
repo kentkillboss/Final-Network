@@ -8,6 +8,8 @@ import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRo
 import LikeButton from './LikeButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { likePost, unLikePost } from 'Redux/Action/postAction';
+import ShareModal from './ShareModal';
+import { BASE_URL } from 'utils/config';
 
 PostFooter.propTypes = {};
 
@@ -16,6 +18,7 @@ function PostFooter({ post }) {
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
+  const [isShare, setIsShare] = useState(false);
 
   useEffect(() => {
     if (post.likes.find((like) => like._id === auth.user._id)) {
@@ -48,7 +51,7 @@ function PostFooter({ post }) {
             <ChatBubbleOutlineRoundedIcon />
           </IconButton>
         </Link>
-        <IconButton aria-label="share">
+        <IconButton aria-label="share" onClick={() => setIsShare(true)}>
           <ShareIcon />
         </IconButton>
         <IconButton style={{ marginLeft: 'auto' }}>
@@ -59,6 +62,7 @@ function PostFooter({ post }) {
         <Typography>{post.likes.length} Like</Typography>
         <Typography style={{ marginLeft: 'auto' }}>{post.comments.length} Comments</Typography>
       </CardActions>
+      {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`} setIsShare={setIsShare} />}
     </>
   );
 }
