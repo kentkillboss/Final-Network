@@ -30,8 +30,8 @@ function CommentDisplay({ comment, post, replyCm }) {
   }, [replyCm, next]);
   return (
     <div>
-      <CommentCard comment={comment} post={post} commentId={comment._id}></CommentCard>
-      <Box className={classes.reply}>
+      <CommentCard comment={comment} post={post} commentId={comment._id} style={{padding: 0}}></CommentCard>
+      <Box className={classes.reply}  style={{padding: 0}}>
         {showRep.map(
           (item, index) => item.reply && <CommentCard key={index} comment={item} post={post} commentId={comment._id} />
         )}

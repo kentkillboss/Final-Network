@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    padding: 0
   },
   fonts: {
     fontWeight: 'bold',
@@ -32,8 +33,15 @@ const useStyles = makeStyles((theme) => ({
   },
   cmtFooter: {
     display: 'flex',
-    marginTop: theme.spacing(1),
     width: '108%',
+  },
+  typo: {
+    fontSize: '14px', 
+    marginRight: '10px',
+    [theme.breakpoints.down("sm")]: {
+      fontSize: '10px', 
+      marginRight: '5px',
+    },
   },
   span: {
     color: 'grey',
@@ -146,31 +154,31 @@ function CommentCard({ children, comment, post, commentId }) {
                       )}
 
                       <Typography className={classes.cmtFooter}>
-                        <Typography style={{ fontSize: '13px', marginRight: '10px' }}>
+                        <Typography className={classes.typo}>
                           {moment(comment.createdAt).fromNow()}
                         </Typography>
-                        <Typography style={{ fontSize: '14px', marginRight: '10px', fontWeight: 'bold' }}>
+                        <Typography className={classes.typo} style={{ fontWeight: 'bold' }}>
                           {comment.likes.length} likes
                         </Typography>
                         {onEdit ? (
                           <>
-                            <Typography
+                            <Typography className={classes.typo}
                               onClick={handleUpdate}
-                              style={{ fontSize: '14px', marginRight: '10px', fontWeight: 'bold', cursor: 'pointer' }}
+                              style={{ fontWeight: 'bold', cursor: 'pointer' }}
                             >
                               Update
                             </Typography>
-                            <Typography
+                            <Typography className={classes.typo}
                               onClick={() => setOnEdit(false)}
-                              style={{ fontSize: '14px', marginRight: '10px', fontWeight: 'bold', cursor: 'pointer' }}
+                              style={{ fontWeight: 'bold', cursor: 'pointer' }}
                             >
                               Cancel
                             </Typography>
                           </>
                         ) : (
-                          <Typography
+                          <Typography className={classes.typo}
                             onClick={handleReply}
-                            style={{ fontSize: '14px', marginRight: '10px', fontWeight: 'bold', cursor: 'pointer' }}
+                            style={{fontWeight: 'bold', cursor: 'pointer' }}
                           >
                             {onReply ? 'Cancel' : 'reply'}
                           </Typography>

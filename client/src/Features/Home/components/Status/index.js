@@ -13,7 +13,7 @@ import StatusModal from './StatusModal';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(10),
   },
   paper: {
     padding: theme.spacing(2),
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-around',
     marginTop: '5px',
+    paddingBottom: '5px'
   },
   btn: {
     backgroundColor: '#f1f1f1',
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#555',
     height: '40px',
     width: '96%',
+    
   },
 }));
 
@@ -68,25 +70,11 @@ function Status(props) {
               color="default"
               className={classes.btn}
             >
-              Some things...
+              {auth.user.username}, What are you thinking!!!
             </Button>
           </Box>
         </Box>
-        <hr color="#f1f1f1"></hr>
-        <Box className={classes.box}>
-          <Box className={classes.box}>
-            <DuoRoundedIcon />
-            <Typography>Video truc tiep</Typography>
-          </Box>
-          <Box className={classes.box}>
-            <CameraAltRoundedIcon />
-            <Typography>Anh/Video</Typography>
-          </Box>
-          <Box className={classes.box}>
-            <EmojiEmotionsRoundedIcon />
-            <Typography>Cam xuc/Hoat dong</Typography>
-          </Box>
-        </Box>
+        
         {/* {showModal && <StatusModal setShowModal={setShowModal} />} */}
       </Paper>
     </div>
