@@ -4,30 +4,37 @@ import { useSelector } from 'react-redux';
 import Posts from './components/Post';
 import Status from './components/Status';
 import PostLoading from 'Components/Loading/SkeletonPost';
+import LeftBar from './components/LeftBar';
+import Header from 'Components/Header';
+import RightBar from './components/RightBar';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    paddingTop: theme.spacing(10),
+  // root: {
+  //   flexGrow: 1,
+  // },
+  // paper: {},
+  right: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
-  paper: {},
 }));
 
 function Home(props) {
   const classes = useStyles();
   const { posts } = useSelector((state) => state);
   return (
-    <div className={classes.root}>
+    <div>
       <Grid container>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
+        <Grid item sm={2} xs={2}>
+          <LeftBar />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={7} xs={10}>
           <Status />
           {posts.loading ? <PostLoading /> : posts.result === 0 ? <h2>No Post</h2> : <Posts />}
         </Grid>
-        <Grid item xs>
-          <Paper className={classes.paper}>xs</Paper>
+        <Grid item sm={3} className={classes.right}>
+          <RightBar />
         </Grid>
       </Grid>
     </div>

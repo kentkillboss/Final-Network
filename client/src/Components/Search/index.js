@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { alpha, Box, makeStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import { getDataAPI } from 'api/fetchData';
 import { useSelector, useDispatch } from 'react-redux';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: 'inherit',
+    width: '90%',
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -57,11 +58,27 @@ const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(1),
     position: 'absolute',
-    // width: '254px',
-    minWidth: '254px',
+    width: '100%',
+    maxWidth: '600px',
+    [theme.breakpoints.down('sm')]: {
+      width: '77%',
+      left: '15%',
+      marginTop: '2px',
+    },
   },
   link: {
     textDecoration: 'none',
+  },
+  cancelIcon: {
+    padding: theme.spacing(0, 2),
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '10%',
+    right: '-16px',
+    top: '6px',
+    cursor: 'pointer',
   },
 }));
 
@@ -96,21 +113,7 @@ function Search(props) {
     setSearch('');
     setUsers([]);
   };
-  // const hanldeSearch = async (e) => {
-  //   e.preventDefault();
-  //   if (!search) return;
-  //   try {
-  //     const res = await getDataAPI(`search?username=${search}`, auth.token);
-  //     setUsers(res.data.users);
-  //   } catch (err) {
-  //     dispatch({
-  //       type: GLOBALTYPES.ALERT,
-  //       payload: {
-  //         err: err.response.data.msg,
-  //       },
-  //     });
-  //   }
-  // };
+
   return (
     <form>
       <div className={classes.search}>
@@ -127,19 +130,12 @@ function Search(props) {
           value={search}
           onChange={(e) => setSearch(e.target.value.toLowerCase().replace(/ /g, ''))}
         />
-        {/* <CloseRoundedIcon className={classes.close} /> */}
-        {/* <button type="submit">Search</button> */}
+        {search && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
       </div>
-      {/* <div className={classes.card}> */}
-      {/* {users.map((user) => (
-        <Link key={user._id} to={`/profile/${user._id}`}>
-          <SearchCard user={user} />
-        </Link>
-      ))} */}
+
       <Box className={classes.card}>
         {search ? <SearchCard search={search} user={users} onSubmit={handleClose} /> : ''}
       </Box>
-      {/* </div> */}
     </form>
   );
 }

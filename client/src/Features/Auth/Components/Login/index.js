@@ -34,7 +34,7 @@ function Login(props) {
     }
   };
   return (
-    <div>
+    <div style={{position: 'absolute', top: 0, left: 0, right: 0}}>
       <LoginForm onSubmit={handleSubmit} />
     </div>
   );

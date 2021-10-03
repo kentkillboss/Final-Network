@@ -22,8 +22,11 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 400,
     backgroundColor: theme.palette.grey[100],
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
     borderRadius: '4px',
     zIndex: '1000',
   },
@@ -41,11 +44,6 @@ function SearchCard({ user, onSubmit, search }) {
     onSubmit();
   };
   return (
-    // <div>
-    //   <Avatar src={user.avatar} size={classes.user} />
-    //   <span>{user.username}</span>
-    //   <span>{user.fullname}</span>
-    // </div>
     <>
       <List className={classes.root}>
         {search &&

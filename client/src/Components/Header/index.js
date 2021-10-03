@@ -1,37 +1,22 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { Box, Menu, MenuItem, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import { Link, NavLink } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import { Cancel, Mail, Notifications, Search } from '@material-ui/icons';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+// import Avatar from 'Components/Avatar/Avatar';
+import Avatar from '@material-ui/core/Avatar';
+import SearchCard from 'Components/Search';
+import Logo from 'images/logo.png';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box, Menu, MenuItem } from '@material-ui/core';
-import { useHistory, useLocation } from 'react-router';
-import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
-import ExploreRoundedIcon from '@material-ui/icons/ExploreRounded';
-import ForumRoundedIcon from '@material-ui/icons/ForumRounded';
-import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import Logo from '../../social-network.svg';
+import { useHistory } from 'react-router';
+import { Link } from 'react-router-dom';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import Search from 'Components/Search';
-import Avatar from 'Components/Avatar/Avatar';
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 0.5,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  navbarlink: {
-    color: '#fff',
-    margin: theme.spacing(3),
-  },
+  root: {},
   link: {
     textDecoration: 'none',
     color: 'black',
@@ -45,12 +30,69 @@ const useStyles = makeStyles((theme) => ({
     width: '121%',
     height: '43px',
   },
+  logo: {
+    fontSize: '30px',
+    fontWeight: 'bold',
+    display: 'none',
+    paddingRight: '10px',
+    color: '#fafafa',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  search: {
+    width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      display: (props) => (props.open ? 'flex' : 'none'),
+      width: '60%',
+      alignItems: 'center',
+    },
+  },
+  logoLg: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  logoSm: {
+    display: 'block',
+    width: '40px',
+    height: '40px',
+    marginLeft: '-67px',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  icons: {
+    alignItems: 'center',
+    display: (props) => (props.open ? 'none' : 'flex'),
+  },
+  badge: {
+    marginRight: theme.spacing(2),
+    color: '#ffff',
+  },
+  searchButton: {
+    // marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  cancel: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+    alignItems: 'center',
+  },
 }));
 
 export default function Header() {
-  const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const classes = useStyles({ open });
   const history = useHistory();
-  // const isLoggedIn = !!loggedInUser.id;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const dispatch = useDispatch();
@@ -63,87 +105,39 @@ export default function Header() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const isActive = {
-    color: 'pink',
-    // backgroundColor: 'pink',
-    borderBottom: '2px solid pink',
-  };
 
-  // const handleLogoutClick = () => {
-  //   const action = logout();
-  //   dispatch(action);
-  // };
-  // const handleCartClick = () => {
-  //   const action = hideMiniCart();
-  //   dispatch(action);
-  //   history.push('/cart');
-  // };
-
-  const navLinkItem = [
-    {
-      text: 'Home',
-      icon: <HomeRoundedIcon style={{ fontSize: 39 }} />,
-      path: '/',
-    },
-    {
-      text: 'Discover',
-      icon: <ExploreRoundedIcon fontSize="large" />,
-      path: '/discover',
-    },
-    {
-      text: 'Message',
-      icon: <ForumRoundedIcon fontSize="large" />,
-      path: '/message',
-    },
-    {
-      text: 'Notify',
-      icon: <FavoriteRoundedIcon fontSize="large" />,
-      path: '/notify',
-    },
-  ];
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Box className={classes.title}>
-            <Link to="/">
-              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                {/* <MenuIcon /> */}
-                <img className={classes.img} src={Logo} alt="Logo" />
-              </IconButton>
-            </Link>
-            <Search />
+      <AppBar position="fixed">
+        <Toolbar className={classes.toolbar}>
+          <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
+            <Typography variant="h6" className={classes.logoLg} onClick={() => window.scrollTo({ top: 0 })}>
+              TA-Network
+            </Typography>
+          </Link>
+          <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
+            <img className={classes.logoSm} src={Logo} alt="logo" />
+          </Link>
+          <Box className={classes.search}>
+            <SearchCard />
+            <Cancel className={classes.cancel} onClick={() => setOpen(false)} />
           </Box>
-          <Box flexGrow="1">
-            {navLinkItem.map((link, index) => (
-              <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>
-                {link.icon}
-              </NavLink>
-            ))}
+          <Box className={classes.icons}>
+            <IconButton>
+              <Search className={classes.searchButton} onClick={() => setOpen(true)} />
+            </IconButton>
+            <IconButton color="inherit">
+              <Mail />
+            </IconButton>
+            <IconButton className={classes.badge}>
+              <Notifications />
+            </IconButton>
+
+            <IconButton className={classes.user} color="inherit" onClick={handleClick}>
+              <Avatar src={auth.user.avatar} style={{ width: '35px', height: '35px' }} />
+              <ArrowDropDownIcon />
+            </IconButton>
           </Box>
-          {/* <NavLink to="/todos" className={classes.link}>
-            <Button color="inherit"> Todos</Button>
-          </NavLink>
-          <NavLink to="/album" className={classes.link}>
-            <Button color="inherit"> Album</Button>
-          </NavLink> */}
-          {/* {!isLoggedIn && <Button color="inherit">Login</Button>} */}
-          {/* 
-          <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleCartClick}>
-            <Badge badgeContent={cartItemCount} color="secondary">
-              <ShoppingCart />
-            </Badge>
-          </IconButton>
-          <MiniCart /> */}
-
-          {/* {isLoggedIn && ( */}
-
-          {/* )} */}
-          <IconButton className={classes.user} color="inherit" onClick={handleClick}>
-            {/* <AccountCircle fontSize="large" /> */}
-            {/* <img src={auth.user.avatar} alt="avatar" className={classes.user} /> */}
-            <Avatar src={auth.user.avatar} size={classes.user} />
-          </IconButton>
         </Toolbar>
       </AppBar>
       <Menu
