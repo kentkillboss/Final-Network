@@ -7,6 +7,7 @@ import PostThumb from 'Features/Profile/components/PostThumb';
 import LoadMoreBtn from './components/LoadMoreBtn';
 import { getDataAPI } from 'api/fetchData';
 import { Grid } from '@material-ui/core';
+import LeftBar from 'Features/Home/components/LeftBar';
 
 Discover.propTypes = {};
 
@@ -29,10 +30,14 @@ function Discover(props) {
   };
 
   return (
-    <div style={{paddingTop: '80px'}}>
+    <div>
       <Grid container> 
-      <Grid item xs={2}></Grid>
-      <Grid item xs={8}>
+      <Grid item xs={2}>
+        <LeftBar />
+      </Grid>
+      <Grid item xs={1}>
+      </Grid>
+      <Grid item xs={8} style={{display: 'block'}} style={{paddingTop: '80px'}}>
       {discover.loading ? (
         <img src={LoadIcon} alt="loading" />
       ) : (

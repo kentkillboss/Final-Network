@@ -5,10 +5,19 @@ import Posts from './components/Post';
 import Status from './components/Status';
 import PostLoading from 'Components/Loading/SkeletonPost';
 
+import Header from 'Components/Header';
+import LeftBar from './components/LeftBar';
+import RightBar from './components/RightBar';
+
+
 const useStyles = makeStyles((theme) => ({
+  // root: {
+  //   flexGrow: 1,
+  // },
+  // paper: {},
   right: {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
     },
   },
 }));
@@ -20,7 +29,7 @@ function Home(props) {
     <div>
       <Grid container>
         <Grid item sm={2} xs={2}>
-          <Paper className={classes.paper}>xs</Paper>
+          <LeftBar />
         </Grid>
         <Grid item sm={1} xs={0}/>
         <Grid item sm={5} xs={10}>
@@ -29,7 +38,7 @@ function Home(props) {
         </Grid>
         <Grid item sm={1} xs={0}/>
         <Grid item sm={3} className={classes.right}>
-          <Paper className={classes.paper}>xs</Paper>
+        <RightBar />
         </Grid>
       </Grid>
     </div>

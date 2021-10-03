@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 
 function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const useStyles = makeStyles((theme) => ({
   snack: {
@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Notistack = ({ msg, handleShow, bgColor }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -25,15 +24,20 @@ const Notistack = ({ msg, handleShow, bgColor }) => {
     if (reason === 'clickaway') {
       return;
     }
-  
-  setOpen(false);
-};
+
+    setOpen(false);
+  };
   return (
     <div className={classes.snack}>
-      <Snackbar open='true' anchorOrigin={{
+      <Snackbar
+        open="true"
+        anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
-        }} autoHideDuration={300} onClose={handleClose}>
+        }}
+        autoHideDuration={3}
+        onClose={handleClose}
+      >
         <Alert onClose={handleShow} severity={bgColor}>
           {msg.body}
         </Alert>

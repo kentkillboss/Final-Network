@@ -27,10 +27,11 @@ function PostBody({ post }) {
             {readMore ? 'Hide content' : 'Read more'}
           </Typography>
         )}
-
-        <Photogrid
-          images={post.images.map((img) => img.url)} //required
-        ></Photogrid>
+        <Box>
+          <Photogrid
+            images={post.images.map((img) => img.url)} //required
+          ></Photogrid>
+        </Box>
       </CardContent>
     </>
   );
