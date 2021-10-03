@@ -111,7 +111,11 @@ export default function Header() {
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
-            <Typography variant="h6" className={classes.logoLg} onClick={() => window.scrollTo({ top: 0 })}>
+            <Typography
+              variant="h6"
+              className={classes.logoLg}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
               TA-Network
             </Typography>
           </Link>

@@ -14,7 +14,7 @@ function PostBody({ post }) {
 
   return (
     <>
-      <CardContent style={{padding: 0}}>
+      <CardContent style={{ padding: '0 16px' }}>
         <Typography variant="body1" component="p">
           {post.content.length < 60
             ? post.content

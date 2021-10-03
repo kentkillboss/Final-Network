@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
-    padding: 0
+    padding: 0,
   },
   fonts: {
     fontWeight: 'bold',
@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
     width: '108%',
   },
   typo: {
-    fontSize: '14px', 
+    fontSize: '14px',
     marginRight: '10px',
-    [theme.breakpoints.down("sm")]: {
-      fontSize: '10px', 
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '10px',
       marginRight: '5px',
     },
   },
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   listItemText: {
-    backgroundColor: '#ece4e4',
+    backgroundColor: '#f0f2f5',
     borderRadius: '5px',
     padding: '5px',
   },
@@ -154,21 +154,21 @@ function CommentCard({ children, comment, post, commentId }) {
                       )}
 
                       <Typography className={classes.cmtFooter}>
-                        <Typography className={classes.typo}>
-                          {moment(comment.createdAt).fromNow()}
-                        </Typography>
+                        <Typography className={classes.typo}>{moment(comment.createdAt).fromNow()}</Typography>
                         <Typography className={classes.typo} style={{ fontWeight: 'bold' }}>
                           {comment.likes.length} likes
                         </Typography>
                         {onEdit ? (
                           <>
-                            <Typography className={classes.typo}
+                            <Typography
+                              className={classes.typo}
                               onClick={handleUpdate}
                               style={{ fontWeight: 'bold', cursor: 'pointer' }}
                             >
                               Update
                             </Typography>
-                            <Typography className={classes.typo}
+                            <Typography
+                              className={classes.typo}
                               onClick={() => setOnEdit(false)}
                               style={{ fontWeight: 'bold', cursor: 'pointer' }}
                             >
@@ -176,9 +176,10 @@ function CommentCard({ children, comment, post, commentId }) {
                             </Typography>
                           </>
                         ) : (
-                          <Typography className={classes.typo}
+                          <Typography
+                            className={classes.typo}
                             onClick={handleReply}
-                            style={{fontWeight: 'bold', cursor: 'pointer' }}
+                            style={{ fontWeight: 'bold', cursor: 'pointer' }}
                           >
                             {onReply ? 'Cancel' : 'reply'}
                           </Typography>
