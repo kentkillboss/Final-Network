@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Notistack = ({ msg, handleShow, bgColor }) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -30,12 +30,12 @@ const Notistack = ({ msg, handleShow, bgColor }) => {
   return (
     <div className={classes.snack}>
       <Snackbar
-        open="true"
+        open={open}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        autoHideDuration={3}
+        autoHideDuration={6000}
         onClose={handleClose}
       >
         <Alert onClose={handleShow} severity={bgColor}>
