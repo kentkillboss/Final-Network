@@ -1,3 +1,4 @@
+import { makeStyles } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import React from 'react';
@@ -7,6 +8,7 @@ import { useEffect } from 'react';
 import Photogrid from 'react-facebook-photo-grid';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
+import "./body.css";
 
 function PostBody({ post }) {
   const [images, setImages] = useState(null);
@@ -20,7 +22,7 @@ function PostBody({ post }) {
   }, [post.images]);
 
   return (
-    <Box>
+    <Box className="slider">
     {images ? <ImageGallery  items={images} /> : null}
     </Box>
   );

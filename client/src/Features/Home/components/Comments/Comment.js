@@ -5,6 +5,15 @@ import CommentDisplay from './CommentDisplay';
 
 Comment.propTypes = {};
 const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: 'calc(100vh - 400px)',
+  },
+  scroll: {
+    flex: 1,
+    overflowY: 'scroll',
+  },
   seeMore: {
     fontSize: '14px',
     margin: '0 16px',
@@ -35,7 +44,8 @@ function Comment({ post }) {
     setReplyComments(newRep);
   }, [post.comments]);
   return (
-    <Box>
+    <Box className={classes.container}>
+    <Box className={classes.scroll}>
       {showComments.map((comment, index) => (
         <CommentDisplay
           key={index}
@@ -57,6 +67,7 @@ function Comment({ post }) {
           </Typography>
         )
       )}
+    </Box>
     </Box>
   );
 }
