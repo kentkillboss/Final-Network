@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Card, makeStyles } from '@material-ui/core';
 import PostContent from './PostContent';
 import PostFooter from './PostFooter';
-import Comment from 'Features/Home/components/Comments/Comment';
+import CommentHome from 'Features/Home/components/Comments/CommentHome';
 import InputComment from '../Comments/InputComment';
 import { POST_TYPES } from 'Redux/Action/postAction';
 import { getDataAPI } from 'api/fetchData';
@@ -58,7 +58,7 @@ function Posts(props) {
             <PostBodyHome post={post} />
             <PostFooter post={post} />
 
-            <Comment post={post} />
+            <CommentHome post={post} />
             <InputComment post={post} />
           </Card>
         ))}
