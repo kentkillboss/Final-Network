@@ -14,13 +14,6 @@ function PostBodyHome({ post }) {
   return (
     <>
       <CardContent style={{ padding: '0 16px' }}>
-        <Typography variant="body1" component="p">
-          {post.content.length < 60
-            ? post.content
-            : readMore
-            ? post.content + ' '
-            : post.content.slice(0, 60) + ' ....'}
-        </Typography>
         {post.content.length > 60 && (
           <Typography color="textSecondary" variant="subtitle1" onClick={() => setReadMore(!readMore)}>
             {readMore ? 'Hide content' : 'Read more'}
