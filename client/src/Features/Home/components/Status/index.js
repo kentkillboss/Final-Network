@@ -70,7 +70,7 @@ function Status(props) {
               color="default"
               className={classes.btn}
             >
-              {auth.user.username}, What are you thinking!!!
+              {auth.user.username}, Say something!!!
             </Button>
           </Box>
         </Box>

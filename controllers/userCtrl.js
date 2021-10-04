@@ -101,6 +101,21 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  // suggestionUser: async (req, res) => {
+  //   try {
+  //     const newArr = [...req.user.following, req.user._id];
+
+  //     const num = req.query.num || 10
+
+  //     const users = await Users.aggregate([
+  //       {
+  //         $match: {_id: { $nin: newArr}}
+  //       }
+  //     ])
+  //   } catch (err) {
+  //     return res.status(500).json({ msg: err.message });
+  //   }
+  // },
 };
 
 module.exports = userCtrl;

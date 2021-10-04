@@ -6,13 +6,14 @@ import LoadIcon from 'images/load.gif';
 import PostThumb from 'Features/Profile/components/PostThumb';
 import LoadMoreBtn from './components/LoadMoreBtn';
 import { getDataAPI } from 'api/fetchData';
-import { Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import LeftBar from 'Features/Home/components/LeftBar';
+import { Link } from 'react-router-dom';
 
 Discover.propTypes = {};
 
 function Discover(props) {
-  const { auth, discover } = useSelector((state) => state);
+  const { auth, discover, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
 
@@ -31,27 +32,42 @@ function Discover(props) {
 
   return (
     <div>
-      <Grid container> 
-      <Grid item xs={2}>
-        <LeftBar />
-      </Grid>
-      <Grid item xs={1}>
-      </Grid>
-      <Grid item xs={8} style={{display: 'block'}} style={{paddingTop: '80px'}}>
-      {discover.loading ? (
-        <img src={LoadIcon} alt="loading" />
-      ) : (
-        <PostThumb posts={discover.posts} result={discover.result} />
-      )}
-      {load && <img src={LoadIcon} alt="loading" />}
-      {!discover.loading && (
-        <LoadMoreBtn result={discover.result} page={discover.page} load={load} handleLoadMore={handleLoadMore} />
-      )}
-      </Grid>
-      <Grid item xs={2}></Grid>
+      <Grid container>
+        <Grid item xs={2}>
+          <LeftBar />
+        </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={8} style={{ display: 'block', paddingTop: '80px' }}>
+          <Grid container>
+            
+              {discover.loading ? (
+                <img src={LoadIcon} alt="loading" />
+              ) : (
+                <>
+                {discover.posts.map((post, index) => (
+                <Link key={index} to={`/post/${post._id}`}>
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <PostThumb post={post} result={discover.result} theme={theme} />
+                  </Grid>
+                  </Link>
+                  ))}
+                </>
+              )}
+              {load && <img src={LoadIcon} alt="loading" />}
+              {!discover.loading && (
+                <LoadMoreBtn
+                  result={discover.result}
+                  page={discover.page}
+                  load={load}
+                  handleLoadMore={handleLoadMore}
+                /> 
+              )}
+            
+          </Grid>
+        </Grid>
+        <Grid item xs={2}></Grid>
       </Grid>
     </div>
-    
   );
 }
 
