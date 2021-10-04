@@ -7,9 +7,11 @@ import BookmarksRoundedIcon from '@material-ui/icons/BookmarksRounded';
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded';
 import LikeButton from './LikeButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { likePost, unLikePost } from 'Redux/Action/postAction';
+import { likePost, savePost, unLikePost, unSavePost } from 'Redux/Action/postAction';
 import ShareModal from './ShareModal';
 import { BASE_URL } from 'utils/config';
+import TurnedInNotRoundedIcon from '@material-ui/icons/TurnedInNotRounded';
+import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
 
 PostFooter.propTypes = {};
 
@@ -20,26 +22,56 @@ function PostFooter({ post }) {
   const [loadLike, setLoadLike] = useState(false);
   const [isShare, setIsShare] = useState(false);
 
+  const [saved, setSaved] = useState(false);
+  const [saveLoad, setSaveLoad] = useState(false);
+
   useEffect(() => {
     if (post.likes.find((like) => like._id === auth.user._id)) {
       setIsLike(true);
+    }else{
+      setIsLike(false)
     }
   }, [post.likes, auth.user._id]);
 
   const handleLike = async () => {
     if (loadLike) return;
-    setIsLike(true);
+    
     setLoadLike(true);
     await dispatch(likePost({ post, auth }));
     setLoadLike(false);
   };
   const handleUnLike = async () => {
     if (loadLike) return;
-    setIsLike(false);
+    
     setLoadLike(true);
     await dispatch(unLikePost({ post, auth }));
     setLoadLike(false);
   };
+
+  useEffect(() => {
+    if (auth.user.saved.find((id) => id === post._id)) {
+      setSaved(true);
+    }else{
+      setSaved(false);
+    }
+  }, [auth.user.saved, post._id]);
+
+  const handleSavePosts = async () => {
+    if (saveLoad) return;
+    
+    setSaveLoad(true);
+    await dispatch(savePost({post, auth}));
+    setSaveLoad(false);
+  };
+
+  const handleUnSavePosts = async () => {
+    if (saveLoad) return;
+    
+    setSaveLoad(true);
+    await dispatch(unSavePost({ post, auth }));
+    setSaveLoad(false);
+  };
+
   return (
     <>
       <CardActions disableSpacing>
@@ -55,7 +87,12 @@ function PostFooter({ post }) {
           <ShareIcon />
         </IconButton>
         <IconButton style={{ marginLeft: 'auto' }}>
-          <BookmarksRoundedIcon />
+          {
+            saved 
+            ? <BookmarksRoundedIcon style={{color: 'rgb(63, 81, 181)'}} onClick={handleUnSavePosts} />
+            : <TurnedInNotRoundedIcon onClick={handleSavePosts} />
+          }
+          
         </IconButton>
       </CardActions>
       <CardActions style={{ padding: '0 16px' }}>
