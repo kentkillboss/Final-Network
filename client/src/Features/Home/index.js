@@ -40,7 +40,13 @@ function Home(props) {
         <Grid item sm={1} xs={0} className={classes.box} />
         <Grid item sm={5} xs={10} className={classes.box}>
           <Status />
-          {posts.loading ? <PostLoading /> : posts.result === 0 ? <h2>No Post</h2> : <Posts />}
+          {posts.loading ? (
+            <PostLoading />
+          ) : posts.result === 0 && posts.posts.length === 0 ? (
+            <h2>No Post</h2>
+          ) : (
+            <Posts />
+          )}
         </Grid>
         <Grid item sm={1} xs={0} className={classes.box} />
         <Grid item sm={3} className={classes.right}>

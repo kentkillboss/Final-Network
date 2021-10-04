@@ -101,21 +101,41 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
-  // suggestionUser: async (req, res) => {
-  //   try {
-  //     const newArr = [...req.user.following, req.user._id];
+  suggestionUser: async (req, res) => {
+    try {
+      const newArr = [...req.user.following, req.user._id];
 
-  //     const num = req.query.num || 10
+      const num = req.query.num || 4;
 
-  //     const users = await Users.aggregate([
-  //       {
-  //         $match: {_id: { $nin: newArr}}
-  //       }
-  //     ])
-  //   } catch (err) {
-  //     return res.status(500).json({ msg: err.message });
-  //   }
-  // },
+      const users = await Users.aggregate([
+        { $match: { _id: { $nin: newArr } } },
+        { $sample: { size: Number(num) } },
+        {
+          $lookup: {
+            from: "users",
+            localField: "followers",
+            foreignField: "_id",
+            as: "followers",
+          },
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "following",
+            foreignField: "_id",
+            as: "following",
+          },
+        },
+      ]).project("-password");
+
+      return res.json({
+        users,
+        result: users.length,
+      });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = userCtrl;

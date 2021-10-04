@@ -18,6 +18,7 @@ import PrivateRouter from 'CustomRouter/customRouter';
 import Alert from 'Components/Alert/alert';
 import Loading from 'Components/Loading';
 import { getPosts } from 'Redux/Action/postAction';
+import { getUserActions } from 'Redux/Action/suggestionAction';
 import StatusModal from 'Features/Home/components/Status/StatusModal';
 import Post from 'Features/Post';
 
@@ -29,7 +30,10 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (auth.token) dispatch(getPosts(auth.token));
+    if (auth.token) {
+      dispatch(getPosts(auth.token));
+      dispatch(getUserActions(auth.token));
+    }
   }, [dispatch, auth.token]);
 
   return (

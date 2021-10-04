@@ -13,8 +13,15 @@ import {
   ListItemText,
   IconButton,
   List,
+  Box,
 } from '@material-ui/core';
 import { AvatarGroup } from '@material-ui/lab';
+import { useDispatch, useSelector } from 'react-redux';
+import LoadIcon from 'images/load.gif';
+import FollowBtn from 'Features/Profile/components/FollowBtn';
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
+import { getUserActions } from 'Redux/Action/suggestionAction';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f0f2f5',
   },
   title: {
-    fontSize: 16,
-    fontWeight: 500,
+    fontSize: 20,
+    fontWeight: 700,
     color: '#555',
   },
   link: {
@@ -33,23 +40,28 @@ const useStyles = makeStyles((theme) => ({
     color: '#555',
     fontSize: 16,
   },
+  listitem: {
+    padding: '10px 0',
+  },
+  reload: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: '30px',
+  },
+  progress: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: '200px',
+    alignItems: 'center',
+  },
 }));
 function RightBar(props) {
   const classes = useStyles();
+  const { auth, suggestions } = useSelector((state) => state);
+  const dispatch = useDispatch();
   return (
     <Container className={classes.container}>
-      {/* <Typography className={classes.title} gutterBottom>
-        Online Friends
-      </Typography>
-      <AvatarGroup max={6} style={{ marginBottom: 20 }}>
-        <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-        <Avatar alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg" />
-        <Avatar alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/3.jpg" />
-        <Avatar alt="Agnes Walker" src="" />
-        <Avatar alt="Trevor Henderson" src="https://material-ui.com/static/images/avatar/6.jpg" />
-        <Avatar alt="Trevor Henderson" src="https://material-ui.com/static/images/avatar/7.jpg" />
-        <Avatar alt="Trevor Henderson" src="https://material-ui.com/static/images/avatar/8.jpg" />
-      </AvatarGroup> */}
       <Typography className={classes.title} gutterBottom>
         Gallery
       </Typography>
@@ -76,24 +88,37 @@ function RightBar(props) {
           <img src="https://bloganh.net/wp-content/uploads/2021/03/chup-anh-dep-anh-sang-min.jpg" alt="" />
         </ImageListItem>
       </ImageList>
-      <Typography className={classes.title} gutterBottom>
-        Suggestions
-      </Typography>
-      <List>
-        {/* {users.map((user) => ( */}
-        <ListItem>
-          <ListItem button className={classes.listitem}>
-            <ListItemAvatar>
-              <Avatar src=""></Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="aaaa" />
-          </ListItem>
-          <IconButton size="large" edge="end" style={{ padding: '0px' }}>
-            {/* {auth.user._id !== user._id && <FollowBtn user={user} />} */}
+      <Box className={classes.reload}>
+        <Typography className={classes.title} gutterBottom>
+          Suggestions
+        </Typography>
+        {!suggestions.loading && (
+          <IconButton onClick={() => dispatch(getUserActions(auth.token))}>
+            <ReplayRoundedIcon />
           </IconButton>
-        </ListItem>
-        {/* ))} */}
-      </List>
+        )}
+      </Box>
+      {suggestions.loading ? (
+        <Box className={classes.progress}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <List>
+          {suggestions.users.map((user) => (
+            <ListItem key={user._id} style={{ padding: 0 }}>
+              <ListItem button className={classes.listitem}>
+                <ListItemAvatar>
+                  <Avatar src={user.avatar}></Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={user.username} />
+              </ListItem>
+              <IconButton size="small" edge="end" style={{ padding: '0px' }}>
+                {auth.user._id !== user._id && <FollowBtn user={user} />}
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </Container>
   );
 }

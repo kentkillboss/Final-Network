@@ -7,6 +7,7 @@ import status from 'Redux/Reducer/statusReduce';
 import posts from 'Redux/Reducer/postReduce';
 import detailPost from 'Redux/Reducer/detailPostReduce';
 import discover from 'Redux/Reducer/discoverReduce';
+import suggestions from 'Redux/Reducer/suggestionReduce';
 export default combineReducers({
   auth,
   alert,
@@ -16,4 +17,5 @@ export default combineReducers({
   posts,
   detailPost,
   discover,
+  suggestions,
 });
