@@ -9,7 +9,6 @@ import Header from 'Components/Header';
 import LeftBar from './components/LeftBar';
 import RightBar from './components/RightBar';
 
-
 const useStyles = makeStyles((theme) => ({
   // root: {
   //   flexGrow: 1,
@@ -19,6 +18,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
+    backgroundColor: '#f0f2f5',
+  },
+  box: {
+    backgroundColor: '#f0f2f5',
+  },
+  container: {
+    backgroundColor: '#f0f2f5',
   },
 }));
 
@@ -27,18 +33,18 @@ function Home(props) {
   const { posts } = useSelector((state) => state);
   return (
     <div>
-      <Grid container>
+      <Grid container className={classes.container}>
         <Grid item sm={2} xs={2}>
           <LeftBar />
         </Grid>
-        <Grid item sm={1} xs={0}/>
-        <Grid item sm={5} xs={10}>
+        <Grid item sm={1} xs={0} className={classes.box} />
+        <Grid item sm={5} xs={10} className={classes.box}>
           <Status />
           {posts.loading ? <PostLoading /> : posts.result === 0 ? <h2>No Post</h2> : <Posts />}
         </Grid>
-        <Grid item sm={1} xs={0}/>
+        <Grid item sm={1} xs={0} className={classes.box} />
         <Grid item sm={3} className={classes.right}>
-        <RightBar />
+          <RightBar />
         </Grid>
       </Grid>
     </div>

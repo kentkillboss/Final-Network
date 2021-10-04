@@ -31,19 +31,24 @@ function Post(props) {
   }, [detailPost, dispatch, id, auth]);
 
   return (
-    <Box>
+    <Box style={{paddingTop: '80px'}}>
       {post.length === 0 && <img src={LoadIcon} alt="loading" />}
       {post.map((item) => (
         <Grid container style={{ justifyContent: 'center' }}>
-          <Grid item xs={6}>
+          <Grid item xs={8}>
             <Card key={item._id} style={{ margin: '0', marginBottom: '25px' }}>
-              <PostContent post={item} />
+              
               <PostBody post={item} />
-              <PostFooter post={item} />
+              
+            </Card>
+          </Grid>
+          <Grid item xs={4}>
+              <PostContent post={item} />
+
+              <PostFooter post={item}/>
 
               <Comment post={item} />
               <InputComment post={item} />
-            </Card>
           </Grid>
         </Grid>
       ))}

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Card, makeStyles } from '@material-ui/core';
 import PostContent from './PostContent';
 import PostFooter from './PostFooter';
-import PostBody from './PostBody';
 import Comment from 'Features/Home/components/Comments/Comment';
 import InputComment from '../Comments/InputComment';
 import { POST_TYPES } from 'Redux/Action/postAction';
@@ -14,6 +13,7 @@ import LoadIcon from 'images/load.gif';
 import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import PostLoading from 'Components/Loading/SkeletonPost';
+import PostBodyHome from './PostBodyHome';
 
 Posts.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ function Posts(props) {
         {posts.posts.map((post) => (
           <Card key={post._id} className={classes.root} style={{ margin: '0', marginBottom: '25px' }}>
             <PostContent post={post} />
-            <PostBody post={post} />
+            <PostBodyHome post={post} />
             <PostFooter post={post} />
 
             <Comment post={post} />

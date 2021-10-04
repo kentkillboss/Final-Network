@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'sticky',
     top: 0,
     [theme.breakpoints.up('sm')]: {
-      backgroundColor: 'white',
+      backgroundColor: '#f0f2f5',
       color: '#555',
       border: '1px solid #ece7e7',
     },
@@ -43,29 +43,28 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     marginRight: theme.spacing(1),
-    color: 'grey',
-    fontSize: '30px',
+    fontSize: '35px',
     [theme.breakpoints.up('sm')]: {
       fontSize: '18px',
     },
   },
   text: {
     fontWeight: 500,
-    color: 'grey',
+    // color: 'grey',
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
   },
   navbarlink: {
-    color: '#fff',
+    textDecoration: 'none',
+    color: 'grey',
   },
 }));
 
 function LeftBar(props) {
   const classes = useStyles();
   const isActive = {
-    color: 'black',
-    borderBottom: '2px solid black',
+    color: '#3f51b5',
   };
   const navLinkItem = [
     {

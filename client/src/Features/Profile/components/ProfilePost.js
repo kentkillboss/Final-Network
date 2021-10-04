@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import PostThumb from './PostThumb';
 import LoadIcon from 'images/load.gif';
 import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
 import { getDataAPI } from 'api/fetchData';
 import { PROFILE_TYPES } from 'Redux/Action/profileAction';
+import { Grid } from '@material-ui/core';
 
 ProfilePost.propTypes = {};
 
@@ -33,7 +35,15 @@ function ProfilePost({ auth, id, dispatch, profile }) {
 
   return (
     <div>
-      <PostThumb posts={posts} result={result} />
+      <Grid container>
+        {posts.map((post) => (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Link to={`/post/${post._id}`}>
+              <PostThumb posts={post} result={result} />
+            </Link>
+          </Grid>
+        ))}
+      </Grid>
       {load && <img src={LoadIcon} alt="loading" />}
 
       <LoadMoreBtn result={result} page={page} load={load} handleLoadMore={handleLoadMore} />

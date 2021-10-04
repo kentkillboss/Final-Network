@@ -37,17 +37,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-around',
     marginTop: '5px',
-    paddingBottom: '5px'
+    paddingBottom: '5px',
   },
   btn: {
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#f0f2f5',
     border: 'none',
     outline: 'none',
     borderRadius: '30px',
     color: '#555',
     height: '40px',
     width: '96%',
-    
   },
 }));
 
@@ -74,7 +73,7 @@ function Status(props) {
             </Button>
           </Box>
         </Box>
-        
+
         {/* {showModal && <StatusModal setShowModal={setShowModal} />} */}
       </Paper>
     </div>

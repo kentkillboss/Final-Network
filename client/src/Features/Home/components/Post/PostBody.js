@@ -1,39 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 // import ImageGrid from 'react-fb-image-grid';
 import Photogrid from 'react-facebook-photo-grid';
-import Box from '@material-ui/core/Box';
-import { useState } from 'react';
-
-PostBody.propTypes = {};
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css";
 
 function PostBody({ post }) {
-  const [readMore, setReadMore] = useState(false);
+  const [images, setImages] = useState(null);
+
+  useEffect(() => {
+    setImages(
+    post.images.map((img) => ({
+      original: `${img.url}`,
+      thumbnail: `${img.url}`,
+    })));
+  }, [post.images]);
 
   return (
-    <>
-      <CardContent style={{padding: 0}}>
-        <Typography variant="body1" component="p">
-          {post.content.length < 60
-            ? post.content
-            : readMore
-            ? post.content + ' '
-            : post.content.slice(0, 60) + ' ....'}
-        </Typography>
-        {post.content.length > 60 && (
-          <Typography color="textSecondary" variant="subtitle1" onClick={() => setReadMore(!readMore)}>
-            {readMore ? 'Hide content' : 'Read more'}
-          </Typography>
-        )}
-        <Box>
-          <Photogrid
-            images={post.images.map((img) => img.url)} //required
-          ></Photogrid>
-        </Box>
-      </CardContent>
-    </>
+    <Box>
+    {images ? <ImageGallery  items={images} /> : null}
+    </Box>
   );
 }
 

@@ -37,35 +37,26 @@ function Discover(props) {
           <LeftBar />
         </Grid>
         <Grid item xs={1}></Grid>
-        <Grid item xs={8} style={{ display: 'block', paddingTop: '80px' }}>
+        <Grid item xs={8} style={{ display: 'block' }} style={{ paddingTop: '80px' }}>
           <Grid container>
-            
-              {discover.loading ? (
-                <img src={LoadIcon} alt="loading" />
-              ) : (
-                <>
-                {discover.posts.map((post, index) => (
-                <Link key={index} to={`/post/${post._id}`}>
-                  <Grid item xs={12} sm={6} md={4} lg={3}>
-                    <PostThumb post={post} result={discover.result} theme={theme} />
-                  </Grid>
+            {discover.loading ? (
+              <img src={LoadIcon} alt="loading" />
+            ) : (
+              discover.posts.map((post) => (
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Link to={`/post/${post._id}`}>
+                    <PostThumb posts={post} />
                   </Link>
-                  ))}
-                </>
-              )}
-              {load && <img src={LoadIcon} alt="loading" />}
-              {!discover.loading && (
-                <LoadMoreBtn
-                  result={discover.result}
-                  page={discover.page}
-                  load={load}
-                  handleLoadMore={handleLoadMore}
-                /> 
-              )}
-            
+                </Grid>
+              ))
+            )}
+            {load && <img src={LoadIcon} alt="loading" />}
+            {!discover.loading && (
+              <LoadMoreBtn result={discover.result} page={discover.page} load={load} handleLoadMore={handleLoadMore} />
+            )}
           </Grid>
         </Grid>
-        <Grid item xs={2}></Grid>
+        {/* <Grid item xs={2}></Grid> */}
       </Grid>
     </div>
   );
