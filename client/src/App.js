@@ -21,12 +21,18 @@ import { getPosts } from 'Redux/Action/postAction';
 import { getUserActions } from 'Redux/Action/suggestionAction';
 import StatusModal from 'Features/Home/components/Status/StatusModal';
 import Post from 'Features/Post';
+import io from 'socket.io-client';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import SocketClient from 'SocketClient';
 
 function App() {
   const { auth, status } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshToken());
+    const socket = io();
+    dispatch({ type: GLOBALTYPES.SOCKET, payload: socket });
+    return () => socket.close();
   }, [dispatch]);
 
   useEffect(() => {
@@ -45,6 +51,7 @@ function App() {
         <div className="main">
           {auth.token && <Header />}
           {status && <StatusModal />}
+          {auth.token && <SocketClient />}
           <Switch>
             <Route path="/" component={auth.token ? Home : Login} exact />
             <Route path="/login" component={auth.token ? Home : Login} />

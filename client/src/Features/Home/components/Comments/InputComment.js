@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 function InputComment({ children, post, onReply, setOnReply, tag, link }) {
   const classes = useStyles();
-  const { auth } = useSelector((state) => state);
+  const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [content, setContent] = useState('');
   const handleSubmit = (e) => {
@@ -53,7 +53,7 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
       tag: onReply && onReply.user,
     };
 
-    dispatch(createComment({ post, newComment, auth }));
+    dispatch(createComment({ post, newComment, auth, socket }));
     if (setOnReply) return setOnReply(false);
   };
   return (

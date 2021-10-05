@@ -20,7 +20,7 @@ function Login(props) {
   }, [auth.token, history]);
   const handleSubmit = async (values) => {
     try {
-      console.log('Form submit', values);
+      // console.log('Form submit', values);
       // const action = login(values);
       // const resultAction = await dispatch(action);
       // const user = unwrapResult(resultAction);
@@ -34,7 +34,7 @@ function Login(props) {
     }
   };
   return (
-    <div style={{position: 'absolute', top: 0, left: 0, right: 0}}>
+    <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
       <LoginForm onSubmit={handleSubmit} />
     </div>
   );

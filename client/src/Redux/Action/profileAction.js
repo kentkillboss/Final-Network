@@ -23,7 +23,6 @@ export const getProfileUsers =
       const res1 = getDataAPI(`user_posts/${id}`, auth.token);
       const users = await res;
       const posts = await res1;
-      console.log(res1);
       dispatch({
         type: PROFILE_TYPES.GET_USER,
         payload: users.data,
@@ -113,7 +112,7 @@ export const updateProfileUser =
   };
 
 export const follow =
-  ({ users, user, auth }) =>
+  ({ users, user, auth, socket }) =>
   async (dispatch) => {
     let newUser;
 
@@ -139,8 +138,10 @@ export const follow =
         user: { ...auth.user, following: [...auth.user.following, newUser] },
       },
     });
+
     try {
-      await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
+      const res = await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
+      socket.emit('follow', res.data.newUser);
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -150,7 +151,7 @@ export const follow =
   };
 
 export const unFollow =
-  ({ users, user, auth }) =>
+  ({ users, user, auth, socket }) =>
   async (dispatch) => {
     let newUser;
 
@@ -176,8 +177,10 @@ export const unFollow =
         user: { ...auth.user, following: DeleteData(auth.user.following, newUser._id) },
       },
     });
+
     try {
-      await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token);
+      const res = await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token);
+      socket.emit('unFollow', res.data.newUser);
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,

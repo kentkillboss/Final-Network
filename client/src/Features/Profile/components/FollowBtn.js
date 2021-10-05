@@ -10,13 +10,14 @@ FollowBtn.propTypes = {
 
 function FollowBtn({ user }) {
   const [followed, setFollowed] = useState(false);
-  const { auth, profile } = useSelector((state) => state);
+  const { auth, profile, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (auth.user.following.find((item) => item._id === user._id)) {
       setFollowed(true);
     }
+    return () => setFollowed(false);
   }, [auth.user.following, user._id]);
 
   const handleFollow = () => {
@@ -26,6 +27,7 @@ function FollowBtn({ user }) {
         users: profile.users,
         user,
         auth,
+        socket,
       })
     );
   };
@@ -36,6 +38,7 @@ function FollowBtn({ user }) {
         users: profile.users,
         user,
         auth,
+        socket,
       })
     );
   };

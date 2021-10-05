@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function CommentMenu({ post, comment, setOnEdit }) {
   const classes = useStyles();
-  const { auth } = useSelector((state) => state);
+  const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -29,7 +29,7 @@ function CommentMenu({ post, comment, setOnEdit }) {
   };
   const handleRemove = () => {
     if (post.user._id === auth.user._id || comment.user._id === auth.user._id) {
-      dispatch(deleteComment({ post, auth, comment }));
+      dispatch(deleteComment({ post, auth, comment, socket }));
     }
 
     setAnchorEl(null);
