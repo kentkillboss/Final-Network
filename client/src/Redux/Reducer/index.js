@@ -9,6 +9,7 @@ import detailPost from 'Redux/Reducer/detailPostReduce';
 import discover from 'Redux/Reducer/discoverReduce';
 import suggestions from 'Redux/Reducer/suggestionReduce';
 import socket from 'Redux/Reducer/socketReduce';
+import notify from 'Redux/Reducer/notifyReduce';
 export default combineReducers({
   auth,
   alert,
@@ -20,4 +21,5 @@ export default combineReducers({
   discover,
   suggestions,
   socket,
+  notify,
 });

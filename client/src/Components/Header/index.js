@@ -1,4 +1,4 @@
-import { Box, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Badge, Box, Menu, MenuItem, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import NotifyModal from 'Features/Notify/NotifyModal';
 const useStyles = makeStyles((theme) => ({
   root: {},
   link: {
@@ -96,7 +97,8 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const dispatch = useDispatch();
-  const { auth, theme } = useSelector((state) => state);
+  const { auth, theme, notify } = useSelector((state) => state);
+  const [showMenu, setShowMenu] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -133,8 +135,10 @@ export default function Header() {
             <IconButton color="inherit">
               <Mail />
             </IconButton>
-            <IconButton className={classes.badge}>
-              <Notifications />
+            <IconButton className={classes.badge} onClick={() => setShowMenu(true)}>
+              <Badge badgeContent={notify.data.length} color="error">
+                <Notifications />
+              </Badge>
             </IconButton>
 
             <IconButton className={classes.user} color="inherit" onClick={handleClick}>
@@ -186,6 +190,7 @@ export default function Header() {
           </Link>
         </MenuItem>
       </Menu>
+      {showMenu && <NotifyModal setShowMenu={setShowMenu} />}
     </div>
   );
 }

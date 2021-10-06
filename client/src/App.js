@@ -19,6 +19,7 @@ import Alert from 'Components/Alert/alert';
 import Loading from 'Components/Loading';
 import { getPosts } from 'Redux/Action/postAction';
 import { getUserActions } from 'Redux/Action/suggestionAction';
+import { getNotifies } from 'Redux/Action/notifyAction';
 import StatusModal from 'Features/Home/components/Status/StatusModal';
 import Post from 'Features/Post';
 import io from 'socket.io-client';
@@ -39,6 +40,7 @@ function App() {
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getUserActions(auth.token));
+      dispatch(getNotifies(auth.token));
     }
   }, [dispatch, auth.token]);
 

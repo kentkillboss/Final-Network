@@ -9,6 +9,7 @@ import { getDataAPI } from 'api/fetchData';
 import { Box, Grid } from '@material-ui/core';
 import LeftBar from 'Features/Home/components/LeftBar';
 import { Link } from 'react-router-dom';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 Discover.propTypes = {};
 
@@ -37,10 +38,18 @@ function Discover(props) {
           <LeftBar />
         </Grid>
         <Grid item xs={1}></Grid>
-        <Grid item xs={8} style={{ display: 'block' }} style={{ paddingTop: '80px' }}>
+        <Grid item xs={8} style={{ display: 'block', paddingTop: '80px' }}>
           <Grid container>
             {discover.loading ? (
-              <img src={LoadIcon} alt="loading" />
+              <>
+                {discover.posts.slice(0, 4).map((post) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Link to={`/post/${post._id}`}>
+                      <Skeleton variant="rect" width={210} height={150} style={{ borderRadius: '7px' }} />
+                    </Link>
+                  </Grid>
+                ))}
+              </>
             ) : (
               discover.posts.map((post) => (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
