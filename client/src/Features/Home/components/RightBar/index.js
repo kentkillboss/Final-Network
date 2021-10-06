@@ -90,7 +90,7 @@ function RightBar(props) {
       </ImageList>
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
-          Suggestions
+          Đề xuất người dùng
         </Typography>
         {!suggestions.loading && (
           <IconButton onClick={() => dispatch(getUserActions(auth.token))}>

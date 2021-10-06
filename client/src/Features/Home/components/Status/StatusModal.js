@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 function StatusModal({ setShowModal }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { auth, status } = useSelector((state) => state);
+  const { auth, status, socket } = useSelector((state) => state);
   const [content, setContent] = useState('');
   const [images, setImages] = useState([]);
   const [stream, setStream] = useState(false);
@@ -142,7 +142,7 @@ function StatusModal({ setShowModal }) {
     if (status.onEdit) {
       dispatch(updatePost({ content, images, auth, status }));
     } else {
-      dispatch(createPost({ content, images, auth }));
+      dispatch(createPost({ content, images, auth, socket }));
     }
 
     setContent('');
