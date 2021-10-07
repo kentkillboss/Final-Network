@@ -1,5 +1,6 @@
 import { deleteDataAPI, patchDataAPI, postDataAPI } from 'api/fetchData';
 import { GLOBALTYPES, EditData, DeleteData } from './globalTypes';
+import { createNotify, removeNotify } from './notifyAction';
 import { POST_TYPES } from './postAction';
 
 export const createComment =
@@ -19,6 +20,18 @@ export const createComment =
 
       //Socket
       socket.emit('createComment', newPost);
+
+      //notify
+      const msg = {
+        id: res.data.newComment._id,
+        text: newComment.reply ? 'trả lời bạn trong bình luận' : 'đã bình luận trong bài viết của bạn',
+        recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
+        url: `/post/${post._id}`,
+        content: post.content,
+        image: post.images[0].url,
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
     }
@@ -79,9 +92,20 @@ export const deleteComment =
     };
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
     socket.emit('deleteComment', newPost);
+
     try {
       deleteArr.forEach((item) => {
         deleteDataAPI(`comment/${item._id}`, auth.token);
+
+        //notify
+        const msg = {
+          id: item._id,
+          text: comment.reply ? 'trả lời bạn trong bình luận' : 'đã bình luận trong bài viết của bạn',
+          recipients: comment.reply ? [comment.tag._id] : [post.user._id],
+          url: `/post/${post._id}`,
+        };
+
+        dispatch(removeNotify({ msg, auth, socket }));
       });
     } catch (error) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: error.response.data.msg } });

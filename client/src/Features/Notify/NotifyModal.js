@@ -110,15 +110,25 @@ function NotifyModal({ setShowMenu }) {
                 <ListItemAvatar>
                   <Avatar src={msg.user.avatar}></Avatar>
                 </ListItemAvatar>
-                <ListItemText
-                  primary={
-                    <div style={{ color: 'black' }}>
-                      <strong style={{ fontSize: '17px' }}>{msg.user.username}</strong> {`${msg.text}`}
-                    </div>
-                  }
-                  secondary={msg.content.slice(0, 20)}
-                  //   {}
-                />
+                {msg.content ? (
+                  <ListItemText
+                    primary={
+                      <div style={{ color: 'black' }}>
+                        <strong style={{ fontSize: '17px' }}>{msg.user.username}</strong> {`${msg.text}`}
+                      </div>
+                    }
+                    secondary={<>{msg.content.slice(0,20)}...</>}
+                  />
+                ) : (
+                  <ListItemText
+                    primary={
+                      <div style={{ color: 'black' }}>
+                        <strong style={{ fontSize: '17px' }}>{msg.user.username}</strong> {`${msg.text}`}
+                      </div>
+                    }
+                  />
+                )}
+
                 <ListItemText secondary={moment(msg.createdAt).fromNow()} />
               </ListItem>
               <ListItemSecondaryAction style={{ right: '30px' }}>
