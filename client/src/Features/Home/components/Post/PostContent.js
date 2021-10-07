@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function PostContent({ post }) {
   const classes = useStyles();
-  const { auth } = useSelector((state) => state);
+  const { auth, socket } = useSelector((state) => state);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -43,7 +43,7 @@ function PostContent({ post }) {
   };
   const handleDeletePost = () => {
     if (window.confirm('Are you sure want to delete this post?')) {
-      dispatch(deletePost({ post, auth }));
+      dispatch(deletePost({ post, auth, socket }));
       history.push('/');
     }
   };

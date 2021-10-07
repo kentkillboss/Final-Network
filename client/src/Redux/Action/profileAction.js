@@ -1,6 +1,7 @@
 import { getDataAPI, patchDataAPI } from 'api/fetchData';
 import { GLOBALTYPES, DeleteData } from 'Redux/Action/globalTypes';
 import { imageUpload } from 'utils/imageUpload';
+import { createNotify, removeNotify } from './notifyAction';
 
 export const PROFILE_TYPES = {
   LOADING: 'LOADING_PROFILE',
@@ -142,6 +143,16 @@ export const follow =
     try {
       const res = await patchDataAPI(`user/${user._id}/follow`, null, auth.token);
       socket.emit('follow', res.data.newUser);
+
+      //notify
+      const msg = {
+        id: auth.user._id,
+        text: 'đã bắt đầu theo dõi bạn',
+        recipients: [newUser._id],
+        url: `/profile/${auth.user._id}`,
+      };
+
+      dispatch(createNotify({msg, auth, socket}));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -181,6 +192,16 @@ export const unFollow =
     try {
       const res = await patchDataAPI(`user/${user._id}/unfollow`, null, auth.token);
       socket.emit('unFollow', res.data.newUser);
+
+      //notify
+      const msg = {
+        id: auth.user._id,
+        text: 'đã bắt đầu theo dõi bạn',
+        recipients: [newUser._id],
+        url: `/profile/${auth.user._id}`,
+      };
+
+      dispatch(removeNotify({msg, auth, socket}));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,

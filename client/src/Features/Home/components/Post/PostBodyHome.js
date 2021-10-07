@@ -14,11 +14,6 @@ function PostBodyHome({ post }) {
   return (
     <>
       <CardContent style={{ padding: '0 16px' }}>
-        {post.content.length > 60 && (
-          <Typography color="textSecondary" variant="subtitle1" onClick={() => setReadMore(!readMore)}>
-            {readMore ? 'Hide content' : 'Read more'}
-          </Typography>
-        )}
         <Box>
           <Photogrid
             images={post.images.map((img) => img.url)} //required
