@@ -40,8 +40,6 @@ export const removeNotify =
 export const getNotifies = (token) => async (dispatch) => {
   try {
     const res = await getDataAPI('notifies', token);
-    console.log(res);
-    console.log(res.data.notifies);
     dispatch({ type: NOTIFY_TYPES.GET_NOTIFIES, payload: res.data.notifies });
   } catch (error) {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { error: error.response.data.msg } });
