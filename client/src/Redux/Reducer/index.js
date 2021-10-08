@@ -10,6 +10,7 @@ import discover from 'Redux/Reducer/discoverReduce';
 import suggestions from 'Redux/Reducer/suggestionReduce';
 import socket from 'Redux/Reducer/socketReduce';
 import notify from 'Redux/Reducer/notifyReduce';
+import message from 'Redux/Reducer/messageReduce';
 export default combineReducers({
   auth,
   alert,
@@ -22,4 +23,5 @@ export default combineReducers({
   suggestions,
   socket,
   notify,
+  message,
 });

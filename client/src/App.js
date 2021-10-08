@@ -14,6 +14,7 @@ import Message from 'Features/Message';
 import Discover from 'Features/Discover';
 import Notify from 'Features/Notify';
 import Profile from 'Features/Profile';
+import Conversation from 'Features/Message/components/conversation/index.js'
 import PrivateRouter from 'CustomRouter/customRouter';
 import Alert from 'Components/Alert/alert';
 import Loading from 'Components/Loading';
@@ -71,7 +72,8 @@ function App() {
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
             <Route path="/post/:id" component={Post} />
-            <PrivateRouter path="/message" component={Message} />
+            <PrivateRouter path="/message" component={Message} exact />
+            <PrivateRouter path="/message/:id" component={Conversation} exact />
             <PrivateRouter path="/discover" component={Discover} />
             <Route path="/notify" component={auth.token ? Notify : Login} />
             <Route path="/profile/:id" component={auth.token ? Profile : Login} />
