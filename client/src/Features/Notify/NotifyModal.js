@@ -1,20 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, IconButton, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded';
-import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded';
+import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import { useSelector } from 'react-redux';
-import moment from 'moment';
 import FiberManualRecordRoundedIcon from '@material-ui/icons/FiberManualRecordRounded';
+import NotificationsOffRoundedIcon from '@material-ui/icons/NotificationsOffRounded';
+import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded';
 import ImageNotify from 'images/notify.png';
-import { useState } from 'react';
+import moment from 'moment';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { deleteAllNotifies, isReadNotify, NOTIFY_TYPES } from 'Redux/Action/notifyAction';
 
 NotifyModal.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -64,9 +62,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 function NotifyModal({ setShowMenu }) {
   const classes = useStyles();
+  const dispatch = useDispatch((state) => state);
   const { auth, notify } = useSelector((state) => state);
+
   const handleClose = () => {
     setShowMenu(false);
+  };
+  const handleIsRead = (msg) => {
+    dispatch(isReadNotify({ msg, auth }));
+    setShowMenu(false);
+  };
+  const handleSound = () => {
+    dispatch({ type: NOTIFY_TYPES.UPDATE_SOUND, payload: !notify.sound });
+  };
+  const handleDeleteNotify = () => {
+    const newArr = notify.data.filter((item) => item.isRead === false);
+    if (newArr.length === 0) return dispatch(deleteAllNotifies(auth.token));
+    if (window.confirm(`Bạn có ${newArr.length} thông báo chưa xem. Bạn có chắc chắn muốn xóa tất cả?`)) {
+      return dispatch(deleteAllNotifies(auth.token));
+    }
   };
 
   return (
@@ -92,20 +106,25 @@ function NotifyModal({ setShowMenu }) {
         <Box className={classes.title}>
           <Typography style={{ fontWeight: 'bold', fontSize: '18px', marginLeft: '5px' }}>Thông báo</Typography>
           {notify.sound ? (
-            <IconButton>
+            <IconButton onClick={handleSound}>
               {' '}
               <NotificationsRoundedIcon />{' '}
             </IconButton>
           ) : (
-            <IconButton>
+            <IconButton onClick={handleSound}>
               <NotificationsOffRoundedIcon />
             </IconButton>
           )}
         </Box>
         {notify.data.length === 0 && <img src={ImageNotify} alt="imag" width="100%" />}
         {notify.data.map((msg, index) => (
-          <Link to={`${msg.url}`} style={{ textDecoration: 'none' }} onClick={handleClose} className={classes.pc}>
-            <MenuItem key={index} onClick={handleClose} style={{ padding: 0 }}>
+          <Link
+            to={`${msg.url}`}
+            style={{ textDecoration: 'none' }}
+            onClick={() => handleIsRead(msg)}
+            className={classes.pc}
+          >
+            <MenuItem key={index} onClick={() => handleIsRead(msg)} style={{ padding: 0 }}>
               <ListItem>
                 <ListItemAvatar>
                   <Avatar src={msg.user.avatar}></Avatar>
@@ -117,7 +136,7 @@ function NotifyModal({ setShowMenu }) {
                         <strong style={{ fontSize: '17px' }}>{msg.user.username}</strong> {`${msg.text}`}
                       </div>
                     }
-                    secondary={<>{msg.content.slice(0,20)}...</>}
+                    secondary={<>{msg.content.slice(0, 20)}...</>}
                   />
                 ) : (
                   <ListItemText
@@ -170,7 +189,11 @@ function NotifyModal({ setShowMenu }) {
           </Link>
         ))}
         <Box className={classes.titlee}>
-          <Typography style={{ marginTop: '5px', cursor: 'wait' }}>Xóa tất cả</Typography>
+          {notify.data.length > 0 && (
+            <Typography onClick={handleDeleteNotify} style={{ marginTop: '5px', cursor: 'wait' }}>
+              Xóa tất cả
+            </Typography>
+          )}
         </Box>
       </Menu>
     </div>

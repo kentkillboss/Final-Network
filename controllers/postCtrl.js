@@ -34,7 +34,7 @@ const postCtrl = {
         msg: "Create Post",
         newPost: {
           ...newPost._doc,
-          user: req.user
+          user: req.user,
         },
       });
     } catch (error) {
@@ -158,7 +158,7 @@ const postCtrl = {
   getPost: async (req, res) => {
     try {
       const post = await Posts.findById(req.params.id)
-        .populate("user likes", "avatar username fullname")
+        .populate("user likes", "avatar username fullname followers")
         .populate({
           path: "comments",
           populate: {
@@ -209,12 +209,12 @@ const postCtrl = {
       });
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
-      res.json({ 
+      res.json({
         msg: "Deleted Post.",
         newPost: {
           ...post,
-          user: req.user
-        }
+          user: req.user,
+        },
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

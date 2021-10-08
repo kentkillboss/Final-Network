@@ -1,14 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { POST_TYPES } from 'Redux/Action/postAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { NOTIFY_TYPES } from 'Redux/Action/notifyAction';
+import audioNoti from 'audio/notifycation.mp3';
+
+const spawnNotification = (body, icon, url, title) => {
+  let options = {
+    body,
+    icon,
+  };
+  let n = new Notification(title, options);
+  n.onclick = (e) => {
+    e.preventDefault();
+    window.open(url, '_blank');
+  };
+};
 
 function SocketClient(props) {
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const audioRef = useRef();
 
   // join user
   useEffect(() => {
@@ -67,19 +79,26 @@ function SocketClient(props) {
   useEffect(() => {
     socket.on('createNotifyToClient', (msg) => {
       dispatch({ type: NOTIFY_TYPES.CREATE_NOTIFY, payload: msg });
+      if (notify.sound) audioRef.current.play();
+      spawnNotification(msg.user.username + ' ' + msg.text, msg.user.avatar, msg.url, 'TA-NETWORK');
     });
     return () => socket.off('createNotifyToClient');
-  }, [socket, dispatch])
+  }, [socket, dispatch, notify.sound]);
 
   useEffect(() => {
     socket.on('removeNotifyToClient', (msg) => {
-      
       dispatch({ type: NOTIFY_TYPES.REMOVE_NOTIFY, payload: msg });
     });
     return () => socket.off('removeNotifyToClient');
-  }, [socket, dispatch])
+  }, [socket, dispatch]);
 
-  return <></>;
+  return (
+    <>
+      <audio controls ref={audioRef} style={{ display: 'none' }}>
+        <source src={audioNoti} type="audio/mp3" />
+      </audio>
+    </>
+  );
 }
 
 export default SocketClient;

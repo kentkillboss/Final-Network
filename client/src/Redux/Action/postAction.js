@@ -28,14 +28,14 @@ export const createPost =
       //notify
       const msg = {
         id: res.data.newPost._id,
-        text: 'added a new post',
+        text: 'đã thêm bài viết mới',
         recipients: res.data.newPost.user.followers,
         url: `/post/${res.data.newPost._id}`,
         content,
-        image: media[0].url
+        image: media[0].url,
       };
 
-      dispatch(createNotify({msg, auth, socket}));
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -104,14 +104,14 @@ export const likePost =
       //notify
       const msg = {
         id: auth.user._id,
-        text: 'liked your post',
+        text: 'đã thích bài viết của bạn',
         recipients: [post.user._id],
         url: `/post/${post._id}`,
         content: post.content,
-        image: post.images[0].url
+        image: post.images[0].url,
       };
 
-      dispatch(createNotify({msg, auth, socket}));
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -138,7 +138,7 @@ export const unLikePost =
         url: `/post/${post._id}`,
       };
 
-      dispatch(removeNotify({msg, auth, socket}));
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -178,7 +178,7 @@ export const deletePost =
         url: `/post/${post._id}`,
       };
 
-      dispatch(removeNotify({msg, auth, socket}));
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,
