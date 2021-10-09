@@ -1,20 +1,21 @@
+import { makeStyles } from '@material-ui/core';
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import './body.css';
-import { Box, CardHeader, IconButton, makeStyles, Typography } from '@material-ui/core';
 
 
 const useStyles = makeStyles(theme => ({
   container: {
     overflow: 'hidden',
-
+    // maxWidth: '490px',
+   
   },
   image: {
-    maxWidth: '490px',
+    width: 'auto',
     maxHeight: '490px',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
+    objectFit: 'contain'
     // backgroundSize: '100%',
     // backgroundRepeat: 'no-repeat'
 }
