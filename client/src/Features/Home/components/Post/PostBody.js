@@ -1,30 +1,46 @@
-import { makeStyles } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import CardContent from '@material-ui/core/CardContent';
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-// import ImageGrid from 'react-fb-image-grid';
-import Photogrid from 'react-facebook-photo-grid';
-import ImageGallery from 'react-image-gallery';
-import "react-image-gallery/styles/css/image-gallery.css";
-import "./body.css";
+import React from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import './body.css';
+import { Box, CardHeader, IconButton, makeStyles, Typography } from '@material-ui/core';
 
-function PostBody({ post }) {
-  const [images, setImages] = useState(null);
 
-  useEffect(() => {
-    setImages(
-    post.images.map((img) => ({
-      original: `${img.url}`,
-      thumbnail: `${img.url}`,
-    })));
-  }, [post.images]);
+const useStyles = makeStyles(theme => ({
+  container: {
+    overflow: 'hidden',
 
+  },
+  image: {
+    maxWidth: '490px',
+    maxHeight: '490px',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    // backgroundSize: '100%',
+    // backgroundRepeat: 'no-repeat'
+}
+}));
+
+function PostBody({ post, theme }) {
+  const classes = useStyles();
   return (
-    <Box className="slider">
-    {images ? <ImageGallery  items={images} /> : null}
-    </Box>
+    <Carousel>
+      {
+        post.images.map((img, index) => (
+          <div key={index} className={classes.container}>
+              {
+                  img.url.match(/video/i)
+                  ? <video className={classes.image} controls src={img.url} alt={img.url}
+                  style={{filter: theme ? 'invert(1)' : 'invert(0)'}}/>
+
+                  :<img className={classes.image} src={img.url} alt={img.url}
+                  style={{filter: theme ? 'invert(1)' : 'invert(0)', }}/>
+              }
+             
+          </div>
+      ))
+            }
+            
+    </Carousel>
   );
 }
 

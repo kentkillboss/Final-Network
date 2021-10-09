@@ -8,7 +8,6 @@ import Box from '@material-ui/core/Box';
 import { useState } from 'react';
 
 function PostBodyHome({ post }) {
-  const [readMore, setReadMore] = useState(false);
 
   return (
     <>
