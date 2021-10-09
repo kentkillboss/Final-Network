@@ -98,6 +98,7 @@ export default function Header() {
 
   const dispatch = useDispatch();
   const { auth, theme, notify } = useSelector((state) => state);
+  const newArr = notify.data.filter((item) => item.isRead === false);
   const [showMenu, setShowMenu] = useState(false);
 
   const handleClick = (event) => {
@@ -136,7 +137,7 @@ export default function Header() {
               <Mail />
             </IconButton>
             <IconButton className={classes.badge} onClick={() => setShowMenu(true)}>
-              <Badge badgeContent={notify.data.length} color="error">
+              <Badge badgeContent={newArr.length} color="error">
                 <Notifications />
               </Badge>
             </IconButton>

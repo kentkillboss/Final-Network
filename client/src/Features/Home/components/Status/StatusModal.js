@@ -20,6 +20,7 @@ import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { createPost, updatePost } from 'Redux/Action/postAction';
+import Icons from 'Components/Icons';
 
 StatusModal.propTypes = {
   setShowModal: PropTypes.func,
@@ -77,6 +78,7 @@ function StatusModal({ setShowModal }) {
   const videoRef = useRef();
   const refCanvas = useRef();
   const [tracks, setTracks] = useState('');
+  const [showIcon, setShowIcon] = useState(false);
   const handleClose = () => {
     setShowModal(false);
   };
@@ -86,11 +88,12 @@ function StatusModal({ setShowModal }) {
     let newImages = [];
     files.forEach((file) => {
       if (!file) return (err = 'File does not exits.');
-      if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-        return (err = 'Images format is incorrect.');
+      if (file.size > 1024 * 1024 * 5) {
+        return (err = 'The image largest is 5mb.');
       }
       return newImages.push(file);
     });
+    console.log(files);
     if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
     setImages([...images, ...newImages]);
   };
@@ -160,6 +163,14 @@ function StatusModal({ setShowModal }) {
       setImages(status.images);
     }
   }, [status]);
+
+  const imageShow = (src) => {
+    return <img src={src} alt="images" />;
+  };
+  const videoShow = (src) => {
+    return <video controls src={src} alt="images" />;
+  };
+
   return (
     <div>
       <Dialog open={status} className={classes.dialog}>
@@ -193,7 +204,17 @@ function StatusModal({ setShowModal }) {
               <ImageList rowHeight={160} className={classes.imageList} cols={3}>
                 {images.map((img, index) => (
                   <ImageListItem key={index} cols={1}>
-                    <img src={img.camera ? img.camera : img.url ? img.url : URL.createObjectURL(img)} alt="images" />
+                    {img.camera ? (
+                      imageShow(img.camera)
+                    ) : img.url ? (
+                      <>{img.url.match(/video/i) ? videoShow(img.url) : imageShow(img.url)}</>
+                    ) : (
+                      <>
+                        {img.type.match(/video/i)
+                          ? videoShow(URL.createObjectURL(img))
+                          : imageShow(URL.createObjectURL(img))}
+                      </>
+                    )}
                     <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
                       <CancelIcon />
                     </IconButton>
@@ -223,7 +244,7 @@ function StatusModal({ setShowModal }) {
                     <IconButton onClick={handleStream} style={{ padding: '4px' }}>
                       <CameraAltRoundedIcon style={{ color: 'green', cursor: 'pointer' }} />
                     </IconButton>
-                    <IconButton style={{ padding: '4px' }}>
+                    <IconButton style={{ padding: '4px' }} onClick={() => setShowIcon(true)}>
                       <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
                     </IconButton>
 
@@ -234,7 +255,7 @@ function StatusModal({ setShowModal }) {
                         multiple
                         name="file"
                         id="file"
-                        accept="image/*"
+                        accept="image/*, video/*"
                         hidden
                         onChange={handleChangeImages}
                       />
@@ -249,6 +270,7 @@ function StatusModal({ setShowModal }) {
               Subscribe
             </Button>
           </DialogActions>
+          {showIcon && <Icons setShowIcon={setShowIcon} setContent={setContent} content={content} />}
         </form>
       </Dialog>
     </div>

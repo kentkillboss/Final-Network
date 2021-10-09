@@ -29,6 +29,7 @@ import { Close } from '@material-ui/icons';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { updateProfileUser } from 'Redux/Action/profileAction';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
 
 EditProfileForm.propTypes = {
   user: PropTypes.object,
@@ -127,8 +128,19 @@ function EditProfileForm({ setEdit }) {
               />
               <span className="icon">
                 {/* <Button component="label" className="btnedit"> */}
-                <input type="file" name="file" id="file_up" accept="image/*" onChange={handleChangeAvatar} />
-                <EditRoundedIcon />
+                <input
+                  type="file"
+                  name="file"
+                  id="file_up"
+                  accept="image/*"
+                  onChange={handleChangeAvatar}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="file_up">
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <PhotoCamera />
+                  </IconButton>
+                </label>
                 {/* </Button> */}
               </span>
             </div>
