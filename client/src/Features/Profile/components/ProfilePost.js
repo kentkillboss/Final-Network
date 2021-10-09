@@ -82,7 +82,6 @@ function ProfilePost({ auth, id, dispatch, profile }) {
     dispatch({ type: PROFILE_TYPES.UPDATE_POST, payload: newData });
     setLoad(false);
   };
-  
 
   useEffect(() => {
     setLoadSave(true);
