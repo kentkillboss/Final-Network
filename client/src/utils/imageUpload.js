@@ -22,7 +22,7 @@ export const imageUpload = async (images) => {
     formData.append('upload_preset', 'atmnffwf');
     formData.append('cloud_name', 'dp5ku4grg');
 
-    const res = await fetch('https://api.cloudinary.com/v1_1/dp5ku4grg/image/upload', {
+    const res = await fetch('https://api.cloudinary.com/v1_1/dp5ku4grg/upload', {
       method: 'POST',
       body: formData,
     });

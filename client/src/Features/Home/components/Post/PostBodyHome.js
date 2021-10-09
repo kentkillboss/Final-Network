@@ -7,7 +7,6 @@ import Photogrid from 'react-facebook-photo-grid';
 import Box from '@material-ui/core/Box';
 import { useState } from 'react';
 
-
 function PostBodyHome({ post }) {
   const [readMore, setReadMore] = useState(false);
 
@@ -16,8 +15,11 @@ function PostBodyHome({ post }) {
       <CardContent style={{ padding: '0 16px' }}>
         <Box>
           <Photogrid
-            images={post.images.map((img) => img.url)} //required
+            images={post.images.map((image) => image.url)} //required
           ></Photogrid>
+          {/* {post.images.map((img) => (
+            <video controls src={img.url} />
+          ))} */}
         </Box>
       </CardContent>
     </>

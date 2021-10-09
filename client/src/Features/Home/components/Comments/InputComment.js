@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Card, InputAdornment, makeStyles, TextField } from '@material-ui/core';
+import { Avatar, Box, Button, Card, IconButton, InputAdornment, makeStyles, TextField } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { createComment } from 'Redux/Action/commentAction';
 import { Link } from 'react-router-dom';
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
+import Icons from 'Components/Icons';
 
 InputComment.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +39,7 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
   const { auth, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [content, setContent] = useState('');
+  const [showIcon, setShowIcon] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -91,12 +94,16 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
               onChange={(e) => setContent(e.target.value)}
             />
           )}
+          <IconButton onClick={() => setShowIcon(true)} size="small">
+            <EmojiEmotionsRoundedIcon />
+          </IconButton>
 
           <Button className={classes.btnSubmit} type="submit" color="primary">
             <SendRoundedIcon />
           </Button>
         </Box>
       </Box>
+      {showIcon && <Icons setShowIcon={setShowIcon} setContent={setContent} content={content} />}
     </form>
   );
 }
