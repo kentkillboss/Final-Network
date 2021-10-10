@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme) => ({
     padding: '9px 14px',
     marginBottom: '5px',
     marginRight: '10px',
-    background: '#0048AA',
+    background: '#ec7d14',
     color: 'white',
-    border: '1px solid #0048AA',
+    border: '1px solid #ec7d14',
     borderRadius: '14px 14px 0 14px',
   },
   time: {

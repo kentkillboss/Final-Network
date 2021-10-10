@@ -31,34 +31,36 @@ import Icons from 'Components/Icons';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { imageUpload } from 'utils/imageUpload';
-import { addMessage } from 'Redux/Action/messageAction';
+import { addMessage, getMessages } from 'Redux/Action/messageAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxHeight: '500px',
+    
   },
   container: {
     background: '#ffffff',
     height: 'calc(100vh - 210px)',
     display: 'flex',
     flexDirection: 'column',
-    // justifyContent: 'flex-end',
-    overflowY: 'scroll',
-  },
-  textfield: {
-    width: '82%',
-    height: '90%',
-    margin: 'auto',
-    paddingLeft: '8%',
+    overflowY: 'auto',
   },
   chat: {
     display: 'grid',
     gridTemplateColumns: '70%',
     marginBottom: '10px',
     paddingRight: '10px',
-    justifyContent: 'end',
     justifyItems: 'end',
+    // flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+  textfield: {
+    width: '82%',
+    height: '90%',
+    margin: 'auto',
+    paddingLeft: '8%',
   },
   otherChat: {
     display: 'grid',
@@ -150,7 +152,30 @@ function RightSide(props) {
     dispatch(addMessage({ msg, auth, socket }));
   };
 
+  useEffect(() => {
+    if (id) {
+      const getMessagesData = async () => {
+        await dispatch(getMessages({auth, id}))
+      }
+      getMessagesData();
+    }
+  }, [dispatch, auth, id]);
+
+  //scroll bottom
+  const messageRef = useRef();
+
+  useEffect(() => {
+    if (messageRef.current) {
+      messageRef.current.scrollIntoView(
+        {
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest'
+        })
+    }
+  })
   return (
+    <>
     <Box className={classes.root}>
       {user.length !== 0 && (
         <List style={{ width: '100%', borderBottom: '1px solid grey' }}>
@@ -168,7 +193,7 @@ function RightSide(props) {
 
       <Box className={classes.container}>
         {message.data.map((msg, index) => (
-          <Box key={index}>
+          <Box key={index} ref={messageRef}>
             {msg.sender !== auth.user._id && (
               <Box className={classes.otherChat}>
                 <MessageDisplayOther user={user} msg={msg} />
@@ -250,6 +275,7 @@ function RightSide(props) {
         </Box>
       </form>
     </Box>
+    </>
   );
 }
 

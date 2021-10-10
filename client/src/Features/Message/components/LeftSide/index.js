@@ -19,10 +19,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { addUser } from 'Redux/Action/messageAction';
+import { addUser, getConversations } from 'Redux/Action/messageAction';
 import { Box, ClickAwayListener } from '@material-ui/core';
 import moment from 'moment';
 import UseCard from '../UseCard';
+import { useEffect } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,6 +82,11 @@ function LeftSide(props) {
     dispatch(addUser({ user, message }));
     return history.push(`/message/${user._id}`);
   };
+
+  useEffect(() => {
+    if(message.firstLoad) return;
+    dispatch(getConversations({auth}))
+  }, [dispatch, auth, message.firstLoad])
 
   return (
     <Box className={classes.root}>
