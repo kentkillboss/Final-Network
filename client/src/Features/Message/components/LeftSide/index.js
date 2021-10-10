@@ -22,15 +22,16 @@ import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { addUser } from 'Redux/Action/messageAction';
 import { Box, ClickAwayListener } from '@material-ui/core';
 import moment from 'moment';
+import UseCard from '../UseCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: 'calc(100vh - 85px)',
     borderRight: '1px solid grey',
-    paddingTop: '20px'
+    paddingTop: '20px',
   },
   listItem: {
-    width: '94%',
+    width: '98%',
     backgroundColor: theme.palette.background.paper,
     marginTop: '5px',
     marginLeft: '2%',
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '8%',
     background: '#ffffff',
     borderRadius: '15px',
-    height: '45px'
+    height: '45px',
   },
   online: {
     position: 'absolute',
@@ -60,7 +61,7 @@ function LeftSide(props) {
   const { auth, message } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -81,18 +82,18 @@ function LeftSide(props) {
     return history.push(`/message/${user._id}`);
   };
 
-  const isSelected = (user) => {
-    if(id === user._id) return true;
-    return false;
-  }
   return (
     <Box className={classes.root}>
       <form onSubmit={handleSearch}>
         <FormControl fullWidth variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-amount" style={{ fontWeight: 'bold', fontSize: '14px', paddingLeft: '50px', paddingTop: '3px' }}>
+          <InputLabel
+            htmlFor="outlined-adornment-amount"
+            style={{ fontWeight: 'bold', fontSize: '14px', paddingLeft: '50px', paddingTop: '3px' }}
+          >
             Enter để tìm kiếm
           </InputLabel>
-          <OutlinedInput className={classes.search}
+          <OutlinedInput
+            className={classes.search}
             id="outlined-adornment-amount"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -123,25 +124,28 @@ function LeftSide(props) {
         ) : (
           <>
             {message.users.map((user) => (
-              <ListItem button selected={isSelected(user)} onClick={() => handleAddUser(user)}>
-                <ListItemAvatar>
-                  <Avatar src={user.avatar}></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={user.username} secondary={user.fullname} />
+              // <ListItem button selected={isSelected(user)} onClick={() => handleAddUser(user)}>
+              //   <ListItemAvatar>
+              //     <Avatar src={user.avatar}></Avatar>
+              //   </ListItemAvatar>
+              //   <ListItemText primary={user.username} secondary={user.fullname} />
 
-                <ListItemText 
-                  primary={
-                    <Box style={{textAlign: 'right', color: ' grey', fontSize: '13px'}}>
-                   { moment(message.createdAt).fromNow()}
-                    </Box>
-                  }
-                  secondary={
-                    <Box style={{textAlign: 'right'}}>
-                      <FiberManualRecordIcon style={{fontSize: '14px'}} />
-                    </Box>
-                }
-                />
-              </ListItem>
+              //   <ListItemText
+              //     primary={
+              //       <Box style={{ textAlign: 'right', color: ' grey', fontSize: '13px' }}>
+              //         {moment(message.createdAt).fromNow()}
+              //       </Box>
+              //     }
+              //     secondary={
+              //       <Box style={{ textAlign: 'right' }}>
+              //         <FiberManualRecordIcon style={{ fontSize: '14px' }} />
+              //       </Box>
+              //     }
+              //   />
+              // </ListItem>
+              <Box key={user._id} onClick={() => handleAddUser(user)}>
+                <UseCard user={user} />
+              </Box>
             ))}
           </>
         )}

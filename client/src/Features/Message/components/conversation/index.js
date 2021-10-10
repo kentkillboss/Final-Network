@@ -3,7 +3,6 @@ import { Grid } from '@material-ui/core';
 import LeftSide from '../LeftSide';
 import RightSide from '../RightSide';
 
-
 function Conversation(props) {
   return (
     <div>
