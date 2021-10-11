@@ -1,12 +1,14 @@
-import { getDataAPI, postDataAPI } from 'api/fetchData';
+import { deleteDataAPI, getDataAPI, postDataAPI } from 'api/fetchData';
 // import { unstable_renderSubtreeIntoContainer } from 'react-dom';
-import { GLOBALTYPES } from './globalTypes';
+import { DeleteData, GLOBALTYPES } from './globalTypes';
 
 export const MESS_TYPES = {
   ADD_USER: 'ADD_USER',
   ADD_MESSAGE: 'ADD_MESSAGE',
   GET_CONVERSATIONS: 'GET_CONVERSATIONS',
   GET_MESSAGES: 'GET_MESSAGES',
+  UPDATE_MESSAGES: 'UPDATE_MESSAGES',
+  DELETE_MESSAGES: 'DELETE_MESSAGES'
 };
 
 export const addUser =
@@ -54,8 +56,37 @@ export const getMessages =
   async (dispatch) => {
     try {
       const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token);
-      dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: res.data });
+      const newData = {...res.data, messages: res.data.messages.reverse()};
+
+      dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: {...newData, _id: id, page} });
     } catch (err) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
     }
   };
+
+  export const loadMoreMessages =
+  ({ auth, id, page = 1 }) =>
+  async (dispatch) => {
+    try {
+      const res = await getDataAPI(`message/${id}?limit=${page * 9}`, auth.token);
+      
+      const newData = {...res.data, messages: res.data.messages.reverse()};
+
+      dispatch({ type: MESS_TYPES.UPDATE_MESSAGES, payload: {...newData, _id: id, page} });
+    } catch (err) {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
+    }
+  };
+
+  export const deleteMessages =
+  ({ auth, msg, data }) =>
+  async (dispatch) => {
+    const newData = DeleteData(data, msg._id);
+    dispatch({type: MESS_TYPES.DELETE_MESSAGES, payload: {newData, _id: msg.recipient}})
+    try {
+      await deleteDataAPI(`message/${msg._id}`, auth.token);
+    } catch (err) {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
+    }
+  };
+

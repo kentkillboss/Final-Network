@@ -1,5 +1,8 @@
 import { Avatar, Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteMessages } from 'Redux/Action/messageAction';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -22,10 +25,31 @@ const useStyles = makeStyles((theme) => ({
     width: '65%',
     height: '90%',
   },
+  contentBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover $deleteIcon':{
+      opacity: 1
+    }
+  },
+  deleteIcon: {
+    cursor: 'pointer',
+    opacity: 0
+  }
 }));
 
-function MessageDisplay({ user, msg }) {
+function MessageDisplay({ user, msg, data }) {
   const classes = useStyles();
+  const {auth} = useSelector(state => state);
+  const dispatch = useDispatch();
+
+  const handleDeleteMessages = () => {
+    if(data){
+      dispatch(deleteMessages({msg, data, auth}));
+    }
+  }
+
   const imageShow = (src) => {
     return <img width="100%" height="100%" style={{ borderRadius: '10px' }} src={src} alt="images" />;
   };
@@ -38,16 +62,21 @@ function MessageDisplay({ user, msg }) {
         <Avatar src={user.avatar} />
         {/* <Typography style={{ paddingTop: '5%' }}>{user.username}</Typography> */}
       </Box>
-      {msg.text && (
-        <Box className={classes.content}>
-          <Typography>{msg.text}</Typography>
-        </Box>
-      )}
-      {msg.media.map((item, index) => (
-        <Box className={classes.box} key={index}>
-          {item.url.match(/video/i) ? videoShow(item.url) : imageShow(item.url)}
-        </Box>
-      ))}
+      <Box className={classes.contentBox}>
+        <DeleteIcon className={classes.deleteIcon} onClick={handleDeleteMessages} />
+          {msg.text && (
+          <Box className={classes.content}>
+            <Typography>{msg.text}</Typography>
+          </Box>
+          )}
+          {msg.media.map((item, index) => (
+            <Box className={classes.box} key={index}>
+              {item.url.match(/video/i) ? videoShow(item.url) : imageShow(item.url)}
+            </Box>
+          ))}
+          
+      </Box>
+      
       <Box className={classes.time}>{new Date(msg.createdAt).toLocaleString()}</Box>
     </>
   );

@@ -31,35 +31,51 @@ import Icons from 'Components/Icons';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { imageUpload } from 'utils/imageUpload';
-import { addMessage, getMessages, MESS_TYPES } from 'Redux/Action/messageAction';
+import { addMessage, getMessages, loadMoreMessages } from 'Redux/Action/messageAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxHeight: '500px',
+   
   },
   container: {
-    background: '#ffffff',
+    // width: '100%',
     height: 'calc(100vh - 210px)',
-    display: 'flex',
+    // display: 'flex',
     flexDirection: 'column',
     overflowY: 'auto',
+    // padding: '0 10px',
+  },
+  // chatDisplay: {
+  //   // display: 'grid',
+  //   // gridTemplateColumns: '70%',
+  //   // marginBottom: '10px',
+  //   // paddingRight: '10px',
+  //   // justifyItems: 'end',
+  //   //  flexDirection: 'column',
+  //   // justifyContent: 'flex-end',
+  //   width: '100%',
+  //   minHeight: '100%',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   justifyContent: 'flex-end'
+  // },
+  textfield: {
+    width: '82%',
+    height: '90%',
+    margin: 'auto',
+    paddingLeft: '8%',
   },
   chat: {
     display: 'grid',
     gridTemplateColumns: '70%',
     marginBottom: '10px',
     paddingRight: '10px',
+    justifyContent: 'end',
     justifyItems: 'end',
-    // flexDirection: 'column',
-    justifyContent: 'flex-end',
-  },
-  textfield: {
-    width: '82%',
-    height: '90%',
-    margin: 'auto',
-    paddingLeft: '8%',
+
   },
   otherChat: {
     display: 'grid',
@@ -99,22 +115,35 @@ function RightSide(props) {
   const [loadMedia, setLoadMedia] = useState(false);
   const refDisplay = useRef();
   const pageEnd = useRef();
-  const [page, setPage] = useState(0);
 
   const [data, setData] = useState([]);
+  const [result, setResult] = useState(9);
+  const [page, setPage] = useState(0);
+  const [isLoadMore, setIsLoadMore] = useState(0);
 
   useEffect(() => {
-    const newData = message.data.filter((item) => item.sender === auth.user._id || item.sender === id);
-
-    setData(newData);
-    setPage(1);
-  }, [message.data, auth.user._id, id]);
+    const newData = message.data.find(item => item._id === id)
+    if(newData){
+      setData(newData.messages);
+      setResult(newData.result);
+      setPage(newData.page)
+    }
+  }, [message.data, id]);
 
   useEffect(() => {
-    const newUser = message.users.find((user) => user._id === id);
+    if(id && message.users.length > 0){
+      setTimeout(() => {
+        refDisplay.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end',
+        });
+      }, 50);
+      const newUser = message.users.find((user) => user._id === id);
     if (newUser) {
       setUser(newUser);
     }
+    }
+    
   }, [message.users, id]);
 
   const handleChangeMedia = (e) => {
@@ -128,7 +157,6 @@ function RightSide(props) {
       }
       return newMedia.push(file);
     });
-    console.log(files);
     if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
     setMedia([...media, ...newMedia]);
   };
@@ -165,28 +193,26 @@ function RightSide(props) {
       refDisplay.current.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
-        inline: 'nearest',
       });
     }
   };
 
   useEffect(() => {
-    if (id) {
       const getMessagesData = async () => {
-        dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: { messages: [] } });
-
-        await dispatch(getMessages({ auth, id }));
-        if (refDisplay.current) {
+        if(message.data.every(item => item._id !== id)){
+          await dispatch(getMessages({ auth, id }));
+        
+        setTimeout(() => {
           refDisplay.current.scrollIntoView({
             behavior: 'smooth',
             block: 'end',
-            inline: 'nearest',
           });
+        }, 50);
         }
+        
       };
       getMessagesData();
-    }
-  }, [dispatch, auth, id]);
+  }, [dispatch, auth, id, message.data]);
 
   //scroll bottom
   // const messageRef = useRef();
@@ -203,34 +229,28 @@ function RightSide(props) {
 
   //Load more
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((p) => p + 1);
+    const observer = new IntersectionObserver(entries => {
+        if(entries[0].isIntersecting){
+            setIsLoadMore(p => p + 1)
         }
-      },
-      {
-        threshold: 0.1,
-      }
-    );
-    observer.observe(pageEnd.current);
-  }, [setPage]);
+    },{
+        threshold: 0.1
+    })
+
+    observer.observe(pageEnd.current)
+},[setIsLoadMore])
 
   useEffect(() => {
-    if (message.resultData >= (page - 1) * 9 && page - 1) {
-      dispatch(getMessages({ auth, id, page }));
+    if(isLoadMore > 1){
+       if (result >= page * 9) {
+      dispatch(loadMoreMessages({ auth, id, page: page + 1 }));
+      setIsLoadMore(1);
     }
-  }, [message.resultData, page, id, auth, dispatch]);
+    }
+   // eslint-disable-next-line
+  }, [isLoadMore]);
 
-  useEffect(() => {
-    if (refDisplay.current) {
-      refDisplay.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end',
-        inline: 'nearest',
-      });
-    }
-  }, [text]);
+
 
   return (
     <>
@@ -249,12 +269,13 @@ function RightSide(props) {
           </List>
         )}
 
-        <Box className={classes.container}>
-          <button style={{ marginTop: '-25px', display: 'none' }} ref={pageEnd}>
+        <Box className={classes.container}  >
+          <Box ref={refDisplay} className={classes.chatDisplay} >
+          <button style={{ marginTop: '-25px', opacity: 0 }} ref={pageEnd}>
             LoadMore
           </button>
           {data.map((msg, index) => (
-            <Box key={index} ref={refDisplay}>
+            <Box key={index}>
               {msg.sender !== auth.user._id && (
                 <Box className={classes.otherChat}>
                   <MessageDisplayOther user={user} msg={msg} />
@@ -262,12 +283,14 @@ function RightSide(props) {
               )}
               {msg.sender === auth.user._id && (
                 <Box className={classes.chat}>
-                  <MessageDisplay user={auth.user} msg={msg} />
+                  <MessageDisplay user={auth.user} msg={msg} data={data} />
                 </Box>
               )}
             </Box>
           ))}
-          {loadMedia && <CircularProgress />}
+          
+        </Box>
+        {loadMedia && <CircularProgress />}
           <Box style={{ width: '95%', margin: '10px auto' }}>
             <ImageList rowHeight={160} className={classes.imageList} cols={6}>
               {media.map((img, index) => (
@@ -282,7 +305,6 @@ function RightSide(props) {
             </ImageList>
           </Box>
         </Box>
-
         <form onSubmit={handleSubmit}>
           {/* <TextField
             size="small"

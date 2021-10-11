@@ -53,7 +53,7 @@ const messageCtrl = {
             }), req.query).paginating();
 
             const conversations = await features.query.sort('-updatedAt')
-            .populate('recipients', 'avatar username fullname');
+            .populate('recipients', 'avatar username fullname'); 
 
             res.json({
                 conversations,
@@ -77,6 +77,16 @@ const messageCtrl = {
             res.json({
                 messages,
                 result: messages.length
+            })
+        } catch (err) {
+            return res.status(500).json({msg: err.message});
+        }
+    },
+    deleteMessages: async (req, res) => {
+        try {
+            await Messages.findByIdAndDelete({_id: req.params.id, sender: req.user._id});
+            res.json({
+                msg: 'Delete Success'
             })
         } catch (err) {
             return res.status(500).json({msg: err.message});
