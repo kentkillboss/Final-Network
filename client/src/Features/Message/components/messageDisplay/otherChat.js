@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '13px',
     color: 'grey',
   },
+  box: {
+    width: '65%',
+    height: '90%',
+  },
 }));
 
 function MessageDisplayOther({ user, msg }) {

@@ -24,6 +24,7 @@ import { Box, ClickAwayListener } from '@material-ui/core';
 import moment from 'moment';
 import UseCard from '../UseCard';
 import { useEffect } from 'react';
+import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,8 @@ function LeftSide(props) {
   const { auth, message } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = useParams();
+  const pageEnd = useRef();
+  const [page, setPage] = useState(0);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -84,10 +86,30 @@ function LeftSide(props) {
   };
 
   useEffect(() => {
-    if(message.firstLoad) return;
-    dispatch(getConversations({auth}))
-  }, [dispatch, auth, message.firstLoad])
+    if (message.firstLoad) return;
+    dispatch(getConversations({ auth }));
+  }, [dispatch, auth, message.firstLoad]);
 
+  //loadmore
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((p) => p + 1);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+    observer.observe(pageEnd.current);
+  }, [setPage]);
+
+  useEffect(() => {
+    if (message.resultUsers >= (page - 1) * 9 && page - 1) {
+      dispatch(getConversations({ auth, page }));
+    }
+  }, [message.resultUsers, page, auth, dispatch]);
   return (
     <Box className={classes.root}>
       <form onSubmit={handleSearch}>
@@ -156,6 +178,9 @@ function LeftSide(props) {
           </>
         )}
       </List>
+      <button ref={pageEnd} style={{ display: 'none' }}>
+        LoadMore
+      </button>
     </Box>
   );
 }

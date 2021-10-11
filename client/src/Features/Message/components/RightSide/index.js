@@ -31,14 +31,13 @@ import Icons from 'Components/Icons';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { imageUpload } from 'utils/imageUpload';
-import { addMessage, getMessages } from 'Redux/Action/messageAction';
+import { addMessage, getMessages, MESS_TYPES } from 'Redux/Action/messageAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxHeight: '500px',
-    
   },
   container: {
     background: '#ffffff',
@@ -92,13 +91,25 @@ function RightSide(props) {
   const classes = useStyles();
   const { auth, message, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
-
   const { id } = useParams();
   const [user, setUser] = useState([]);
   const [text, setText] = useState('');
   const [showIcon, setShowIcon] = useState(false);
   const [media, setMedia] = useState([]);
   const [loadMedia, setLoadMedia] = useState(false);
+  const refDisplay = useRef();
+  const pageEnd = useRef();
+  const [page, setPage] = useState(0);
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const newData = message.data.filter((item) => item.sender === auth.user._id || item.sender === id);
+
+    setData(newData);
+    setPage(1);
+  }, [message.data, auth.user._id, id]);
+
   useEffect(() => {
     const newUser = message.users.find((user) => user._id === id);
     if (newUser) {
@@ -149,81 +160,131 @@ function RightSide(props) {
       createdAt: new Date().toISOString(),
     };
     setLoadMedia(false);
-    dispatch(addMessage({ msg, auth, socket }));
+    await dispatch(addMessage({ msg, auth, socket }));
+    if (refDisplay.current) {
+      refDisplay.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
   };
 
   useEffect(() => {
     if (id) {
       const getMessagesData = async () => {
-        await dispatch(getMessages({auth, id}))
-      }
+        dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: { messages: [] } });
+
+        await dispatch(getMessages({ auth, id }));
+        if (refDisplay.current) {
+          refDisplay.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+            inline: 'nearest',
+          });
+        }
+      };
       getMessagesData();
     }
   }, [dispatch, auth, id]);
 
   //scroll bottom
-  const messageRef = useRef();
+  // const messageRef = useRef();
+
+  // useEffect(() => {
+  //   if (refDisplay.current) {
+  //     refDisplay.current.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'end',
+  //       inline: 'nearest',
+  //     });
+  //   }
+  // });
+
+  //Load more
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((p) => p + 1);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+    observer.observe(pageEnd.current);
+  }, [setPage]);
 
   useEffect(() => {
-    if (messageRef.current) {
-      messageRef.current.scrollIntoView(
-        {
-          behavior: 'smooth',
-          block: 'end',
-          inline: 'nearest'
-        })
+    if (message.resultData >= (page - 1) * 9 && page - 1) {
+      dispatch(getMessages({ auth, id, page }));
     }
-  })
+  }, [message.resultData, page, id, auth, dispatch]);
+
+  useEffect(() => {
+    if (refDisplay.current) {
+      refDisplay.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+    }
+  }, [text]);
+
   return (
     <>
-    <Box className={classes.root}>
-      {user.length !== 0 && (
-        <List style={{ width: '100%', borderBottom: '1px solid grey' }}>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar src={user.avatar}></Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={user.username} secondary={user.fullname} />
-            <ListItemText style={{ textAlign: 'right' }}>
-              <DeleteIcon />
-            </ListItemText>
-          </ListItem>
-        </List>
-      )}
+      <Box className={classes.root}>
+        {user.length !== 0 && (
+          <List style={{ width: '100%', borderBottom: '1px solid grey' }}>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar src={user.avatar}></Avatar>
+              </ListItemAvatar>
+              <ListItemText primary={user.username} secondary={user.fullname} />
+              <ListItemText style={{ textAlign: 'right' }}>
+                <DeleteIcon />
+              </ListItemText>
+            </ListItem>
+          </List>
+        )}
 
-      <Box className={classes.container}>
-        {message.data.map((msg, index) => (
-          <Box key={index} ref={messageRef}>
-            {msg.sender !== auth.user._id && (
-              <Box className={classes.otherChat}>
-                <MessageDisplayOther user={user} msg={msg} />
-              </Box>
-            )}
-            {msg.sender === auth.user._id && (
-              <Box className={classes.chat}>
-                <MessageDisplay user={auth.user} msg={msg} />
-              </Box>
-            )}
+        <Box className={classes.container}>
+          <button style={{ marginTop: '-25px', display: 'none' }} ref={pageEnd}>
+            LoadMore
+          </button>
+          {data.map((msg, index) => (
+            <Box key={index} ref={refDisplay}>
+              {msg.sender !== auth.user._id && (
+                <Box className={classes.otherChat}>
+                  <MessageDisplayOther user={user} msg={msg} />
+                </Box>
+              )}
+              {msg.sender === auth.user._id && (
+                <Box className={classes.chat}>
+                  <MessageDisplay user={auth.user} msg={msg} />
+                </Box>
+              )}
+            </Box>
+          ))}
+          {loadMedia && <CircularProgress />}
+          <Box style={{ width: '95%', margin: '10px auto' }}>
+            <ImageList rowHeight={160} className={classes.imageList} cols={6}>
+              {media.map((img, index) => (
+                <ImageListItem key={index} cols={1}>
+                  {img.type.match(/video/i) ? videoShow(URL.createObjectURL(img)) : imageShow(URL.createObjectURL(img))}
+
+                  <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
+                    <CancelIcon />
+                  </IconButton>
+                </ImageListItem>
+              ))}
+            </ImageList>
           </Box>
-        ))}
-        {loadMedia && <CircularProgress />}
-        <Box style={{ width: '95%', margin: '10px auto' }}>
-          <ImageList rowHeight={160} className={classes.imageList} cols={6}>
-            {media.map((img, index) => (
-              <ImageListItem key={index} cols={1}>
-                {img.type.match(/video/i) ? videoShow(URL.createObjectURL(img)) : imageShow(URL.createObjectURL(img))}
-
-                <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
-                  <CancelIcon />
-                </IconButton>
-              </ImageListItem>
-            ))}
-          </ImageList>
         </Box>
-      </Box>
 
-      <form onSubmit={handleSubmit}>
-        {/* <TextField
+        <form onSubmit={handleSubmit}>
+          {/* <TextField
             size="small"
             className={classes.textfield}
             // variant="none"
@@ -238,43 +299,43 @@ function RightSide(props) {
           <Button className={classes.btnSubmit} type="submit" color="primary">
             <SendIcon />
           </Button> */}
-        <Box className={classes.boxIcon}>
-          <TextField
-            placeholder="Add your cmt..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            style={{ marginLeft: '5px' }}
-            fullWidth
-          ></TextField>
-          <Box style={{ display: 'flex', justifyContent: 'space-around', width: '20%' }}>
-            <IconButton style={{ padding: '4px' }} onClick={() => setShowIcon(true)}>
-              <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
-            </IconButton>
-            {showIcon && <Icons setContent={setText} content={text} setShowIcon={setShowIcon} />}
-            <IconButton component="label" size="sm" style={{ padding: '4px' }}>
-              <PhotoLibraryRoundedIcon style={{ color: 'blue', cursor: 'pointer' }} />
-              <input
-                type="file"
-                multiple
-                name="file"
-                id="file"
-                accept="image/*, video/*"
-                onChange={handleChangeMedia}
-                hidden
-              />
-            </IconButton>
-            <Button
-              disabled={text || media.length > 0 ? false : true}
-              className={classes.btnSubmit}
-              type="submit"
-              color="primary"
-            >
-              <SendIcon />
-            </Button>
+          <Box className={classes.boxIcon}>
+            <TextField
+              placeholder="Add your cmt..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              style={{ marginLeft: '5px' }}
+              fullWidth
+            ></TextField>
+            <Box style={{ display: 'flex', justifyContent: 'space-around', width: '20%' }}>
+              <IconButton style={{ padding: '4px' }} onClick={() => setShowIcon(true)}>
+                <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
+              </IconButton>
+              {showIcon && <Icons setContent={setText} content={text} setShowIcon={setShowIcon} />}
+              <IconButton component="label" size="sm" style={{ padding: '4px' }}>
+                <PhotoLibraryRoundedIcon style={{ color: 'blue', cursor: 'pointer' }} />
+                <input
+                  type="file"
+                  multiple
+                  name="file"
+                  id="file"
+                  accept="image/*, video/*"
+                  onChange={handleChangeMedia}
+                  hidden
+                />
+              </IconButton>
+              <Button
+                disabled={text || media.length > 0 ? false : true}
+                className={classes.btnSubmit}
+                type="submit"
+                color="primary"
+              >
+                <SendIcon />
+              </Button>
+            </Box>
           </Box>
-        </Box>
-      </form>
-    </Box>
+        </form>
+      </Box>
     </>
   );
 }

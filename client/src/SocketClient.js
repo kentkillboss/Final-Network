@@ -4,6 +4,7 @@ import { POST_TYPES } from 'Redux/Action/postAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { NOTIFY_TYPES } from 'Redux/Action/notifyAction';
 import audioNoti from 'audio/notifycation.mp3';
+import { MESS_TYPES } from 'Redux/Action/messageAction';
 
 const spawnNotification = (body, icon, url, title) => {
   let options = {
@@ -90,6 +91,14 @@ function SocketClient(props) {
       dispatch({ type: NOTIFY_TYPES.REMOVE_NOTIFY, payload: msg });
     });
     return () => socket.off('removeNotifyToClient');
+  }, [socket, dispatch]);
+
+  //Message
+  useEffect(() => {
+    socket.on('addMessageToClient', (msg) => {
+      dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: msg });
+    });
+    return () => socket.off('addMessageToClient');
   }, [socket, dispatch]);
 
   return (
