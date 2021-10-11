@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatRoundedIcon from '@material-ui/icons/ChatRounded';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
@@ -31,14 +31,13 @@ import Icons from 'Components/Icons';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { imageUpload } from 'utils/imageUpload';
-import { addMessage, getMessages, loadMoreMessages } from 'Redux/Action/messageAction';
+import { addMessage, deleteConverstation, getMessages, loadMoreMessages } from 'Redux/Action/messageAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useRef } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     // maxHeight: '500px',
-   
   },
   container: {
     // width: '100%',
@@ -75,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '10px',
     justifyContent: 'end',
     justifyItems: 'end',
-
   },
   otherChat: {
     display: 'grid',
@@ -108,6 +106,7 @@ function RightSide(props) {
   const { auth, message, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { id } = useParams();
+  const history = useHistory();
   const [user, setUser] = useState([]);
   const [text, setText] = useState('');
   const [showIcon, setShowIcon] = useState(false);
@@ -122,16 +121,16 @@ function RightSide(props) {
   const [isLoadMore, setIsLoadMore] = useState(0);
 
   useEffect(() => {
-    const newData = message.data.find(item => item._id === id)
-    if(newData){
+    const newData = message.data.find((item) => item._id === id);
+    if (newData) {
       setData(newData.messages);
       setResult(newData.result);
-      setPage(newData.page)
+      setPage(newData.page);
     }
   }, [message.data, id]);
 
   useEffect(() => {
-    if(id && message.users.length > 0){
+    if (id && message.users.length > 0) {
       setTimeout(() => {
         refDisplay.current.scrollIntoView({
           behavior: 'smooth',
@@ -139,11 +138,10 @@ function RightSide(props) {
         });
       }, 50);
       const newUser = message.users.find((user) => user._id === id);
-    if (newUser) {
-      setUser(newUser);
+      if (newUser) {
+        setUser(newUser);
+      }
     }
-    }
-    
   }, [message.users, id]);
 
   const handleChangeMedia = (e) => {
@@ -196,101 +194,93 @@ function RightSide(props) {
       });
     }
   };
+  const handleConverstation = () => {
+    dispatch(deleteConverstation({ auth, id }));
+    return history.push('/message');
+  };
 
   useEffect(() => {
-      const getMessagesData = async () => {
-        if(message.data.every(item => item._id !== id)){
-          await dispatch(getMessages({ auth, id }));
-        
+    const getMessagesData = async () => {
+      if (message.data.every((item) => item._id !== id)) {
+        await dispatch(getMessages({ auth, id }));
+
         setTimeout(() => {
           refDisplay.current.scrollIntoView({
             behavior: 'smooth',
             block: 'end',
           });
         }, 50);
-        }
-        
-      };
-      getMessagesData();
+      }
+    };
+    getMessagesData();
   }, [dispatch, auth, id, message.data]);
-
-  //scroll bottom
-  // const messageRef = useRef();
-
-  // useEffect(() => {
-  //   if (refDisplay.current) {
-  //     refDisplay.current.scrollIntoView({
-  //       behavior: 'smooth',
-  //       block: 'end',
-  //       inline: 'nearest',
-  //     });
-  //   }
-  // });
 
   //Load more
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-        if(entries[0].isIntersecting){
-            setIsLoadMore(p => p + 1)
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsLoadMore((p) => p + 1);
         }
-    },{
-        threshold: 0.1
-    })
+      },
+      {
+        threshold: 0.1,
+      }
+    );
 
-    observer.observe(pageEnd.current)
-},[setIsLoadMore])
+    observer.observe(pageEnd.current);
+  }, [setIsLoadMore]);
 
   useEffect(() => {
-    if(isLoadMore > 1){
-       if (result >= page * 9) {
-      dispatch(loadMoreMessages({ auth, id, page: page + 1 }));
-      setIsLoadMore(1);
+    if (isLoadMore > 1) {
+      if (result >= page * 9) {
+        dispatch(loadMoreMessages({ auth, id, page: page + 1 }));
+        setIsLoadMore(1);
+      }
     }
-    }
-   // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [isLoadMore]);
-
-
 
   return (
     <>
       <Box className={classes.root}>
         {user.length !== 0 && (
-          <List style={{ width: '100%', borderBottom: '1px solid grey' }}>
+          <List style={{ width: '100%', borderBottom: '1px solid #ece0e0', padding: 0, marginTop: '8px' }}>
             <ListItem>
               <ListItemAvatar>
                 <Avatar src={user.avatar}></Avatar>
               </ListItemAvatar>
               <ListItemText primary={user.username} secondary={user.fullname} />
               <ListItemText style={{ textAlign: 'right' }}>
-                <DeleteIcon />
+                <IconButton onClick={handleConverstation} style={{ color: '#df1b1b' }}>
+                  <DeleteIcon />
+                </IconButton>
               </ListItemText>
             </ListItem>
           </List>
         )}
 
-        <Box className={classes.container}  >
-          <Box ref={refDisplay} className={classes.chatDisplay} >
-          <button style={{ marginTop: '-25px', opacity: 0 }} ref={pageEnd}>
-            LoadMore
-          </button>
-          {data.map((msg, index) => (
-            <Box key={index}>
-              {msg.sender !== auth.user._id && (
-                <Box className={classes.otherChat}>
-                  <MessageDisplayOther user={user} msg={msg} />
-                </Box>
-              )}
-              {msg.sender === auth.user._id && (
-                <Box className={classes.chat}>
-                  <MessageDisplay user={auth.user} msg={msg} data={data} />
-                </Box>
-              )}
-            </Box>
-          ))}
-          
-        </Box>
-        {loadMedia && <CircularProgress />}
+        <Box className={classes.container}>
+          <Box ref={refDisplay} className={classes.chatDisplay}>
+            <button style={{ marginTop: '-25px', opacity: 0 }} ref={pageEnd}>
+              LoadMore
+            </button>
+            {data.map((msg, index) => (
+              <Box key={index}>
+                {msg.sender !== auth.user._id && (
+                  <Box className={classes.otherChat}>
+                    <MessageDisplayOther user={user} msg={msg} />
+                  </Box>
+                )}
+                {msg.sender === auth.user._id && (
+                  <Box className={classes.chat}>
+                    <MessageDisplay user={auth.user} msg={msg} data={data} />
+                  </Box>
+                )}
+              </Box>
+            ))}
+          </Box>
+          {loadMedia && <CircularProgress />}
           <Box style={{ width: '95%', margin: '10px auto' }}>
             <ImageList rowHeight={160} className={classes.imageList} cols={6}>
               {media.map((img, index) => (

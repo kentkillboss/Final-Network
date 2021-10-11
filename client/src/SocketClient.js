@@ -19,14 +19,14 @@ const spawnNotification = (body, icon, url, title) => {
 };
 
 function SocketClient(props) {
-  const { auth, socket, notify } = useSelector((state) => state);
+  const { auth, socket, notify, online } = useSelector((state) => state);
   const dispatch = useDispatch();
   const audioRef = useRef();
 
   // join user
   useEffect(() => {
-    socket.emit('joinUser', auth.user._id);
-  }, [socket, auth.user._id]);
+    socket.emit('joinUser', auth.user);
+  }, [socket, auth.user]);
 
   // Likes
   useEffect(() => {
@@ -97,8 +97,43 @@ function SocketClient(props) {
   useEffect(() => {
     socket.on('addMessageToClient', (msg) => {
       dispatch({ type: MESS_TYPES.ADD_MESSAGE, payload: msg });
+      dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...msg.user, text: msg.text, media: msg.media } });
     });
     return () => socket.off('addMessageToClient');
+  }, [socket, dispatch]);
+
+  //check user online/offline
+  useEffect(() => {
+    socket.emit('checkUserOnline', auth.user);
+  }, [socket, auth.user]);
+
+  useEffect(() => {
+    socket.on('checkUserOnlineToMe', (data) => {
+      console.log(data);
+      data.forEach((item) => {
+        if (!online.includes(item.id)) {
+          dispatch({ type: GLOBALTYPES.ONLINE, payload: item.id });
+        }
+      });
+    });
+    return () => socket.off('checkUserOnlineToMe');
+  }, [socket, dispatch, online]);
+
+  useEffect(() => {
+    socket.on('checkUserOnlineToClient', (id) => {
+      if (!online.includes(id)) {
+        dispatch({ type: GLOBALTYPES.ONLINE, payload: id });
+      }
+    });
+    return () => socket.off('checkUserOnlineToClient');
+  }, [socket, dispatch, online]);
+
+  //checkUserOffline
+  useEffect(() => {
+    socket.on('checkUserOffline', (id) => {
+      dispatch({ type: GLOBALTYPES.OFFLINE, payload: id });
+    });
+    return () => socket.off('checkUserOffline');
   }, [socket, dispatch]);
 
   return (

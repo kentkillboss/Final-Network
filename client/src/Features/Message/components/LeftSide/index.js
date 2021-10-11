@@ -19,7 +19,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { addUser, getConversations } from 'Redux/Action/messageAction';
+import { addUser, getConversations, MESS_TYPES } from 'Redux/Action/messageAction';
 import { Box, ClickAwayListener } from '@material-ui/core';
 import moment from 'moment';
 import UseCard from '../UseCard';
@@ -29,7 +29,7 @@ import { useRef } from 'react';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: 'calc(100vh - 85px)',
-    borderRight: '1px solid grey',
+    borderRight: '1px solid #deb7b7',
     paddingTop: '20px',
   },
   listItem: {
@@ -60,7 +60,7 @@ function LeftSide(props) {
 
   const [search, setSearch] = useState();
   const [searchUsers, setSearchUsers] = useState([]);
-  const { auth, message } = useSelector((state) => state);
+  const { auth, message, online } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
   const pageEnd = useRef();
@@ -81,7 +81,8 @@ function LeftSide(props) {
   const handleAddUser = (user) => {
     setSearch('');
     setSearchUsers([]);
-    dispatch(addUser({ user, message }));
+    dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
+    dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
     return history.push(`/message/${user._id}`);
   };
 
@@ -110,6 +111,13 @@ function LeftSide(props) {
       dispatch(getConversations({ auth, page }));
     }
   }, [message.resultUsers, page, auth, dispatch]);
+
+  //Check user online/offline
+  useEffect(() => {
+    if (message.firstLoad) {
+      dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
+    }
+  }, [online, message.firstLoad, dispatch]);
   return (
     <Box className={classes.root}>
       <form onSubmit={handleSearch}>
@@ -152,27 +160,8 @@ function LeftSide(props) {
         ) : (
           <>
             {message.users.map((user) => (
-              // <ListItem button selected={isSelected(user)} onClick={() => handleAddUser(user)}>
-              //   <ListItemAvatar>
-              //     <Avatar src={user.avatar}></Avatar>
-              //   </ListItemAvatar>
-              //   <ListItemText primary={user.username} secondary={user.fullname} />
-
-              //   <ListItemText
-              //     primary={
-              //       <Box style={{ textAlign: 'right', color: ' grey', fontSize: '13px' }}>
-              //         {moment(message.createdAt).fromNow()}
-              //       </Box>
-              //     }
-              //     secondary={
-              //       <Box style={{ textAlign: 'right' }}>
-              //         <FiberManualRecordIcon style={{ fontSize: '14px' }} />
-              //       </Box>
-              //     }
-              //   />
-              // </ListItem>
               <Box key={user._id} onClick={() => handleAddUser(user)}>
-                <UseCard user={user} />
+                <UseCard user={user} msg={true} />
               </Box>
             ))}
           </>

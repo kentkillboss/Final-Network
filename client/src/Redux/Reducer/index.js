@@ -11,6 +11,7 @@ import suggestions from 'Redux/Reducer/suggestionReduce';
 import socket from 'Redux/Reducer/socketReduce';
 import notify from 'Redux/Reducer/notifyReduce';
 import message from 'Redux/Reducer/messageReduce';
+import online from 'Redux/Reducer/onlineReduce';
 export default combineReducers({
   auth,
   alert,
@@ -24,4 +25,5 @@ export default combineReducers({
   socket,
   notify,
   message,
+  online,
 });

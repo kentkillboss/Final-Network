@@ -27,7 +27,11 @@ function PostThumb({ posts, result }) {
   if (result === 0) return <h2>No Post</h2>;
   return (
     <div className="photo">
-      <img src={posts.images[0].url} alt={posts.images[0].url} />
+      {posts.images[0].url.match(/video/i) ? (
+        <video width="100%" controls src={posts.images[0].url} />
+      ) : (
+        <img src={posts.images[0].url} alt={posts.images[0].url} />
+      )}
 
       <div className="photo__overlay">
         <div className="photo__actions">

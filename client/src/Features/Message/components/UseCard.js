@@ -5,9 +5,12 @@ import moment from 'moment';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { useParams } from 'react-router';
 import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
+import authReducer from 'Redux/Reducer/authReduce';
+import { useSelector } from 'react-redux';
 
 function UseCard({ user }) {
   const { id } = useParams();
+  const { auth } = useSelector((state) => state);
 
   const isSelected = (user) => {
     if (id === user._id) return true;
@@ -43,9 +46,19 @@ function UseCard({ user }) {
           </Box>
         }
         secondary={
-          <Box style={{ textAlign: 'right' }}>
-            <FiberManualRecordIcon style={{ fontSize: '14px' }} />
-          </Box>
+          <>
+            {user.online ? (
+              <Box style={{ textAlign: 'right', color: 'red' }}>
+                <FiberManualRecordIcon style={{ fontSize: '14px' }} />
+              </Box>
+            ) : (
+              auth.user.following.find((item) => item._id === user._id) && (
+                <Box style={{ textAlign: 'right' }}>
+                  <FiberManualRecordIcon style={{ fontSize: '14px' }} />
+                </Box>
+              )
+            )}
+          </>
         }
       />
     </ListItem>
