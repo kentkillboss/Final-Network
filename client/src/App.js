@@ -27,6 +27,7 @@ import io from 'socket.io-client';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import SocketClient from 'SocketClient';
 import CallModal from 'Features/Message/components/callModal/index';
+import Peer from 'peerjs';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -57,6 +58,14 @@ function App() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    const newPeer = new Peer(undefined, {
+      path: '/', secure: true
+    })
+    
+    dispatch({ type: GLOBALTYPES.PEER, payload: newPeer })
+  },[dispatch])
 
   return (
     <>

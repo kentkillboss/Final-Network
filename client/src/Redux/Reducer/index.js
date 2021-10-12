@@ -13,6 +13,8 @@ import notify from 'Redux/Reducer/notifyReduce';
 import message from 'Redux/Reducer/messageReduce';
 import online from 'Redux/Reducer/onlineReduce';
 import call from 'Redux/Reducer/callReduce';
+import peer from 'Redux/Reducer/peerReduce';
+
 export default combineReducers({
   auth,
   alert,
@@ -27,5 +29,6 @@ export default combineReducers({
   notify,
   message,
   online,
-  call
+  call,
+  peer
 });

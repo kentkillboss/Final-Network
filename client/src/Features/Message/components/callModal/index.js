@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CallModal(props) {
   const classes = useStyles();
-  const { auth, call } = useSelector((state) => state);
+  const { auth, call, peer, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [mins, setMins] = useState(0);
@@ -60,37 +60,44 @@ function CallModal(props) {
 
   useEffect(() => {
     const setTime = () => {
-        setTotal(t => t + 1);
-        setTimeout(setTime, 1000);
-    }
+      setTotal((t) => t + 1);
+      setTimeout(setTime, 1000);
+    };
     setTime();
     return () => setTotal(0);
-  }, [])
+  }, []);
 
   useEffect(() => {
-      setSecond(total%60);
-      setMins(parseInt(total/60));
-  }, [total])
+    setSecond(total % 60);
+    setMins(parseInt(total / 60));
+  }, [total]);
 
   const handleEndCall = () => {
-    dispatch({type: GLOBALTYPES.CALL, payload: null})
-  }
+    dispatch({ type: GLOBALTYPES.CALL, payload: null });
+    socket.emit('endCall', call);
+  };
 
   useEffect(() => {
-      if(answer){
-          setTotal(0);
-      }else{
-          const timer = setTimeout(() => {
-        dispatch({type: GLOBALTYPES.CALL, payload: null})
+    if (answer) {
+      setTotal(0);
+    } else {
+      const timer = setTimeout(() => {
+        dispatch({ type: GLOBALTYPES.CALL, payload: null });
       }, 15000);
       return () => clearTimeout(timer);
-      }
-      
-  }, [dispatch, answer])
+    }
+  }, [dispatch, answer]);
+
+  useEffect(() => {
+    socket.on('endCallToClient', (data) => {
+      dispatch({ type: GLOBALTYPES.CALL, payload: null });
+    });
+    return () => socket.off('endCallToClient');
+  }, [socket, dispatch]);
 
   const handleAnswer = () => {
     setAnswer(true);
-  }
+  };
 
   return (
     <Box className={classes.root}>
@@ -103,7 +110,15 @@ function CallModal(props) {
           <Typography style={{ marginTop: '5px' }} component="h6">
             {call.fullname}
           </Typography>
-          <Box>{call.video ? <span>calling video...</span> : <span>calling audio...</span>}</Box>
+          {answer ? (
+            <Box>
+              <span>{mins.toString().length < 2 ? '0' + mins : mins}</span>
+              <span>:</span>
+              <span>{second.toString().length < 2 ? '0' + second : second}</span>
+            </Box>
+          ) : (
+            <Box>{call.video ? <span>calling video...</span> : <span>calling audio...</span>}</Box>
+          )}
         </Box>
         <Box className={classes.timer}>
           <small>{mins.toString().length < 2 ? '0' + mins : mins}</small>
@@ -114,17 +129,19 @@ function CallModal(props) {
           <IconButton onClick={handleEndCall}>
             <PhoneDisabledRoundedIcon style={{ color: 'red' }} />
           </IconButton>
-          <>
-            {call.video ? (
-              <IconButton style={{ color: 'green' }} onClick={handleAnswer}>
-                <CameraRoundedIcon />
-              </IconButton>
-            ) : (
-              <IconButton>
-                <PhoneIcon style={{ color: 'green' }} onClick={handleAnswer}/>
-              </IconButton>
-            )}
-          </>
+          {call.recipient === auth.user._id && !answer && (
+            <>
+              {call.video ? (
+                <IconButton style={{ color: 'green' }} onClick={handleAnswer}>
+                  <CameraRoundedIcon />
+                </IconButton>
+              ) : (
+                <IconButton>
+                  <PhoneIcon style={{ color: 'green' }} onClick={handleAnswer} />
+                </IconButton>
+              )}
+            </>
+          )}
         </Box>
       </Box>
     </Box>

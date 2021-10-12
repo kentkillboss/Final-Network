@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RightSide(props) {
   const classes = useStyles();
-  const { auth, message, socket } = useSelector((state) => state);
+  const { auth, message, socket, peer } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { id } = useParams();
   const history = useHistory();
@@ -261,12 +261,31 @@ function RightSide(props) {
     dispatch({type: GLOBALTYPES.CALL, payload: msg})
   }
 
+  const callUser = ({video}) => {
+    const {_id, avatar, username, fullname} = auth.user;
+
+    const msg = {
+      sender: _id,
+      recipient: user._id,
+      avatar, username, fullname, video
+    };
+
+    if(peer.open){
+      msg.peerId = peer._id
+    };
+
+    socket.emit('callUser', msg);
+  }
+
   const handleCall = () => {
     caller({video: false});
+    callUser({video: false});
   };
 
   const handleVideoCall = () => {
     caller({video: true});
+    callUser({video: true});
+
   };
 
   return (
