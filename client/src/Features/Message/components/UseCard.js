@@ -1,12 +1,41 @@
-import { Box, ListItem, ListItemAvatar, ListItemText } from '@material-ui/core';
+import { Box, ListItem, ListItemAvatar, ListItemText, withStyles } from '@material-ui/core';
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import moment from 'moment';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import { useParams } from 'react-router';
 import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
-import authReducer from 'Redux/Reducer/authReduce';
 import { useSelector } from 'react-redux';
+import Badge from '@material-ui/core/Badge';
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
 
 function UseCard({ user }) {
   const { id } = useParams();
@@ -18,8 +47,20 @@ function UseCard({ user }) {
   };
   return (
     <ListItem button selected={isSelected(user)}>
-      <ListItemAvatar>
+      {/* <ListItemAvatar>
         <Avatar src={user.avatar}></Avatar>
+      </ListItemAvatar> */}
+      <ListItemAvatar>
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          variant={user.online ? 'dot' : 'standard'}
+        >
+          <Avatar alt="Remy Sharp" src={user.avatar} />
+        </StyledBadge>
       </ListItemAvatar>
       <ListItemText
         primary={user.username}
@@ -40,11 +81,7 @@ function UseCard({ user }) {
       />
 
       <ListItemText
-        primary={
-          <Box style={{ textAlign: 'right', color: ' grey', fontSize: '13px' }}>
-            {/* {moment(message.createdAt).fromNow()} */}
-          </Box>
-        }
+        primary={<Box style={{ textAlign: 'right', color: ' grey', fontSize: '13px' }}></Box>}
         secondary={
           <>
             {user.online ? (

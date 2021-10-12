@@ -1,7 +1,7 @@
 import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
 import Avatar from 'Components/Avatar/Avatar';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PhoneDisabledRoundedIcon from '@material-ui/icons/PhoneDisabledRounded';
 import PhoneIcon from '@material-ui/icons/Phone';
@@ -46,6 +46,46 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-around',
   },
+  showVideo: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100vh',
+    pointerEvents: 'none',
+  },
+  ortheVideo: {
+    width: '100%',
+    height: '100%',
+  },
+  youVideo: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '300px',
+    borderRadius: '5px',
+    border: '1px solid red',
+    zIndex: 10,
+  },
+  endCall: {
+    position: 'absolute',
+    bottom: '30px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    pointerEvents: 'initial',
+    fontSize: '2rem',
+    background: 'white',
+    padding: '15px',
+    borderRadius: '50%',
+    cursor: 'pointer',
+  },
+  timeVideo: {
+    position: 'absolute',
+    bottom: '100px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    color: 'white',
+  },
 }));
 
 function CallModal(props) {
@@ -57,6 +97,11 @@ function CallModal(props) {
   const [second, setSecond] = useState(0);
   const [total, setTotal] = useState(0);
   const [answer, setAnswer] = useState(false);
+  const [hours, setHours] = useState(0);
+  const [tracks, setTracks] = useState(null);
+
+  const youVideo = useRef();
+  const ortheVideo = useRef();
 
   useEffect(() => {
     const setTime = () => {
@@ -70,11 +115,15 @@ function CallModal(props) {
   useEffect(() => {
     setSecond(total % 60);
     setMins(parseInt(total / 60));
+    setHours(parseInt(total / 3600));
   }, [total]);
 
   const handleEndCall = () => {
-    dispatch({ type: GLOBALTYPES.CALL, payload: null });
+    if (tracks) {
+      tracks.forEach((track) => track.stop());
+    }
     socket.emit('endCall', call);
+    dispatch({ type: GLOBALTYPES.CALL, payload: null });
   };
 
   useEffect(() => {
@@ -82,26 +131,86 @@ function CallModal(props) {
       setTotal(0);
     } else {
       const timer = setTimeout(() => {
+        socket.emit('endCall', call);
         dispatch({ type: GLOBALTYPES.CALL, payload: null });
-      }, 15000);
+      }, 20000);
       return () => clearTimeout(timer);
     }
-  }, [dispatch, answer]);
+  }, [dispatch, answer, call, socket]);
 
   useEffect(() => {
     socket.on('endCallToClient', (data) => {
+      if (tracks) {
+        tracks.forEach((track) => track.stop());
+      }
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
     });
     return () => socket.off('endCallToClient');
-  }, [socket, dispatch]);
+  }, [socket, dispatch, tracks]);
 
-  const handleAnswer = () => {
-    setAnswer(true);
+  //Stream media
+  const openStream = (video) => {
+    const config = { audio: true, video };
+    return navigator.mediaDevices.getUserMedia(config);
   };
 
+  const playStream = (tag, stream) => {
+    let video = tag;
+    video.srcObject = stream;
+    video.play();
+  };
+
+  const handleAnswer = () => {
+    openStream(call.video).then((stream) => {
+      playStream(youVideo.current, stream);
+      const track = stream.getTracks();
+      setTracks(track);
+
+      const newCall = peer.call(call.peerId, stream);
+      newCall.on('stream', function (remoteStream) {
+        playStream(ortheVideo.current, remoteStream);
+      });
+      setAnswer(true);
+      // setNewCall(newCall)
+    });
+  };
+
+  useEffect(() => {
+    peer.on('call', (newCall) => {
+      openStream(call.video).then((stream) => {
+        if (youVideo.current) {
+          playStream(youVideo.current, stream);
+        }
+        const track = stream.getTracks();
+        setTracks(track);
+
+        newCall.answer(stream);
+        newCall.on('stream', function (remoteStream) {
+          if (ortheVideo.current) {
+            playStream(ortheVideo.current, remoteStream);
+          }
+        });
+        setAnswer(true);
+        // setNewCall(newCall)
+      });
+    });
+    return () => peer.removeListener('call');
+  }, [peer, call.video]);
+
+  //Disconnect
+  useEffect(() => {
+    socket.on('callerDisconnect', () => {
+      if (tracks) {
+        tracks.forEach((track) => track.stop());
+      }
+      dispatch({ type: GLOBALTYPES.CALL, payload: null });
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Mất kết nối!!' } });
+    });
+    return () => socket.off('callerDisconnect');
+  }, [socket, tracks, dispatch]);
   return (
     <Box className={classes.root}>
-      <Box className={classes.callBox}>
+      <Box className={classes.callBox} style={{ display: answer && call.video ? 'none' : 'flex' }}>
         <Box style={{ textAlign: 'center', padding: '40px' }}>
           <Avatar src={call.avatar} size={classes.user} />
           <Typography style={{ marginTop: '5px' }} component="h4">
@@ -112,6 +221,8 @@ function CallModal(props) {
           </Typography>
           {answer ? (
             <Box>
+              <span>{hours.toString().length < 2 ? '0' + hours : hours}</span>
+              <span>:</span>
               <span>{mins.toString().length < 2 ? '0' + mins : mins}</span>
               <span>:</span>
               <span>{second.toString().length < 2 ? '0' + second : second}</span>
@@ -120,11 +231,15 @@ function CallModal(props) {
             <Box>{call.video ? <span>calling video...</span> : <span>calling audio...</span>}</Box>
           )}
         </Box>
-        <Box className={classes.timer}>
-          <small>{mins.toString().length < 2 ? '0' + mins : mins}</small>
-          <small>:</small>
-          <small>{second.toString().length < 2 ? '0' + second : second}</small>
-        </Box>
+
+        {!answer && (
+          <Box className={classes.timer}>
+            <small>{mins.toString().length < 2 ? '0' + mins : mins}</small>
+            <small>:</small>
+            <small>{second.toString().length < 2 ? '0' + second : second}</small>
+          </Box>
+        )}
+
         <Box className={classes.callMenu}>
           <IconButton onClick={handleEndCall}>
             <PhoneDisabledRoundedIcon style={{ color: 'red' }} />
@@ -143,6 +258,20 @@ function CallModal(props) {
             </>
           )}
         </Box>
+      </Box>
+      <Box className={classes.showVideo} style={{ opacity: answer && call.video ? '1' : '0' }}>
+        <video ref={youVideo} className={classes.youVideo} />
+        <video ref={ortheVideo} className={classes.ortheVideo} />
+        <Box className={classes.timeVideo}>
+          <span>{hours.toString().length < 2 ? '0' + hours : hours}</span>
+          <span>:</span>
+          <span>{mins.toString().length < 2 ? '0' + mins : mins}</span>
+          <span>:</span>
+          <span>{second.toString().length < 2 ? '0' + second : second}</span>
+        </Box>
+        <IconButton className={classes.endCall} onClick={handleEndCall}>
+          <PhoneDisabledRoundedIcon style={{ color: 'red' }} />
+        </IconButton>
       </Box>
     </Box>
   );
