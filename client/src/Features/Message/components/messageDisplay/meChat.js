@@ -45,7 +45,9 @@ function MessageDisplay({ user, msg, data }) {
   const dispatch = useDispatch();
 
   const handleDeleteMessages = () => {
-    if(data){
+    if(!data) return;
+
+    if(window.confirm('Bạn chắc chắn xoá!')){
       dispatch(deleteMessages({msg, data, auth}));
     }
   }

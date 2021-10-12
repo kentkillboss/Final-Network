@@ -31,9 +31,17 @@ import Icons from 'Components/Icons';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { imageUpload } from 'utils/imageUpload';
-import { addMessage, deleteConverstation, getMessages, loadMoreMessages } from 'Redux/Action/messageAction';
+import {
+  addMessage,
+  deleteConversation,
+  deleteConverstation,
+  getMessages,
+  loadMoreMessages,
+} from 'Redux/Action/messageAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useRef } from 'react';
+import PhoneIcon from '@material-ui/icons/Phone';
+import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -194,9 +202,11 @@ function RightSide(props) {
       });
     }
   };
-  const handleConverstation = () => {
-    dispatch(deleteConverstation({ auth, id }));
-    return history.push('/message');
+  const handleConversation = () => {
+    if (window.confirm('Bạn chắc chắn xoá!')) {
+      dispatch(deleteConversation({ auth, id }));
+      return history.push('/message');
+    }
   };
 
   useEffect(() => {
@@ -241,6 +251,24 @@ function RightSide(props) {
     // eslint-disable-next-line
   }, [isLoadMore]);
 
+  const caller = ({video}) => {
+    const {_id, avatar, username, fullname} = user;
+    const msg = {
+      sender: auth.user._id,
+      recipient: _id,
+      avatar, username, fullname, video
+    }
+    dispatch({type: GLOBALTYPES.CALL, payload: msg})
+  }
+
+  const handleCall = () => {
+    caller({video: false});
+  };
+
+  const handleVideoCall = () => {
+    caller({video: true});
+  };
+
   return (
     <>
       <Box className={classes.root}>
@@ -252,7 +280,13 @@ function RightSide(props) {
               </ListItemAvatar>
               <ListItemText primary={user.username} secondary={user.fullname} />
               <ListItemText style={{ textAlign: 'right' }}>
-                <IconButton onClick={handleConverstation} style={{ color: '#df1b1b' }}>
+                <IconButton onClick={handleCall} style={{ color: '#df1b1b' }}>
+                  <PhoneIcon />
+                </IconButton>
+                <IconButton onClick={handleVideoCall} style={{ color: '#df1b1b' }}>
+                  <VideocamRoundedIcon />
+                </IconButton>
+                <IconButton onClick={handleConversation} style={{ color: '#df1b1b' }}>
                   <DeleteIcon />
                 </IconButton>
               </ListItemText>

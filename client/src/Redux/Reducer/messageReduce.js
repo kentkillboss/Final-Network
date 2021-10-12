@@ -56,7 +56,7 @@ const messageReducer = (state = initialState, action) => {
           item._id === action.payload._id ? { ...item, messages: action.payload.newData } : item
         ),
       };
-    case MESS_TYPES.DELETE_CONVERSTATION:
+    case MESS_TYPES.DELETE_CONVERSATION:
       return {
         ...state,
         users: DeleteData(state.users, action.payload),

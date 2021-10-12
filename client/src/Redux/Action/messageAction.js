@@ -9,7 +9,7 @@ export const MESS_TYPES = {
   GET_MESSAGES: 'GET_MESSAGES',
   UPDATE_MESSAGES: 'UPDATE_MESSAGES',
   DELETE_MESSAGES: 'DELETE_MESSAGES',
-  DELETE_CONVERSTATION: 'DELETE_CONVERSTATION',
+  DELETE_CONVERSATION: 'DELETE_CONVERSATION',
   CHECK_ONLINE_OFFLINE: 'CHECK_ONLINE_OFFLINE',
 };
 
@@ -94,10 +94,10 @@ export const deleteMessages =
     }
   };
 
-export const deleteConverstation =
+export const deleteConversation =
   ({ auth, id }) =>
   async (dispatch) => {
-    dispatch({ type: MESS_TYPES.DELETE_CONVERSTATION, payload: id });
+    dispatch({ type: MESS_TYPES.DELETE_CONVERSATION, payload: id });
     try {
       await deleteDataAPI(`conversation/${id}`, auth.token);
     } catch (error) {

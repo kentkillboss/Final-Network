@@ -26,9 +26,10 @@ import Post from 'Features/Post';
 import io from 'socket.io-client';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import SocketClient from 'SocketClient';
+import CallModal from 'Features/Message/components/callModal/index';
 
 function App() {
-  const { auth, status } = useSelector((state) => state);
+  const { auth, status, call } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshToken());
@@ -67,6 +68,7 @@ function App() {
           {auth.token && <Header />}
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
+          {call && <CallModal />}
           <Switch>
             <Route path="/" component={auth.token ? Home : Login} exact />
             <Route path="/login" component={auth.token ? Home : Login} />

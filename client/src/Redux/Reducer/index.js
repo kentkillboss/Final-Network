@@ -12,6 +12,7 @@ import socket from 'Redux/Reducer/socketReduce';
 import notify from 'Redux/Reducer/notifyReduce';
 import message from 'Redux/Reducer/messageReduce';
 import online from 'Redux/Reducer/onlineReduce';
+import call from 'Redux/Reducer/callReduce';
 export default combineReducers({
   auth,
   alert,
@@ -26,4 +27,5 @@ export default combineReducers({
   notify,
   message,
   online,
+  call
 });
