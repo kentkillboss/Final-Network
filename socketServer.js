@@ -150,15 +150,16 @@ const SocketServer = (socket) => {
 
     if(client){
       socket.to(`${client.socketId}`).emit('endCallToClient', data);
-
+      users = EditData(users, client.id, null);
       if(client.call){
         const clientCall = users.find(user => user.id === client.call);
         clientCall && socket.to(`${clientCall.socketId}`).emit('endCallToClient', data);
 
+        users = EditData(users, client.call, null);
       }
     }
-    users = EditData(users, data.sender, null);
-    users = EditData(users, data.recipient, null);
+    
+    
   })
 };
 
