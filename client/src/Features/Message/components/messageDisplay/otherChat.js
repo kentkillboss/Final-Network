@@ -1,5 +1,10 @@
-import { Avatar, Box, makeStyles, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, ListItemText, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import PhoneDisabledRoundedIcon from '@material-ui/icons/PhoneDisabledRounded';
+import VideocamOffRoundedIcon from '@material-ui/icons/VideocamOffRounded';
+import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
+import CallRoundedIcon from '@material-ui/icons/CallRounded';
+import Times from '../Times';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -21,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
   box: {
     width: '65%',
     height: '90%',
+  },
+  iconVideo: {
+    display: 'flex',
+    backgroundColor: '#eee',
+    padding: '0 10px',
+    borderRadius: '5px',
   },
 }));
 
@@ -48,6 +59,32 @@ function MessageDisplayOther({ user, msg }) {
           {item.url.match(/video/i) ? videoShow(item.url) : imageShow(item.url)}
         </Box>
       ))}
+      {msg.call && (
+        <Box
+          style={{ fontSize: '2.5rem', color: msg.call.times === 0 ? 'red' : 'green' }}
+          className={classes.iconVideo}
+        >
+          <Box>
+            {msg.call.times === 0 ? (
+              msg.call.video ? (
+                <VideocamOffRoundedIcon />
+              ) : (
+                <PhoneDisabledRoundedIcon />
+              )
+            ) : msg.call.video ? (
+              <VideocamRoundedIcon />
+            ) : (
+              <CallRoundedIcon />
+            )}
+          </Box>
+          <Box>
+            <ListItemText
+              primary={msg.call.video ? 'Video Call' : 'Audio Call'}
+              secondary={msg.call.times > 0 ? <Times /> : new Date(msg.createdAt).toLocaleTimeString()}
+            />
+          </Box>
+        </Box>
+      )}
       <Box className={classes.time}>{new Date(msg.createdAt).toLocaleString()}</Box>
     </>
   );

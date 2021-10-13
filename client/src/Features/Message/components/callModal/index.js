@@ -1,13 +1,15 @@
 import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
 import Avatar from 'Components/Avatar/Avatar';
-import React from 'react';
-import { useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import PhoneDisabledRoundedIcon from '@material-ui/icons/PhoneDisabledRounded';
 import PhoneIcon from '@material-ui/icons/Phone';
 import CameraRoundedIcon from '@material-ui/icons/CameraRounded';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { useEffect } from 'react';
+
+import { addMessage } from 'Redux/Action/messageAction';
+import Mp3 from 'audio/callmess.mp3';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,11 +120,30 @@ function CallModal(props) {
     setHours(parseInt(total / 3600));
   }, [total]);
 
+  const addCallMessage = useCallback(
+    (call, times, disconnect) => {
+      if (call.recipient !== auth.user._id || disconnect) {
+        const msg = {
+          sender: call.sender,
+          recipient: call.recipient,
+          text: '',
+          media: [],
+          call: { video: call.video, times },
+          createdAt: new Date().toISOString(),
+        };
+        dispatch(addMessage({ msg, auth, socket }));
+      }
+    },
+    [auth, dispatch, socket]
+  );
+
   const handleEndCall = () => {
     if (tracks) {
       tracks.forEach((track) => track.stop());
     }
-    socket.emit('endCall', call);
+    let times = answer ? total : 0;
+    socket.emit('endCall', { ...call, times });
+    addCallMessage(call, times);
     dispatch({ type: GLOBALTYPES.CALL, payload: null });
   };
 
@@ -131,22 +152,24 @@ function CallModal(props) {
       setTotal(0);
     } else {
       const timer = setTimeout(() => {
-        socket.emit('endCall', call);
+        socket.emit('endCall', { ...call, times: 0 });
+        addCallMessage(call, 0);
         dispatch({ type: GLOBALTYPES.CALL, payload: null });
       }, 20000);
       return () => clearTimeout(timer);
     }
-  }, [dispatch, answer, call, socket]);
+  }, [dispatch, answer, call, socket, addCallMessage]);
 
   useEffect(() => {
     socket.on('endCallToClient', (data) => {
       if (tracks) {
         tracks.forEach((track) => track.stop());
       }
+      addCallMessage(data, data.times);
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
     });
     return () => socket.off('endCallToClient');
-  }, [socket, dispatch, tracks]);
+  }, [socket, dispatch, tracks, addCallMessage]);
 
   //Stream media
   const openStream = (video) => {
@@ -203,11 +226,31 @@ function CallModal(props) {
       if (tracks) {
         tracks.forEach((track) => track.stop());
       }
+      let times = answer ? total : 0;
+      addCallMessage(call, times, true);
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Mất kết nối!!' } });
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { error: `${call.username} mất kết nối!!` } });
     });
     return () => socket.off('callerDisconnect');
-  }, [socket, tracks, dispatch]);
+  }, [socket, tracks, dispatch, call, addCallMessage, answer, total]);
+
+  //audio message
+  const playAudio = (newAudio) => {
+    newAudio.play();
+  };
+  const pauseAudio = (newAudio) => {
+    newAudio.pause();
+    newAudio.currentTime = 0;
+  };
+
+  useEffect(() => {
+    let newAudio = new Audio(Mp3);
+    if (answer) {
+      pauseAudio(newAudio);
+    } else {
+      playAudio(newAudio);
+    }
+  }, [answer]);
   return (
     <Box className={classes.root}>
       <Box className={classes.callBox} style={{ display: answer && call.video ? 'none' : 'flex' }}>

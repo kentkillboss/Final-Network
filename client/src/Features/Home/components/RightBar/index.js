@@ -58,8 +58,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 function RightBar(props) {
   const classes = useStyles();
-  const { auth, suggestions } = useSelector((state) => state);
+  const { posts, auth, suggestions } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  // {posts.posts.slice(0, 6).map((post) => (
+  //   <>
+  //     {post.images.slice(0, 6).map((img) => (
+  //       <ImageListItem>
+  //         <img width="100%" src={img.url} alt="" />
+  //       </ImageListItem>
+  //     ))}{' '}
+  //   </>
+  // ))}
+
   return (
     <Container className={classes.container}>
       <Typography className={classes.title} gutterBottom>
@@ -67,25 +78,10 @@ function RightBar(props) {
       </Typography>
       <ImageList rowHeight={100} style={{ marginBottom: 20 }} cols={2}>
         <ImageListItem>
-          <img src="https://bloganh.net/wp-content/uploads/2021/03/chup-anh-dep-anh-sang-min.jpg" alt="" />
-        </ImageListItem>
-        <ImageListItem>
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOmxvEQSFOasI9s2K8LjlMjhARYvUiMDdS4ta7KQ4LzPHIPL5BP-dbm0bzrweAfoe1fwk&usqp=CAU"
+            src="https://res.cloudinary.com/dp5ku4grg/image/upload/v1633782629/da-tn/vhalfrtbd3a8vbsn1fmc.png"
             alt=""
           />
-        </ImageListItem>
-        <ImageListItem>
-          <img src="https://bloganh.net/wp-content/uploads/2021/03/chup-anh-dep-anh-sang-min.jpg" alt="" />
-        </ImageListItem>
-        <ImageListItem>
-          <img src="https://bloganh.net/wp-content/uploads/2021/03/chup-anh-dep-anh-sang-min.jpg" alt="" />
-        </ImageListItem>
-        <ImageListItem>
-          <img src="https://bloganh.net/wp-content/uploads/2021/03/chup-anh-dep-anh-sang-min.jpg" alt="" />
-        </ImageListItem>
-        <ImageListItem>
-          <img src="https://bloganh.net/wp-content/uploads/2021/03/chup-anh-dep-anh-sang-min.jpg" alt="" />
         </ImageListItem>
       </ImageList>
       <Box className={classes.reload}>
