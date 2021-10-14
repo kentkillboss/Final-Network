@@ -1,22 +1,22 @@
 import React from 'react';
 import { Container, makeStyles, Typography } from '@material-ui/core';
-import {
-  Bookmark,
-  List,
-  ExitToApp,
-  Home,
-  Person,
-  PhotoCamera,
-  PlayCircleOutline,
-  Settings,
-  Storefront,
-  TabletMac,
-} from '@material-ui/icons';
+// import {
+//   Bookmark,
+//   List,
+//   ExitToApp,
+//   Home,
+//   Person,
+//   PhotoCamera,
+//   PlayCircleOutline,
+//   Settings,
+//   Storefront,
+//   TabletMac,
+// } from '@material-ui/icons';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import ExploreRoundedIcon from '@material-ui/icons/ExploreRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -80,7 +80,7 @@ function LeftBar(props) {
     {
       text: 'Message',
       icon: <TelegramIcon className={classes.icon} style={{ fontSize: '28px' }} />,
-      path: '/message',
+      path: '/notify',
     },
     {
       text: 'Notify',
@@ -97,7 +97,7 @@ function LeftBar(props) {
             <Typography className={classes.text}>{link.text}</Typography>
           </div>
         </NavLink>
-      ))}
+      ))} 
       {/* <div className={classes.item}>
         <Home className={classes.icon} />
         <Typography className={classes.text}>Homepage</Typography>

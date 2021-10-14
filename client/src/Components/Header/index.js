@@ -133,9 +133,11 @@ export default function Header() {
             <IconButton>
               <Search className={classes.searchButton} onClick={() => setOpen(true)} />
             </IconButton>
+            <Link to='/message'  style={{ color: '#ffff', textDecoration: 'none' }}>
             <IconButton color="inherit">
               <Mail />
             </IconButton>
+            </Link>
             <IconButton className={classes.badge} onClick={() => setShowMenu(true)}>
               <Badge badgeContent={newArr.length} color="error">
                 <Notifications />

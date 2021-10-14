@@ -22,6 +22,9 @@ import FollowBtn from 'Features/Profile/components/FollowBtn';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import { getUserActions } from 'Redux/Action/suggestionAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { getProfileUsers } from 'Redux/Action/profileAction';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,8 +61,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 function RightBar(props) {
   const classes = useStyles();
-  const { posts, auth, suggestions } = useSelector((state) => state);
+  const { profile, auth, suggestions } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [gallery, setGallery] = useState([]);
 
   // {posts.posts.slice(0, 6).map((post) => (
   //   <>
@@ -71,18 +75,36 @@ function RightBar(props) {
   //   </>
   // ))}
 
+  useEffect(() => {
+    let id = auth.user._id;
+    if (profile.ids.every((item) => item !== id)) {
+      dispatch(getProfileUsers({ id, auth }));
+    }
+  }, [auth.user._id, auth, dispatch, profile.ids]);
+
+  useEffect(() => {
+    profile.userPosts.forEach((data) => {
+      if (data._id === auth.user._id) {
+      }
+      setGallery(data.posts);
+    });
+  }, [profile.userPosts, auth.user._id]);
   return (
     <Container className={classes.container}>
       <Typography className={classes.title} gutterBottom>
         Gallery
       </Typography>
       <ImageList rowHeight={100} style={{ marginBottom: 20 }} cols={2}>
+      {gallery.slice(0,6).map((post) => (
         <ImageListItem>
-          <img
-            src="https://res.cloudinary.com/dp5ku4grg/image/upload/v1633782629/da-tn/vhalfrtbd3a8vbsn1fmc.png"
-            alt=""
-          />
+          {post.images[0].url.match(/video/i) ?
+              <video controls src={post.images[0].url} alt="" />
+            : <img src={post.images[0].url} alt="" />
+          }
+          
         </ImageListItem>
+      ))}
+
       </ImageList>
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>

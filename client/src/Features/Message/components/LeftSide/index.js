@@ -1,8 +1,10 @@
 import {
+  Button,
   FormControl,
   InputAdornment,
   InputLabel,
   ListItemSecondaryAction,
+  Menu,
   OutlinedInput,
   Typography,
 } from '@material-ui/core';
@@ -25,6 +27,7 @@ import moment from 'moment';
 import UseCard from '../UseCard';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,6 +121,7 @@ function LeftSide(props) {
       dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
     }
   }, [online, message.firstLoad, dispatch]);
+
   return (
     <Box className={classes.root}>
       <form onSubmit={handleSearch}>
