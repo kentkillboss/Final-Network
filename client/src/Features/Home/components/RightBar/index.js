@@ -13,11 +13,10 @@ import {
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import FollowBtn from 'Features/Profile/components/FollowBtn';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfileUsers } from 'Redux/Action/profileAction';
-import { getUserActions } from 'Redux/Action/suggestionAction';
 import { Link } from 'react-router-dom';
+import { getUserActions } from 'Redux/Action/suggestionAction';
 
 const useStyles = makeStyles((theme) => ({
   container: {

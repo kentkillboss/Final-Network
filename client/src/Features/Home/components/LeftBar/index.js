@@ -1,23 +1,12 @@
-import React from 'react';
 import { Box, Container, makeStyles, Typography } from '@material-ui/core';
-import {
-  Bookmark,
-  List,
-  ExitToApp,
-  Home,
-  Person,
-  PhotoCamera,
-  PlayCircleOutline,
-  Settings,
-  Storefront,
-  TabletMac,
-} from '@material-ui/icons';
-import TelegramIcon from '@material-ui/icons/Telegram';
-import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import { Bookmark, List, PlayCircleOutline, Storefront } from '@material-ui/icons';
 import ExploreRoundedIcon from '@material-ui/icons/ExploreRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import { Link, NavLink } from 'react-router-dom';
+import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import TelegramIcon from '@material-ui/icons/Telegram';
 import VideogameAssetRoundedIcon from '@material-ui/icons/VideogameAssetRounded';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
