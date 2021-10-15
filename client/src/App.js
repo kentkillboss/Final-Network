@@ -1,33 +1,31 @@
-import { Route, Switch } from 'react-router-dom';
-import './App.css';
-import NotFound from './Components/NotFound';
-
-import Login from './Features/Auth/Components/Login';
-import Register from './Features/Auth/Components/Register';
-import Home from 'Features/Home';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { refreshToken } from 'Redux/Action/authAction';
-import Header from 'Components/Header';
-import Message from 'Features/Message';
-import Discover from 'Features/Discover';
-import Notify from 'Features/Notify';
-import Profile from 'Features/Profile';
-import Conversation from 'Features/Message/components/conversation/index.js'
-import PrivateRouter from 'CustomRouter/customRouter';
 import Alert from 'Components/Alert/alert';
-import Loading from 'Components/Loading';
+import Header from 'Components/Header';
+import PrivateRouter from 'CustomRouter/customRouter';
+import Discover from 'Features/Discover';
+import Games from 'Features/Games';
+import Home from 'Features/Home';
+import StatusModal from 'Features/Home/components/Status/StatusModal';
+import Message from 'Features/Message';
+import CallModal from 'Features/Message/components/callModal/index';
+import Conversation from 'Features/Message/components/conversation/index.js';
+import Notify from 'Features/Notify';
+import Post from 'Features/Post';
+import Profile from 'Features/Profile';
+import Peer from 'peerjs';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import { refreshToken } from 'Redux/Action/authAction';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import { getNotifies } from 'Redux/Action/notifyAction';
 import { getPosts } from 'Redux/Action/postAction';
 import { getUserActions } from 'Redux/Action/suggestionAction';
-import { getNotifies } from 'Redux/Action/notifyAction';
-import StatusModal from 'Features/Home/components/Status/StatusModal';
-import Post from 'Features/Post';
 import io from 'socket.io-client';
-import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import SocketClient from 'SocketClient';
-import CallModal from 'Features/Message/components/callModal/index';
-import Peer from 'peerjs';
+import './App.css';
+import NotFound from './Components/NotFound';
+import Login from './Features/Auth/Components/Login';
+import Register from './Features/Auth/Components/Register';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -61,11 +59,12 @@ function App() {
 
   useEffect(() => {
     const newPeer = new Peer(undefined, {
-      path: '/', secure: true
-    })
-    
-    dispatch({ type: GLOBALTYPES.PEER, payload: newPeer })
-  },[dispatch])
+      path: '/',
+      secure: true,
+    });
+
+    dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
+  }, [dispatch]);
 
   return (
     <>
@@ -88,6 +87,7 @@ function App() {
             <PrivateRouter path="/discover" component={Discover} />
             <Route path="/notify" component={auth.token ? Notify : Login} />
             <Route path="/profile/:id" component={auth.token ? Profile : Login} />
+            <Route path="/games" component={Games} />
             <Route component={NotFound} />
           </Switch>
         </div>

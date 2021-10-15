@@ -22,7 +22,12 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
- 
+  title: {
+    textDecoration: 'none',
+    color: 'black',
+    fontSize: '17px',
+    fontWeight: 450,
+  },
 }));
 function PostContent({ post }) {
   const classes = useStyles();
@@ -55,29 +60,37 @@ function PostContent({ post }) {
   const [readMore, setReadMore] = useState(false);
   return (
     <>
-      <CardContent className={classes.content}>
+      <CardContent style={{ paddingBottom: '16px' }}>
         <CardHeader
-          avatar={<Avatar src={post.user.avatar} className={classes.avatar} />}
+          avatar={
+            <Link to={`/profile/${post.user._id}`}>
+              <Avatar src={post.user.avatar} className={classes.avatar} />{' '}
+            </Link>
+          }
           action={
             <IconButton onClick={handleClick} aria-label="settings">
               <MoreVertIcon />
             </IconButton>
           }
-          title={<Link to={`/profile/${post.user._id}`}>{post.user.username}</Link>}
+          title={
+            <Link className={classes.title} to={`/profile/${post.user._id}`}>
+              {post.user.username}
+            </Link>
+          }
           subheader={moment(post.createdAt).fromNow()}
         />
         <Typography variant="body1" component="p">
-            {post.content.length < 60
-              ? post.content
-              : readMore
-              ? post.content + ' '
-              : post.content.slice(0, 60) + ' ....'}
+          {post.content.length < 60
+            ? post.content
+            : readMore
+            ? post.content + ' '
+            : post.content.slice(0, 60) + ' ....'}
+        </Typography>
+        {post.content.length > 60 && (
+          <Typography color="textSecondary" variant="subtitle1" onClick={() => setReadMore(!readMore)}>
+            {readMore ? 'Hide content' : 'Read more'}
           </Typography>
-          {post.content.length > 60 && (
-            <Typography color="textSecondary" variant="subtitle1" onClick={() => setReadMore(!readMore)}>
-              {readMore ? 'Hide content' : 'Read more'}
-            </Typography>
-          )}
+        )}
       </CardContent>
 
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>

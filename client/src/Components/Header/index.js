@@ -111,7 +111,7 @@ export default function Header() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed">
+      <AppBar position="fixed" style={{ backgroundColor: '#5C8D89' }}>
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
             <Typography

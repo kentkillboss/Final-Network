@@ -9,9 +9,9 @@ function LikeButton({ isLike, handleLike, handleUnLike }) {
   return (
     <>
       {isLike ? (
-        <FavoriteRoundedIcon color="error" onClick={handleUnLike} />
+        <FavoriteRoundedIcon style={{ cursor: 'pointer' }} color="error" onClick={handleUnLike} />
       ) : (
-        <FavoriteBorderRoundedIcon onClick={handleLike} />
+        <FavoriteBorderRoundedIcon style={{ cursor: 'pointer' }} onClick={handleLike} />
       )}
     </>
   );

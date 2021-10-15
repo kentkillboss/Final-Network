@@ -1,27 +1,23 @@
-import React from 'react';
 import {
-  Link,
   Avatar,
+  Box,
   Container,
-  ImageList,
-  ImageListItem,
-  makeStyles,
-  Typography,
-  Divider,
+  IconButton,
+  List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  IconButton,
-  List,
-  Box,
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
-import { AvatarGroup } from '@material-ui/lab';
-import { useDispatch, useSelector } from 'react-redux';
-import LoadIcon from 'images/load.gif';
-import FollowBtn from 'Features/Profile/components/FollowBtn';
-import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
-import { getUserActions } from 'Redux/Action/suggestionAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
+import FollowBtn from 'Features/Profile/components/FollowBtn';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProfileUsers } from 'Redux/Action/profileAction';
+import { getUserActions } from 'Redux/Action/suggestionAction';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,11 +30,6 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 20,
     fontWeight: 700,
     color: '#555',
-  },
-  link: {
-    marginRight: theme.spacing(2),
-    color: '#555',
-    fontSize: 16,
   },
   listitem: {
     padding: '10px 0',
@@ -55,35 +46,18 @@ const useStyles = makeStyles((theme) => ({
     height: '200px',
     alignItems: 'center',
   },
+  linkSuggestions: {
+    textDecoration: 'none',
+    color: 'black',
+  },
 }));
 function RightBar(props) {
   const classes = useStyles();
-  const { posts, auth, suggestions } = useSelector((state) => state);
+  const { auth, suggestions } = useSelector((state) => state);
   const dispatch = useDispatch();
-
-  // {posts.posts.slice(0, 6).map((post) => (
-  //   <>
-  //     {post.images.slice(0, 6).map((img) => (
-  //       <ImageListItem>
-  //         <img width="100%" src={img.url} alt="" />
-  //       </ImageListItem>
-  //     ))}{' '}
-  //   </>
-  // ))}
 
   return (
     <Container className={classes.container}>
-      <Typography className={classes.title} gutterBottom>
-        Gallery
-      </Typography>
-      <ImageList rowHeight={100} style={{ marginBottom: 20 }} cols={2}>
-        <ImageListItem>
-          <img
-            src="https://res.cloudinary.com/dp5ku4grg/image/upload/v1633782629/da-tn/vhalfrtbd3a8vbsn1fmc.png"
-            alt=""
-          />
-        </ImageListItem>
-      </ImageList>
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
           Đề xuất người dùng
@@ -101,20 +75,34 @@ function RightBar(props) {
       ) : (
         <List>
           {suggestions.users.map((user) => (
-            <ListItem key={user._id} style={{ padding: 0 }}>
-              <ListItem button className={classes.listitem}>
-                <ListItemAvatar>
-                  <Avatar src={user.avatar}></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={user.username} />
+            <Link className={classes.linkSuggestions} to={`/profile/${user._id}`}>
+              <ListItem key={user._id} style={{ padding: 0 }}>
+                <ListItem button className={classes.listitem}>
+                  <ListItemAvatar>
+                    <Avatar src={user.avatar}></Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={user.username} />
+                </ListItem>
+                <IconButton size="small" edge="end" style={{ padding: '0px' }}>
+                  {auth.user._id !== user._id && <FollowBtn user={user} />}
+                </IconButton>
               </ListItem>
-              <IconButton size="small" edge="end" style={{ padding: '0px' }}>
-                {auth.user._id !== user._id && <FollowBtn user={user} />}
-              </IconButton>
-            </ListItem>
+            </Link>
           ))}
         </List>
       )}
+      <hr></hr>
+      <Box style={{ textAlign: 'center' }}>
+        <Typography color="textSecondary">DATN</Typography>
+        <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <span color="inherit" to="facebook.com">
+            Thành - Ân
+          </span>{' '}
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
+      </Box>
     </Container>
   );
 }
