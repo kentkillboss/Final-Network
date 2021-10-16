@@ -10,6 +10,7 @@ import { Box, Grid } from '@material-ui/core';
 import LeftBar from 'Features/Home/components/LeftBar';
 import { Link } from 'react-router-dom';
 import Skeleton from '@material-ui/lab/Skeleton';
+import Header from 'Components/Header';
 
 Discover.propTypes = {};
 

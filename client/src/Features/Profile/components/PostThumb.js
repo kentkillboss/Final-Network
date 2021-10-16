@@ -1,11 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import InfoIcon from '@material-ui/icons/Info';
-import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
+import { makeStyles } from '@material-ui/core';
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded';
+import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import 'Features/Discover/hover.scss';
+import React from 'react';
 
 PostThumb.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -35,14 +32,15 @@ function PostThumb({ posts, result }) {
 
       <div className="photo__overlay">
         <div className="photo__actions">
-          <div>
+          <div className="photo__icon">
             <FavoriteBorderRoundedIcon fontSize="large" />
-            {posts.likes.length}
+            <p>{posts.likes.length}</p>
+            
           </div>
 
-          <div>
+          <div className="photo__icon">
             <ChatBubbleOutlineRoundedIcon fontSize="large" />
-            {posts.comments.length}
+            <p>{posts.comments.length}</p>
           </div>
         </div>
       </div>

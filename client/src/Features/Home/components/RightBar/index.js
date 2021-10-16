@@ -1,37 +1,28 @@
-import React from 'react';
 import {
-  Link,
-  Avatar,
-  Container,
-  ImageList,
-  ImageListItem,
-  makeStyles,
-  Typography,
-  Divider,
-  ListItem,
+  Avatar, Box, Container, IconButton, ImageList,
+  ImageListItem, Link, List, ListItem,
   ListItemAvatar,
-  ListItemText,
-  IconButton,
-  List,
-  Box,
+  ListItemText, makeStyles,
+  Typography
 } from '@material-ui/core';
-import { AvatarGroup } from '@material-ui/lab';
-import { useDispatch, useSelector } from 'react-redux';
-import LoadIcon from 'images/load.gif';
-import FollowBtn from 'Features/Profile/components/FollowBtn';
-import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
-import { getUserActions } from 'Redux/Action/suggestionAction';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
+import FollowBtn from 'Features/Profile/components/FollowBtn';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProfileUsers } from 'Redux/Action/profileAction';
+import { getUserActions } from 'Redux/Action/suggestionAction';
 
 const useStyles = makeStyles((theme) => ({
+  paper: {
+    
+  },
   container: {
     paddingTop: theme.spacing(10),
     position: 'sticky',
     top: 0,
     backgroundColor: '#f0f2f5',
+    height: '100vh'
   },
   title: {
     fontSize: 20,
@@ -90,8 +81,9 @@ function RightBar(props) {
     });
   }, [profile.userPosts, auth.user._id]);
   return (
+    // <Paper elevation={1}>
     <Container className={classes.container}>
-      <Typography className={classes.title} gutterBottom>
+      {/* <Typography className={classes.title} gutterBottom>
         Gallery
       </Typography>
       <ImageList rowHeight={100} style={{ marginBottom: 20 }} cols={2}>
@@ -105,7 +97,7 @@ function RightBar(props) {
         </ImageListItem>
       ))}
 
-      </ImageList>
+      </ImageList> */}
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
           Đề xuất người dùng
@@ -121,8 +113,10 @@ function RightBar(props) {
           <CircularProgress />
         </Box>
       ) : (
+        
         <List>
           {suggestions.users.map((user) => (
+            <Link to={`/profile/${user._id}`}>
             <ListItem key={user._id} style={{ padding: 0 }}>
               <ListItem button className={classes.listitem}>
                 <ListItemAvatar>
@@ -134,10 +128,12 @@ function RightBar(props) {
                 {auth.user._id !== user._id && <FollowBtn user={user} />}
               </IconButton>
             </ListItem>
+            </Link>
           ))}
         </List>
       )}
     </Container>
+    // </Paper>
   );
 }
 

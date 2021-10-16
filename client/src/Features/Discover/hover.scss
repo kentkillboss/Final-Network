@@ -36,7 +36,7 @@
   &__actions {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     margin-top: 1rem;
     opacity: 0;
@@ -44,10 +44,13 @@
     transform: translateY(1rem);
 
     & > div {
-      width: 20%;
+     
       padding: 0 1.5rem;
+      display: flex;
+      
     }
   }
+
 
   // When hover on photo card
   &:hover {
