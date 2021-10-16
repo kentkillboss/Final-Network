@@ -147,15 +147,14 @@ function NotifyModal({ setShowMenu }) {
                     }
                   />
                 )}
-
-                <ListItemText secondary={moment(msg.createdAt).fromNow()} />
               </ListItem>
               <ListItemSecondaryAction style={{ right: '30px' }}>
                 <Avatar className={classes.small} src={msg.image}></Avatar>
+                <ListItemText secondary={moment(msg.createdAt).fromNow()} />
               </ListItemSecondaryAction>
               {!msg.isRead && (
                 <ListItemSecondaryAction style={{ right: '4px' }}>
-                  <FiberManualRecordRoundedIcon fontSize="small" />
+                  <FiberManualRecordRoundedIcon style={{ fontSize: '15px' }} />
                 </ListItemSecondaryAction>
               )}
             </MenuItem>
@@ -182,7 +181,7 @@ function NotifyModal({ setShowMenu }) {
               </ListItemSecondaryAction>
               {!msg.isRead && (
                 <ListItemSecondaryAction style={{ right: '4px' }}>
-                  <FiberManualRecordRoundedIcon fontSize="small" />
+                  <FiberManualRecordRoundedIcon style={{ fontSize: '15px' }} />
                 </ListItemSecondaryAction>
               )}
             </MenuItem>

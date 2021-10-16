@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Box } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core';
 import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { likeComment, unLikeComment, updateComment } from 'Redux/Action/commentAction';
 import LikeButton from '../Post/LikeButton';
 import CommentMenu from './CommentMenu';
-import { useSelector, useDispatch } from 'react-redux';
-import { likeComment, unLikeComment, updateComment } from 'Redux/Action/commentAction';
 import InputComment from './InputComment';
 
 CommentCard.propTypes = {};
@@ -116,9 +114,11 @@ function CommentCard({ children, comment, post, commentId }) {
     <Box style={styleCard}>
       <List className={classes.root}>
         <ListItem alignItems="flex-start" style={{ display: 'flex' }}>
-          <ListItemAvatar className={classes.listItemAvatar}>
-            <Avatar alt="avatar" src={comment.user.avatar} className={classes.small} />
-          </ListItemAvatar>
+          <Link to={`/profile/${comment.user._id}`}>
+            <ListItemAvatar className={classes.listItemAvatar}>
+              <Avatar alt="avatar" src={comment.user.avatar} className={classes.small} />
+            </ListItemAvatar>
+          </Link>
           <Box>
             <ListItemText
               className={classes.listItemText}

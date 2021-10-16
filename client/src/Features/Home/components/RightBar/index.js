@@ -1,16 +1,21 @@
 import {
-  Avatar, Box, Container, IconButton, ImageList,
-  ImageListItem, Link, List, ListItem,
+  Avatar,
+  Box,
+  Container,
+  IconButton,
+  List,
+  ListItem,
   ListItemAvatar,
-  ListItemText, makeStyles,
-  Typography
+  ListItemText,
+  makeStyles,
+  Typography,
 } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import FollowBtn from 'Features/Profile/components/FollowBtn';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfileUsers } from 'Redux/Action/profileAction';
+import { Link } from 'react-router-dom';
 import { getUserActions } from 'Redux/Action/suggestionAction';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,11 +34,6 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     color: '#555',
   },
-  link: {
-    marginRight: theme.spacing(2),
-    color: '#555',
-    fontSize: 16,
-  },
   listitem: {
     padding: '10px 0',
   },
@@ -49,55 +49,19 @@ const useStyles = makeStyles((theme) => ({
     height: '200px',
     alignItems: 'center',
   },
+  linkSuggestions: {
+    textDecoration: 'none',
+    color: 'black',
+  },
 }));
 function RightBar(props) {
   const classes = useStyles();
-  const { profile, auth, suggestions } = useSelector((state) => state);
+  const { auth, suggestions } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [gallery, setGallery] = useState([]);
 
-  // {posts.posts.slice(0, 6).map((post) => (
-  //   <>
-  //     {post.images.slice(0, 6).map((img) => (
-  //       <ImageListItem>
-  //         <img width="100%" src={img.url} alt="" />
-  //       </ImageListItem>
-  //     ))}{' '}
-  //   </>
-  // ))}
-
-  useEffect(() => {
-    let id = auth.user._id;
-    if (profile.ids.every((item) => item !== id)) {
-      dispatch(getProfileUsers({ id, auth }));
-    }
-  }, [auth.user._id, auth, dispatch, profile.ids]);
-
-  useEffect(() => {
-    profile.userPosts.forEach((data) => {
-      if (data._id === auth.user._id) {
-      }
-      setGallery(data.posts);
-    });
-  }, [profile.userPosts, auth.user._id]);
   return (
     // <Paper elevation={1}>
     <Container className={classes.container}>
-      {/* <Typography className={classes.title} gutterBottom>
-        Gallery
-      </Typography>
-      <ImageList rowHeight={100} style={{ marginBottom: 20 }} cols={2}>
-      {gallery.slice(0,6).map((post) => (
-        <ImageListItem>
-          {post.images[0].url.match(/video/i) ?
-              <video controls src={post.images[0].url} alt="" />
-            : <img src={post.images[0].url} alt="" />
-          }
-          
-        </ImageListItem>
-      ))}
-
-      </ImageList> */}
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
           Đề xuất người dùng
@@ -116,22 +80,34 @@ function RightBar(props) {
         
         <List>
           {suggestions.users.map((user) => (
-            <Link to={`/profile/${user._id}`}>
-            <ListItem key={user._id} style={{ padding: 0 }}>
-              <ListItem button className={classes.listitem}>
-                <ListItemAvatar>
-                  <Avatar src={user.avatar}></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={user.username} />
+            <Link className={classes.linkSuggestions} to={`/profile/${user._id}`}>
+              <ListItem key={user._id} style={{ padding: 0 }}>
+                <ListItem button className={classes.listitem}>
+                  <ListItemAvatar>
+                    <Avatar src={user.avatar}></Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={user.username} />
+                </ListItem>
+                <IconButton size="small" edge="end" style={{ padding: '0px' }}>
+                  {auth.user._id !== user._id && <FollowBtn user={user} />}
+                </IconButton>
               </ListItem>
-              <IconButton size="small" edge="end" style={{ padding: '0px' }}>
-                {auth.user._id !== user._id && <FollowBtn user={user} />}
-              </IconButton>
-            </ListItem>
             </Link>
           ))}
         </List>
       )}
+      <hr></hr>
+      <Box style={{ textAlign: 'center' }}>
+        <Typography color="textSecondary">DATN</Typography>
+        <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <span color="inherit" to="facebook.com">
+            Thành - Ân
+          </span>{' '}
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
+      </Box>
     </Container>
     // </Paper>
   );
