@@ -47,7 +47,7 @@ function Following({ users, setShowFollowing }) {
         <IconButton onClick={handleClose} className={classes.close}>
           <Close />
         </IconButton>
-        <DialogTitle id="alert-dialog-title">Followers &nbsp;&nbsp;&nbsp;&nbsp;</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Following &nbsp;&nbsp;&nbsp;&nbsp;</DialogTitle>
         <DialogContent>
           <List>
             {users.map((user) => (

@@ -28,6 +28,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '17px',
     fontWeight: 450,
   },
+  cardheader: {
+    padding: '0 0 16px 0 ',
+  },
+  hr: {
+    border: '0.5px solid #ebdfdf',
+    width: '93%',
+  },
+  readMore: {
+    cursor: 'pointer',
+    fontWeight: 400,
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
 }));
 function PostContent({ post }) {
   const classes = useStyles();
@@ -62,6 +76,7 @@ function PostContent({ post }) {
     <>
       <CardContent style={{ paddingBottom: '16px' }}>
         <CardHeader
+          className={classes.cardheader}
           avatar={
             <Link to={`/profile/${post.user._id}`}>
               <Avatar src={post.user.avatar} className={classes.avatar} />{' '}
@@ -87,11 +102,17 @@ function PostContent({ post }) {
             : post.content.slice(0, 60) + ' ....'}
         </Typography>
         {post.content.length > 60 && (
-          <Typography color="textSecondary" variant="subtitle1" onClick={() => setReadMore(!readMore)}>
+          <Typography
+            color="textSecondary"
+            variant="subtitle1"
+            onClick={() => setReadMore(!readMore)}
+            className={classes.readMore}
+          >
             {readMore ? 'Hide content' : 'Read more'}
           </Typography>
         )}
       </CardContent>
+      <hr className={classes.hr}></hr>
 
       <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {auth.user._id === post.user._id && (
