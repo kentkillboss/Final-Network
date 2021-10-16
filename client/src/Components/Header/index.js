@@ -1,23 +1,20 @@
 import { Badge, Box, Menu, MenuItem, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Cancel, Mail, Notifications, Search } from '@material-ui/icons';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-// import Avatar from 'Components/Avatar/Avatar';
-import Avatar from '@material-ui/core/Avatar';
 import SearchCard from 'Components/Search';
-import Logo from 'images/logo.png';
+import NotifyModal from 'Features/Notify/NotifyModal';
+import Logo from 'images/logo1.png';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import NotifyModal from 'Features/Notify/NotifyModal';
 const useStyles = makeStyles((theme) => ({
-  root: {},
   link: {
     textDecoration: 'none',
     color: 'black',
@@ -37,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
     paddingRight: '10px',
     color: '#fafafa',
+    fontFamily: 'Londrina Solid',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -77,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
     color: '#ffff',
   },
   searchButton: {
-    // marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
@@ -93,7 +90,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Header() {
   const [open, setOpen] = useState(false);
   const classes = useStyles({ open });
-  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const dispatch = useDispatch();
@@ -133,10 +129,10 @@ export default function Header() {
             <IconButton>
               <Search className={classes.searchButton} onClick={() => setOpen(true)} />
             </IconButton>
-            <Link to='/message'  style={{ color: '#ffff', textDecoration: 'none' }}>
-            <IconButton color="inherit">
-              <Mail />
-            </IconButton>
+            <Link to="/message" style={{ color: '#ffff', textDecoration: 'none' }}>
+              <IconButton color="inherit">
+                <Mail />
+              </IconButton>
             </Link>
             <IconButton className={classes.badge} onClick={() => setShowMenu(true)}>
               <Badge badgeContent={newArr.length} color="error">
@@ -197,110 +193,3 @@ export default function Header() {
     </div>
   );
 }
-
-// import {
-//   alpha,
-//   AppBar,
-//   Avatar,
-//   Badge,
-//   InputBase,
-//   makeStyles,
-//   Toolbar,
-//   Typography,
-// } from "@material-ui/core";
-// import { Cancel, Mail, Notifications } from "@material-ui/icons";
-// import { useState } from "react";
-// import Search from 'Components/Search';
-
-// const useStyles = makeStyles((theme) => ({
-//   toolbar: {
-//     display: "flex",
-//     justifyContent: "space-between",
-//   },
-//   logoLg: {
-//     display: "none",
-//     [theme.breakpoints.up("sm")]: {
-//       display: "block",
-//     },
-//   },
-//   logoSm: {
-//     display: "block",
-//     [theme.breakpoints.up("sm")]: {
-//       display: "none",
-//     },
-//   },
-//   search: {
-//     display: "flex",
-//     alignItems: "center",
-//     backgroundColor: alpha(theme.palette.common.white, 0.15),
-//     "&:hover": {
-//       backgroundColor: alpha(theme.palette.common.white, 0.25),
-//     },
-//     borderRadius: theme.shape.borderRadius,
-//     width: "50%",
-//     [theme.breakpoints.down("sm")]: {
-//       display: (props) => (props.open ? "flex" : "none"),
-//       width: "70%",
-//     },
-//   },
-//   input: {
-//     color: "white",
-//     marginLeft: theme.spacing(1),
-//   },
-//   cancel: {
-//     [theme.breakpoints.up("sm")]: {
-//       display: "none",
-//     },
-//   },
-//   searchButton: {
-//     marginRight: theme.spacing(2),
-//     [theme.breakpoints.up("sm")]: {
-//       display: "none",
-//     },
-//   },
-//   icons: {
-//     alignItems: "center",
-//     display: (props) => (props.open ? "none" : "flex"),
-//   },
-//   badge: {
-//     marginRight: theme.spacing(2),
-//   },
-// }));
-
-// const Header = () => {
-//   const [open, setOpen] = useState(false);
-//   const classes = useStyles({ open });
-//   return (
-//     <AppBar position="fixed">
-//       <Toolbar className={classes.toolbar}>
-//         <Typography variant="h6" className={classes.logoLg}>
-//           Lama Dev
-//         </Typography>
-//         <Typography variant="h6" className={classes.logoSm}>
-//           LAMA
-//         </Typography>
-//         <div className={classes.search}>
-//           <Search />
-//         </div>
-//         <div className={classes.icons}>
-//           <Search
-//             className={classes.searchButton}
-//             onClick={() => setOpen(true)}
-//           />
-//           <Badge badgeContent={4} color="secondary" className={classes.badge}>
-//             <Mail />
-//           </Badge>
-//           <Badge badgeContent={2} color="secondary" className={classes.badge}>
-//             <Notifications />
-//           </Badge>
-//           <Avatar
-//             alt="Remy Sharp"
-//             src="https://images.pexels.com/photos/8647814/pexels-photo-8647814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-//           />
-//         </div>
-//       </Toolbar>
-//     </AppBar>
-//   );
-// };
-
-// export default Header;

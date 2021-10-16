@@ -8,11 +8,15 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    height: 'calc(100vh - 400px)',
+    // height: 'calc(100vh - 400px)',
+    height: '350px',
+    [theme.breakpoints.down('sm')]: {
+      height: 'auto',
+    },
   },
   scroll: {
     flex: 1,
-    overflowY: 'scroll',
+    overflowY: 'overlay',
   },
   seeMore: {
     fontSize: '14px',
@@ -45,29 +49,29 @@ function Comment({ post }) {
   }, [post.comments]);
   return (
     <Box className={classes.container}>
-    <Box className={classes.scroll}>
-      {showComments.map((comment, index) => (
-        <CommentDisplay
-          key={index}
-          comment={comment}
-          post={post}
-          replyCm={replyComments.filter((item) => item.reply === comment._id)}
-        />
-      ))}
-      {comments.length - next > 0 ? (
-        // <Box>
-        <Typography onClick={() => setNext(next + 10)} className={classes.seeMore}>
-          See more comment
-        </Typography>
-      ) : (
-        // </Box>
-        comments.length > 2 && (
-          <Typography onClick={() => setNext(2)} className={classes.seeMore}>
-            Hide more comment...
+      <Box className={classes.scroll}>
+        {showComments.map((comment, index) => (
+          <CommentDisplay
+            key={index}
+            comment={comment}
+            post={post}
+            replyCm={replyComments.filter((item) => item.reply === comment._id)}
+          />
+        ))}
+        {comments.length - next > 0 ? (
+          // <Box>
+          <Typography onClick={() => setNext(next + 10)} className={classes.seeMore}>
+            See more comment
           </Typography>
-        )
-      )}
-    </Box>
+        ) : (
+          // </Box>
+          comments.length > 2 && (
+            <Typography onClick={() => setNext(2)} className={classes.seeMore}>
+              Hide more comment...
+            </Typography>
+          )
+        )}
+      </Box>
     </Box>
   );
 }

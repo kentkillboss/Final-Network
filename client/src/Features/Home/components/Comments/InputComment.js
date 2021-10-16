@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   btnSubmit: {},
   hr: {
-    border: '0.5px solid #f8efef',
+    border: '0.5px solid #ebdfdf',
   },
   form: {
     width: '91%',

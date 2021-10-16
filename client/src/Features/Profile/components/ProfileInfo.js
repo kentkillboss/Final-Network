@@ -1,9 +1,9 @@
 import { Box, Button, Card, CardHeader, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
+import EmailIcon from '@material-ui/icons/Email';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import WcIcon from '@material-ui/icons/Wc';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-
 import EditProfile from './EditProfileForm/EditProfileForm';
 import FollowBtn from './FollowBtn';
 import Followers from './Followers';
@@ -32,8 +32,22 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   box2: {
+    color: '#5C8D89',
     margin: '10px',
     borderRight: '0.5px solid grey',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'black',
+    },
+  },
+  box3: {
+    color: '#5C8D89',
+    margin: '10px',
+    textAlign: 'center',
+    cursor: 'pointer',
+    '&:hover': {
+      color: 'black',
+    },
   },
   cover: {
     width: '100%',
@@ -115,18 +129,27 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                 <Box direction="row" className={classes.box1} divider={<Divider orientation="vertical" flexItem />}>
                   <Box width={1} className={classes.box2} textAlign="center" onClick={() => setShowFollowers(true)}>
                     <Typography variant="h4">{user.followers.length}</Typography>
-                    <Typography variant="body2">Follower</Typography>
+                    <Typography variant="body2">Người theo dõi</Typography>
                   </Box>
 
-                  <Box width={1} margin="10px" textAlign="center" onClick={() => setShowFollowing(true)}>
+                  <Box width={1} onClick={() => setShowFollowing(true)} className={classes.box3}>
                     <Typography variant="h4">{user.following.length}</Typography>
-                    <Typography variant="body2">Following</Typography>
+                    <Typography variant="body2">Đang theo dõi</Typography>
                   </Box>
                 </Box>
               </Card>
 
               <Card className={classes.card}>
-                <CardHeader title="About" />
+                <CardHeader title="Giới thiệu" />
+                <Box padding="0 13px 13px 13px">
+                  <Typography color="textSecondary" align="center">
+                    {user.story}
+                  </Typography>
+                </Box>
+              </Card>
+
+              <Card className={classes.card}>
+                <CardHeader title="Thông tin" />
 
                 <Box padding="13px">
                   <Box direction="row" display="flex" marginBottom={1}>
@@ -150,9 +173,9 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   </Box>
 
                   <Box direction="row" display="flex" marginBottom={1}>
-                    <AcUnitIcon className={classes.icon} />
+                    <EmailIcon className={classes.icon} />
                     <Typography variant="body2">
-                      Email : &nbsp;
+                      Hòm thư : &nbsp;
                       <Link component="span" variant="subtitle2" color="primary">
                         {user.email}
                       </Link>
@@ -160,9 +183,9 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   </Box>
 
                   <Box direction="row" display="flex" marginBottom={1}>
-                    <AcUnitIcon className={classes.icon} />
+                    <LocationOnIcon className={classes.icon} />
                     <Typography variant="body2">
-                      Address: &nbsp;
+                      Địa chỉ: &nbsp;
                       <Link component="span" variant="subtitle2" color="primary">
                         {user.address ? user.address : 'Add infomation'}
                       </Link>
@@ -170,9 +193,9 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   </Box>
 
                   <Box direction="row" display="flex" marginBottom={1}>
-                    <AcUnitIcon className={classes.icon} />
+                    <WcIcon className={classes.icon} />
                     <Typography variant="body2">
-                      Gender: &nbsp;
+                      Giới tính: &nbsp;
                       <Link component="span" variant="subtitle2" color="primary">
                         {user.gender}
                       </Link>
@@ -182,21 +205,6 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
               </Card>
 
               {/* <ProfileSocialInfo profile={myProfile} /> */}
-              <Card className={classes.card}>
-                <CardHeader title="Social" />
-                <Box padding="13px">
-                  {SOCIALS.map((link, index) => (
-                    <Box key={index} direction="row" display="flex" marginBottom={1}>
-                      {link.icon} &nbsp;
-                      <Typography variant="body2">
-                        <Link component="span" variant="subtitle2" color="primary">
-                          {link.name}
-                        </Link>
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </Card>
             </Box>
           </Grid>
 

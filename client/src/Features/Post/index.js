@@ -40,7 +40,7 @@ function Post(props) {
               <PostBody post={item} />
             </Card>
           </Grid>
-          <Grid item xs={0} sm={4}>
+          <Grid item xs={0} sm={4} style={{ overflowY: 'scroll', maxHeight: '87vh' }}>
             <PostContent post={item} />
 
             <PostFooter post={item} />
