@@ -55,6 +55,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    background: {
+      type: String,
+      default: "http://1.bp.blogspot.com/_Ym3du2sG3R4/S_-M_kTV9OI/AAAAAAAACZA/SNCea2qKOWQ/s1600/mac+os+x+wallpaper.jpg",
+    },
     followers: [{ type: mongoose.Types.ObjectId, ref: "user" }],
     following: [{ type: mongoose.Types.ObjectId, ref: "user" }],
     saved: [{type: mongoose.Types.ObjectId, ref: 'user'}]

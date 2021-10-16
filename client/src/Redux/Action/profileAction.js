@@ -43,7 +43,7 @@ export const getProfileUsers =
   };
 
 export const updateProfileUser =
-  ({ userData, avatar, auth }) =>
+  ({ userData, avatar, background,  auth }) =>
   async (dispatch) => {
     if (!userData.fullname)
       return dispatch({
@@ -65,7 +65,7 @@ export const updateProfileUser =
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
-          error: 'Your story  too long',
+          error: 'Your story too long',
         },
       });
 
@@ -78,11 +78,13 @@ export const updateProfileUser =
         },
       });
       if (avatar) media = await imageUpload([avatar]);
+      if (background) media = await imageUpload([background]);
       const res = await patchDataAPI(
         'user',
         {
           ...userData,
           avatar: avatar ? media[0].url : auth.user.avatar,
+          background: background ? media[0].url : auth.user.background,
         },
         auth.token
       );
@@ -94,6 +96,7 @@ export const updateProfileUser =
             ...auth.user,
             ...userData,
             avatar: avatar ? media[0].url : auth.user.avatar,
+            background: background ? media[0].url : auth.user.background,
           },
         },
       });

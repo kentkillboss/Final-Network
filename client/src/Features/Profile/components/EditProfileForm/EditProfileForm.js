@@ -68,17 +68,19 @@ function EditProfileForm({ setEdit }) {
   const [userData, setUserData] = useState(inititalState);
   const { fullname, mobile, address, website, story, gender } = userData;
   const [avatar, setAvatar] = useState('');
+  const [background, setBackground] = useState('');
 
-  const form = useForm({
-    defaultValues: {
-      fullname: '',
-      mobile: '',
-      address: '',
-      website: '',
-      story: '',
-      gender: '',
-    },
-  });
+
+  // const form = useForm({
+  //   defaultValues: {
+  //     fullname: '',
+  //     mobile: '',
+  //     address: '',
+  //     website: '',
+  //     story: '',
+  //     gender: '',
+  //   },
+  // });
 
   const { auth, alert } = useSelector((state) => state);
 
@@ -99,13 +101,23 @@ function EditProfileForm({ setEdit }) {
       });
     setAvatar(file);
   };
+  const handleChangeBackG = (e) => {
+    const file = e.target.files[0];
+    const err = checkImage(file);
+    if (err)
+      return dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err },
+      });
+      setBackground(file);
+  };
   const handleInput = (e) => {
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateProfileUser({ userData, avatar, auth }));
+    dispatch(updateProfileUser({ userData, avatar, background, auth }));
     // if (!alert.loading) {
     //   setEdit(false);
     // }
@@ -163,6 +175,22 @@ function EditProfileForm({ setEdit }) {
                 }
               />
             </FormControl>
+            <span className="icon">
+                {/* <Button component="label" className="btnedit"> */}
+                <input
+                  type="file"
+                  name="file"
+                  id="file_up1"
+                  accept="image/*"
+                  onChange={handleChangeBackG}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="file_up1">
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                    <PhotoCamera />
+                  </IconButton>
+                </label>
+              </span>
             <TextField
               className={classes.textfield}
               label="Mobie"

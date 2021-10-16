@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '100%',
-    height: '232px',
+    height: '310px',
   },
   info: {
     [theme.breakpoints.down('sm')]: {
@@ -108,7 +108,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
             <Box className="user_profile_cap">
               <Box className="user_profile_cover">
                 <img
-                  src="http://1.bp.blogspot.com/_Ym3du2sG3R4/S_-M_kTV9OI/AAAAAAAACZA/SNCea2qKOWQ/s1600/mac+os+x+wallpaper.jpg"
+                  src={user.background}
                   alt="img"
                 />
               </Box>
