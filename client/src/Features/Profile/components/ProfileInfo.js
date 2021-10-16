@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     backgroundColor: '#f7f7f7',
+    
   },
   avatar: {
     width: theme.spacing(20),
@@ -53,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '232px',
   },
+  info: {
+    [theme.breakpoints.down('sm')]: {
+      marginTop: theme.spacing(6),
+    },
+  }
 }));
 
 function ProfileInfo({ id, auth, profile, dispatch }) {
@@ -99,14 +105,14 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
       {userData.map((user) => (
         <Grid key={user._id} container spacing={0}>
           <Grid item xs={12} className={classes.cover}>
-            <div className="user_profile_cap">
-              <div className="user_profile_cover">
+            <Box className="user_profile_cap">
+              <Box className="user_profile_cover">
                 <img
                   src="http://1.bp.blogspot.com/_Ym3du2sG3R4/S_-M_kTV9OI/AAAAAAAACZA/SNCea2qKOWQ/s1600/mac+os+x+wallpaper.jpg"
                   alt="img"
                 />
-              </div>
-              <div className="user_profile_headline">
+              </Box>
+              <Box className="user_profile_headline">
                 <img src={user.avatar} alt="img" />
                 <h2>{user.username}</h2>
                 <span>{user.fullname}</span>
@@ -118,11 +124,11 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                 ) : (
                   <FollowBtn user={user} />
                 )}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} className={classes.info}>
             <Box spacing={3}>
               {/* <ProfileFollowInfo profile={myProfile} /> */}
               <Card sx={{ py: 3 }} className={classes.card}>

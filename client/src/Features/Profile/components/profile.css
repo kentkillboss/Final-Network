@@ -15,7 +15,7 @@
   overflow: hidden;
 }
 .user_profile_cover {
-  height: 63%;
+  height: 145px;
 }
 .user_profile_cover img {
   width: 100%;
@@ -57,4 +57,24 @@
 }
 .btnEdit {
   float: right;
+}
+
+@media only screen and (max-width: 960px) {
+  .user_profile_cap {
+    height: 310px;
+  }
+
+  .user_profile_headline h2 {
+    margin: 73px 130px 0px 103px;
+  }
+
+  .user_profile_headline span {
+    margin: 73px 130px 0px 124px;
+  }
+
+  .btnEdit{
+    position: absolute;
+    top: -100px;
+    right: -130px;
+  }
 }

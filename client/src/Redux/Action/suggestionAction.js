@@ -1,5 +1,5 @@
-import { getDataAPI, patchDataAPI } from 'api/fetchData';
-import { GLOBALTYPES, DeleteData } from 'Redux/Action/globalTypes';
+import { getDataAPI } from 'api/fetchData';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 
 export const SUGGES_TYPES = {
   LOADING: 'LOADING_SUGGES',

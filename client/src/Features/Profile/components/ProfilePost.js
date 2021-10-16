@@ -17,7 +17,7 @@ import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  const classes = useStyles();
   return (
     <div
       role="tabpanel"
@@ -27,7 +27,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={3} className={classes.post} >
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -52,7 +52,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
+    
   },
+  post: {
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    },
+  }
 }));
 
 function ProfilePost({ auth, id, dispatch, profile }) {

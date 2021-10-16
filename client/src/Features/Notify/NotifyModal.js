@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '10px',
   },
   popoverPaper: {
-    width: '30%',
+    width: '35%',
     // height: '100%',
     maxHeight: 'unset',
     maxWidth: 'unset',
