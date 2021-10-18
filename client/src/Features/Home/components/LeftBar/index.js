@@ -86,17 +86,17 @@ function LeftBar(props) {
     {
       text: 'List',
       icon: <List className={classes.icon} style={{ fontSize: '31px' }} />,
-      path: '/games',
+      path: '/list',
     },
     {
       text: 'Market Place',
       icon: <Storefront className={classes.icon} style={{ fontSize: '31px' }} />,
-      path: '/games',
+      path: '/market',
     },
     {
       text: 'Video',
       icon: <PlayCircleOutline className={classes.icon} style={{ fontSize: '31px' }} />,
-      path: '/games',
+      path: '/video',
     },
   ];
   return (

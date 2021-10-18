@@ -1,12 +1,15 @@
-import { Avatar, Box, Button, ListItemText, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import { Avatar, Box, ListItemText, makeStyles, Typography } from '@material-ui/core';
+import CallRoundedIcon from '@material-ui/icons/CallRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteMessages } from 'Redux/Action/messageAction';
+import DescriptionRoundedIcon from '@material-ui/icons/DescriptionRounded';
 import PhoneDisabledRoundedIcon from '@material-ui/icons/PhoneDisabledRounded';
 import VideocamOffRoundedIcon from '@material-ui/icons/VideocamOffRounded';
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
-import CallRoundedIcon from '@material-ui/icons/CallRounded';
+import axios from 'axios';
+import fileDownload from 'js-file-download';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteMessages } from 'Redux/Action/messageAction';
 import Times from '../Times';
 
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +81,15 @@ const useStyles = makeStyles((theme) => ({
     },
     alignItems: 'end',
   },
+  file: {
+    display: 'flex',
+    padding: '9px 0 9px 9px',
+    marginBottom: '5px',
+    background: '#e4e6eb',
+    color: 'black',
+    border: '1px solid #e4e6eb',
+    borderRadius: '14px 14px 14px 14px',
+  }
 }));
 
 function MessageDisplay({ user, msg, data }) {
@@ -93,11 +105,39 @@ function MessageDisplay({ user, msg, data }) {
     }
   };
 
+  const handleDownload = (url, filename) => {
+    axios
+      .get(url, {
+        responseType: 'blob',
+      })
+      .then((res) => {
+        fileDownload(res.data, filename);
+      });
+  };
+
   const imageShow = (src) => {
     return <img width="100%" height="100%" style={{ borderRadius: '10px' }} src={src} alt="images" />;
   };
   const videoShow = (src) => {
     return <video width="100%" height="100%" controls src={src} alt="images" />;
+  };
+  let newName = '';
+  const fileShow = (src, tail, name) => {
+    newName = name + tail.slice(26);
+    return (
+      <Box className={classes.file}>
+        <DescriptionRoundedIcon />
+      <Typography
+        onClick={() => {
+          handleDownload(src, newName);
+        }}
+        style={{ cursor: 'pointer', paddingLeft: '2px' }}
+        className={classes.contentText}
+      >
+        {newName}
+      </Typography>
+      </Box>
+    );
   };
   return (
     <>
@@ -112,7 +152,11 @@ function MessageDisplay({ user, msg, data }) {
             )}
             {msg.media.map((item, index) => (
               <Box className={classes.box} key={index}>
-                {item.url.match(/video/i) ? videoShow(item.url) : imageShow(item.url)}
+                {item.url.match(/video/i)
+                  ? videoShow(item.url)
+                  : item.url.includes('png') || item.url.includes('jpg')
+                  ? imageShow(item.url)
+                  : fileShow(item.url, item.public_id, item.fileName)}
               </Box>
             ))}
 

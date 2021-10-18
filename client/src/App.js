@@ -85,7 +85,6 @@ function App() {
             <PrivateRouter path="/message" component={Message} exact />
             <PrivateRouter path="/message/:id" component={Conversation} exact />
             <PrivateRouter path="/discover" component={Discover} />
-            <Route path="/notify" component={auth.token ? Notify : Login} />
             <Route path="/profile/:id" component={auth.token ? Profile : Login} />
             <Route path="/games" component={Games} />
             <Route component={NotFound} />

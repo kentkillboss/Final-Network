@@ -145,6 +145,7 @@ function CallModal(props) {
     socket.emit('endCall', { ...call, times });
     addCallMessage(call, times);
     dispatch({ type: GLOBALTYPES.CALL, payload: null });
+
   };
 
   useEffect(() => {
@@ -250,6 +251,7 @@ function CallModal(props) {
     } else {
       playAudio(newAudio);
     }
+    return () => pauseAudio(newAudio);
   }, [answer]);
   return (
     <Box className={classes.root}>
