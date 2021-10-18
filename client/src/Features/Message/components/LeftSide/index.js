@@ -1,33 +1,16 @@
-import {
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  ListItemSecondaryAction,
-  Menu,
-  OutlinedInput,
-  Typography,
-} from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
+import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import SearchIcon from '@material-ui/icons/Search';
 import { getDataAPI } from 'api/fetchData';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
+import { useHistory } from 'react-router';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { addUser, getConversations, MESS_TYPES } from 'Redux/Action/messageAction';
-import { Box, ClickAwayListener } from '@material-ui/core';
-import moment from 'moment';
+import { getConversations, MESS_TYPES } from 'Redux/Action/messageAction';
+import SearchCardMessage from '../SearchCardMessage';
 import UseCard from '../UseCard';
-import { useEffect } from 'react';
-import { useRef } from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +23,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     marginTop: '5px',
     marginLeft: '2%',
-  },
-  searchBtn: {
-    display: 'none',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+      backgroundColor: theme.palette.background.paper,
+      marginTop: '5px',
+      marginLeft: '2%',
+    },
   },
   search: {
     width: '80%',
@@ -50,11 +36,47 @@ const useStyles = makeStyles((theme) => ({
     background: '#ffffff',
     borderRadius: '15px',
     height: '45px',
+    [theme.breakpoints.down('sm')]: {
+      width: '98%',
+      marginLeft: '1%',
+      borderRadius: '5px',
+    },
+  },
+  labelInput: {
+    fontWeight: 'bold',
+    fontSize: '14px',
+    paddingLeft: '50px',
+    paddingTop: '3px',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '2px',
+      paddingTop: '3px',
+    },
   },
   online: {
     position: 'absolute',
     top: '50%',
     right: '10px',
+  },
+  cancelIcon: {
+    padding: theme.spacing(0, 2),
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '54px',
+    right: '46px',
+    top: '9px',
+    cursor: 'pointer',
+    color: '#577875',
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+      right: '5px',
+    },
+  },
+  boxUserCard: {
+    [theme.breakpoints.down('sm')]: {
+      width: '122%',
+    },
   },
 }));
 
@@ -80,7 +102,24 @@ function LeftSide(props) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
     }
   };
+  useEffect(() => {
+    // if (!search) return setSearchUsers([]);
 
+    if (search) {
+      getDataAPI(`search?username=${search}`, auth.token)
+        .then((res) => setSearchUsers(res.data.users))
+        .catch((err) => {
+          dispatch({
+            type: GLOBALTYPES.ALERT,
+            payload: {
+              err: err.response.data.msg,
+            },
+          });
+        });
+    } else {
+      setSearchUsers([]);
+    }
+  }, [search, auth.token, dispatch]);
   const handleAddUser = (user) => {
     setSearch('');
     setSearchUsers([]);
@@ -122,14 +161,16 @@ function LeftSide(props) {
     }
   }, [online, message.firstLoad, dispatch]);
 
+  const handleClose = () => {
+    setSearch('');
+    setSearchUsers([]);
+  };
+
   return (
     <Box className={classes.root}>
-      <form onSubmit={handleSearch}>
+      <form autoComplete="off">
         <FormControl fullWidth variant="outlined">
-          <InputLabel
-            htmlFor="outlined-adornment-amount"
-            style={{ fontWeight: 'bold', fontSize: '14px', paddingLeft: '50px', paddingTop: '3px' }}
-          >
+          <InputLabel htmlFor="outlined-adornment-amount" className={classes.labelInput}>
             Enter để tìm kiếm
           </InputLabel>
           <OutlinedInput
@@ -144,27 +185,22 @@ function LeftSide(props) {
             }
             labelWidth={120}
           />
+          {search && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
         </FormControl>
-        <button className={classes.searchBtn} type="submit">
-          Search{' '}
-        </button>
       </form>
       <List component="nav" className={classes.listItem}>
-        {searchUsers.length !== 0 ? (
+        {search && searchUsers.length !== 0 ? (
           <>
             {searchUsers.map((user) => (
-              <ListItem button key={user._id} onClick={() => handleAddUser(user)}>
-                <ListItemAvatar>
-                  <Avatar src={user.avatar}></Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={user.username} secondary={user.fullname} />
-              </ListItem>
+              <Box key={user._id} onClick={() => handleAddUser(user)}>
+                <SearchCardMessage user={user} />
+              </Box>
             ))}
           </>
         ) : (
           <>
             {message.users.map((user) => (
-              <Box key={user._id} onClick={() => handleAddUser(user)}>
+              <Box key={user._id} onClick={() => handleAddUser(user)} className={classes.boxUserCard}>
                 <UseCard user={user} msg={true} />
               </Box>
             ))}

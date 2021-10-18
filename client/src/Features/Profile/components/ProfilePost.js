@@ -27,7 +27,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3} className={classes.post} >
+        <Box p={3} className={classes.post}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -52,13 +52,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
-    
   },
   post: {
     [theme.breakpoints.down('sm')]: {
       padding: 0,
     },
-  }
+  },
 }));
 
 function ProfilePost({ auth, id, dispatch, profile }) {
@@ -102,18 +101,16 @@ function ProfilePost({ auth, id, dispatch, profile }) {
         dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
       });
 
-      return () => setSavePosts([]);
- 
+    return () => setSavePosts([]);
   }, [auth.token, dispatch]);
 
-const handleLoadMoreSave = async () => {
+  const handleLoadMoreSave = async () => {
     setLoadSave(true);
     const res = await getDataAPI(`getSavePosts?limit=${page * 9}`, auth.token);
-    setSavePosts(res.data.savePosts)
+    setSavePosts(res.data.savePosts);
     setResultSave(res.data.result);
-    setPageSave(page+1)
+    setPageSave(page + 1);
     setLoadSave(false);
-        
   };
   const classes = useStyles();
   const theme = useTheme();
@@ -134,8 +131,8 @@ const handleLoadMoreSave = async () => {
           variant="fullWidth"
           aria-label="full width tabs example"
         >
-          <Tab label="Posts" {...a11yProps(0)} />
-          <Tab label="Saved" {...a11yProps(1)} />
+          <Tab label="Bài đăng" {...a11yProps(0)} />
+          <Tab label="Đã lưu" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
@@ -155,7 +152,7 @@ const handleLoadMoreSave = async () => {
         </div>
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-      <div>
+        <div>
           <Grid container>
             {savePosts.map((postSave) => (
               <Grid item xs={12} sm={6} md={4} lg={3}>

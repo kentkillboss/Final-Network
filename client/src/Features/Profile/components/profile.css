@@ -15,8 +15,7 @@
   overflow: hidden;
 }
 .user_profile_cover {
-  height: 205px;
-  
+  height: 320px;
 }
 .user_profile_cover img {
   width: 100%;
@@ -39,7 +38,8 @@
   width: 170px;
   height: 170px;
   float: left;
-  margin: -108px 38px 0px 56px;
+  margin: -108px 51px 0px 88px;
+
   position: relative;
   background-color: white;
   border-radius: 50%;
@@ -63,20 +63,25 @@
 
 @media only screen and (max-width: 960px) {
   .user_profile_cap {
-    height: 385px;
+    height: 500px;
   }
 
   .user_profile_headline h2 {
-    margin: 73px 130px 0px 63px;
+    margin: 73px 130px 0px 0px;
   }
 
   .user_profile_headline span {
-    margin: 73px 60px 0px 63px;
+    margin: 2px 64px 0px 63px;
+  }
+  .user_profile_headline .span {
+    margin: 2px 64px 0px 1px;
   }
 
-  .btnEdit{
+  .btnEdit {
     position: absolute;
-    top: -100px;
-    right: -70px;
+    top: -11px;
+    /* right: -70px; */
+    width: 94px;
+    height: 29px;
   }
 }

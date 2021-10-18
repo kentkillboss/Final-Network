@@ -1,5 +1,5 @@
 import { Box, Button, Card, CardHeader, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
-import AcUnitIcon from '@material-ui/icons/AcUnit';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import WcIcon from '@material-ui/icons/Wc';
@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     backgroundColor: '#f7f7f7',
-    
   },
   avatar: {
     width: theme.spacing(20),
@@ -52,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: '100%',
-    height: '310px',
+    height: '430px',
   },
   info: {
     [theme.breakpoints.down('sm')]: {
       marginTop: theme.spacing(6),
     },
-  }
+  },
 }));
 
 function ProfileInfo({ id, auth, profile, dispatch }) {
@@ -76,29 +75,6 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
       setUserData(newData);
     }
   }, [id, auth, dispatch, profile.users]);
-  const SOCIALS = [
-    {
-      name: 'Website',
-      icon: <AcUnitIcon className={classes.icon} />,
-      href: 'facebook.com/kentkillboss',
-      website: userData.website,
-    },
-    {
-      name: 'Twitter',
-      icon: <AcUnitIcon className={classes.icon} />,
-      href: '/',
-    },
-    {
-      name: 'Instagram',
-      icon: <AcUnitIcon className={classes.icon} />,
-      href: '/',
-    },
-    {
-      name: 'Facebook',
-      icon: <AcUnitIcon className={classes.icon} />,
-      href: '/',
-    },
-  ];
 
   return (
     <Box>
@@ -107,19 +83,16 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
           <Grid item xs={12} className={classes.cover}>
             <Box className="user_profile_cap">
               <Box className="user_profile_cover">
-                <img
-                  src={user.background}
-                  alt="img"
-                />
+                <img src={user.background} alt="img" />
               </Box>
               <Box className="user_profile_headline">
                 <img src={user.avatar} alt="img" />
                 <h2>{user.username}</h2>
-                <span>{user.fullname}</span>
+                <span className="span">{user.fullname}</span>
 
                 {user._id === auth.user._id ? (
-                  <Button onClick={() => setEdit(true)} className="btnEdit">
-                    Edit
+                  <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
+                    Chỉnh sửa
                   </Button>
                 ) : (
                   <FollowBtn user={user} />
@@ -159,9 +132,9 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
 
                 <Box padding="13px">
                   <Box direction="row" display="flex" marginBottom={1}>
-                    <AcUnitIcon className={classes.icon} />
+                    <PlaylistAddCheckIcon className={classes.icon} />
                     <Typography variant="body2">
-                      FullName : &nbsp;
+                      Họ Tên : &nbsp;
                       <Link component="span" variant="subtitle2" color="primary">
                         {user.fullname}
                       </Link>
@@ -169,9 +142,9 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   </Box>
 
                   <Box direction="row" display="flex" marginBottom={1}>
-                    <AcUnitIcon className={classes.icon} />
+                    <PlaylistAddCheckIcon className={classes.icon} />
                     <Typography variant="body2">
-                      UserName : &nbsp;
+                      Biệt danh : &nbsp;
                       <Link component="span" variant="subtitle2" color="primary">
                         {user.username}
                       </Link>

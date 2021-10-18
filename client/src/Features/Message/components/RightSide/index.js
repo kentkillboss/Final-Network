@@ -1,47 +1,34 @@
-import React from 'react';
-import ChatRoundedIcon from '@material-ui/icons/ChatRounded';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import {
   Box,
   Button,
   IconButton,
   ImageList,
   ImageListItem,
-  InputAdornment,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   makeStyles,
   TextField,
-  Typography,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import MessageDisplay from '../messageDisplay/meChat';
-import SendIcon from '@material-ui/icons/Send';
-import MessageDisplayOther from '../messageDisplay/otherChat';
-import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
-import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
-import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
-import Icons from 'Components/Icons';
-import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import CancelIcon from '@material-ui/icons/Cancel';
-import { imageUpload } from 'utils/imageUpload';
-import {
-  addMessage,
-  deleteConversation,
-  deleteConverstation,
-  getMessages,
-  loadMoreMessages,
-} from 'Redux/Action/messageAction';
+import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useRef } from 'react';
+import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
 import PhoneIcon from '@material-ui/icons/Phone';
+import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
+import SendIcon from '@material-ui/icons/Send';
 import VideocamRoundedIcon from '@material-ui/icons/VideocamRounded';
+import Icons from 'Components/Icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import { addMessage, deleteConversation, getMessages, loadMoreMessages } from 'Redux/Action/messageAction';
+import { imageUpload } from 'utils/imageUpload';
+import MessageDisplay from '../messageDisplay/meChat';
+import MessageDisplayOther from '../messageDisplay/otherChat';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,22 +64,28 @@ const useStyles = makeStyles((theme) => ({
   },
   chat: {
     display: 'grid',
-    gridTemplateColumns: '70%',
+    gridTemplateColumns: '50%',
     marginBottom: '10px',
     paddingRight: '10px',
     justifyContent: 'end',
     justifyItems: 'end',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '70%',
+    },
   },
   otherChat: {
     display: 'grid',
-    gridTemplateColumns: '70%',
+    gridTemplateColumns: '50%',
     marginBottom: '10px',
     paddingLeft: '10px',
     justifyContent: 'start',
     justifyItems: 'start',
+    [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '70%',
+    },
   },
   boxIcon: {
-    width: '95%',
+    width: '90%',
     height: '50px',
     border: ' 0.5px solid #eccece',
     margin: 'auto',
@@ -251,41 +244,46 @@ function RightSide(props) {
     // eslint-disable-next-line
   }, [isLoadMore]);
 
-  const caller = ({video}) => {
-    const {_id, avatar, username, fullname} = user;
+  const caller = ({ video }) => {
+    const { _id, avatar, username, fullname } = user;
     const msg = {
       sender: auth.user._id,
       recipient: _id,
-      avatar, username, fullname, video
-    }
-    dispatch({type: GLOBALTYPES.CALL, payload: msg})
-  }
+      avatar,
+      username,
+      fullname,
+      video,
+    };
+    dispatch({ type: GLOBALTYPES.CALL, payload: msg });
+  };
 
-  const callUser = ({video}) => {
-    const {_id, avatar, username, fullname} = auth.user;
+  const callUser = ({ video }) => {
+    const { _id, avatar, username, fullname } = auth.user;
 
     const msg = {
       sender: _id,
       recipient: user._id,
-      avatar, username, fullname, video
+      avatar,
+      username,
+      fullname,
+      video,
     };
 
-    if(peer.open){
-      msg.peerId = peer._id
-    };
+    if (peer.open) {
+      msg.peerId = peer._id;
+    }
 
     socket.emit('callUser', msg);
-  }
+  };
 
   const handleCall = () => {
-    caller({video: false});
-    callUser({video: false});
+    caller({ video: false });
+    callUser({ video: false });
   };
 
   const handleVideoCall = () => {
-    caller({video: true});
-    callUser({video: true});
-
+    caller({ video: true });
+    callUser({ video: true });
   };
 
   return (
@@ -299,10 +297,10 @@ function RightSide(props) {
               </ListItemAvatar>
               <ListItemText primary={user.username} secondary={user.fullname} />
               <ListItemText style={{ textAlign: 'right' }}>
-                <IconButton onClick={handleCall} style={{ color: '#df1b1b' }}>
+                <IconButton onClick={handleCall} style={{ color: '#5C8D89' }}>
                   <PhoneIcon />
                 </IconButton>
-                <IconButton onClick={handleVideoCall} style={{ color: '#df1b1b' }}>
+                <IconButton onClick={handleVideoCall} style={{ color: '#5C8D89' }}>
                   <VideocamRoundedIcon />
                 </IconButton>
                 <IconButton onClick={handleConversation} style={{ color: '#df1b1b' }}>
@@ -349,21 +347,6 @@ function RightSide(props) {
           </Box>
         </Box>
         <form onSubmit={handleSubmit}>
-          {/* <TextField
-            size="small"
-            className={classes.textfield}
-            // variant="none"
-            type="text"
-            placeholder="Add your cmt..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            InputProps={{
-              startAdornment: <InputAdornment position="start"></InputAdornment>,
-            }}
-          />
-          <Button className={classes.btnSubmit} type="submit" color="primary">
-            <SendIcon />
-          </Button> */}
           <Box className={classes.boxIcon}>
             <TextField
               placeholder="Add your cmt..."

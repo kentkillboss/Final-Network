@@ -53,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
   logoLg: {
     display: 'none',
+    fontSize: '25px',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -63,6 +64,15 @@ const useStyles = makeStyles((theme) => ({
     height: '40px',
     marginLeft: '-67px',
     [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  logoSm1: {
+    display: 'block',
+    width: '40px',
+    height: '40px',
+    marginRight: '10px',
+    [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
   },
@@ -109,13 +119,15 @@ export default function Header() {
     <div className={classes.root}>
       <AppBar position="fixed" style={{ backgroundColor: '#5C8D89' }}>
         <Toolbar className={classes.toolbar}>
-          <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
+          <Link to="/" style={{ color: '#ffff', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+            <img className={classes.logoSm1} src={Logo} alt="logo" />
             <Typography
               variant="h6"
               className={classes.logoLg}
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              style={{ fontFamily: 'Acme, cursive' }}
             >
-              TA-Network
+              Dulcie
             </Typography>
           </Link>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
