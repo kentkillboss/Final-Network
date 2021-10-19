@@ -250,6 +250,7 @@ function CallModal(props) {
     } else {
       playAudio(newAudio);
     }
+    return () => pauseAudio(newAudio);
   }, [answer]);
   return (
     <Box className={classes.root}>

@@ -43,6 +43,7 @@ span.icon {
   width: inherit;
   height: inherit;
   border-radius: 8px;
+  object-fit: contain;
 }
 span.icon-background {
   position: absolute;
