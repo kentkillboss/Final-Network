@@ -29,6 +29,7 @@ import { addMessage, deleteConversation, getMessages, loadMoreMessages } from 'R
 import { imageUpload } from 'utils/imageUpload';
 import MessageDisplay from '../messageDisplay/meChat';
 import MessageDisplayOther from '../messageDisplay/otherChat';
+import fileIcon from 'images/file.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -158,12 +159,17 @@ function RightSide(props) {
     });
     if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
     setMedia([...media, ...newMedia]);
+    
   };
+  
   const imageShow = (src) => {
     return <img src={src} alt="images" />;
   };
   const videoShow = (src) => {
     return <video controls src={src} alt="images" />;
+  };
+  const fileShow = () => {
+    return <img controls src={fileIcon} alt="images" />;
   };
   const handleDeleteImages = (index) => {
     const newArr = [...media];
@@ -336,7 +342,11 @@ function RightSide(props) {
             <ImageList rowHeight={160} className={classes.imageList} cols={6}>
               {media.map((img, index) => (
                 <ImageListItem key={index} cols={1}>
-                  {img.type.match(/video/i) ? videoShow(URL.createObjectURL(img)) : imageShow(URL.createObjectURL(img))}
+                  {img.type.match(/video/i)
+                    ? videoShow(URL.createObjectURL(img))
+                    : img.type.includes('image/png') || img.type.includes('image/jpeg')
+                      ? imageShow(URL.createObjectURL(img))
+                      : fileShow()}
 
                   <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
                     <CancelIcon />

@@ -1,26 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { Box, IconButton, makeStyles, TextareaAutosize, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Box, IconButton, makeStyles, TextareaAutosize, Typography } from '@material-ui/core';
-import { mergeClasses } from '@material-ui/styles';
-import { Close } from '@material-ui/icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { useState, useRef, useEffect } from 'react';
-import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
-import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
-import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
-import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
+import { Close } from '@material-ui/icons';
+import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { createPost, updatePost } from 'Redux/Action/postAction';
+import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
+import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
 import Icons from 'Components/Icons';
+import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import { createPost, updatePost } from 'Redux/Action/postAction';
 
 StatusModal.propTypes = {
   setShowModal: PropTypes.func,
@@ -66,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
     width: 494,
     height: 166,
   },
+  image:{
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover'
+  }
 }));
 
 function StatusModal({ setShowModal }) {
@@ -165,7 +167,7 @@ function StatusModal({ setShowModal }) {
   }, [status]);
 
   const imageShow = (src) => {
-    return <img src={src} alt="images" />;
+    return <img src={src} className={classes.image} alt="images" />;
   };
   const videoShow = (src) => {
     return <video controls src={src} alt="images" />;

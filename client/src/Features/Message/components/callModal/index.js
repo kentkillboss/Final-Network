@@ -145,6 +145,7 @@ function CallModal(props) {
     socket.emit('endCall', { ...call, times });
     addCallMessage(call, times);
     dispatch({ type: GLOBALTYPES.CALL, payload: null });
+
   };
 
   useEffect(() => {
