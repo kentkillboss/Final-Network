@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Avatar, Box, Button, Card, IconButton, InputAdornment, makeStyles, TextField } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { createComment } from 'Redux/Action/commentAction';
-import { Link } from 'react-router-dom';
-import SendRoundedIcon from '@material-ui/icons/SendRounded';
+import { Avatar, Box, Button, IconButton, InputAdornment, makeStyles, TextField } from '@material-ui/core';
 import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
+import SendRoundedIcon from '@material-ui/icons/SendRounded';
 import Icons from 'Components/Icons';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { createComment } from 'Redux/Action/commentAction';
 
 InputComment.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f0f2f5',
     borderRadius: '51px',
     marginBottom: '10px',
-    // justifyContent: 'center',
   },
   textfield: {
     width: '82%',

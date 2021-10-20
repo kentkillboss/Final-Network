@@ -91,17 +91,17 @@ function LeftSide(props) {
   const pageEnd = useRef();
   const [page, setPage] = useState(0);
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!search) return setSearchUsers([]);
+  // const handleSearch = async (e) => {
+  //   e.preventDefault();
+  //   if (!search) return setSearchUsers([]);
 
-    try {
-      const res = await getDataAPI(`search?username=${search}`, auth.token);
-      setSearchUsers(res.data.users);
-    } catch (err) {
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
-    }
-  };
+  //   try {
+  //     const res = await getDataAPI(`search?username=${search}`, auth.token);
+  //     setSearchUsers(res.data.users);
+  //   } catch (err) {
+  //     dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
+  //   }
+  // };
   useEffect(() => {
     // if (!search) return setSearchUsers([]);
 

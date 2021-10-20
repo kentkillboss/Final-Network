@@ -9,16 +9,15 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Alert from 'Components/Alert/alert';
+import RadioField from 'Components/Form-Controls/RadioField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../../Components/Form-Controls/InputField';
 import PasswordField from '../../../../Components/Form-Controls/PasswordField';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { NavLink } from 'react-router-dom';
-import RadioField from 'Components/Form-Controls/RadioField';
-import Alert from 'Components/Alert/alert';
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func,

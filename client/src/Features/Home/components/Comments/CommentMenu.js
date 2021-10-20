@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Box, Menu, MenuItem, makeStyles, IconButton } from '@material-ui/core';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import { Box, makeStyles, Menu, MenuItem } from '@material-ui/core';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
-import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteComment } from 'Redux/Action/commentAction';
 

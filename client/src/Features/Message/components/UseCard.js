@@ -1,12 +1,11 @@
 import { Box, ListItem, ListItemAvatar, ListItemText, withStyles } from '@material-ui/core';
-import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import moment from 'moment';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import { useParams } from 'react-router';
-import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
-import { useSelector } from 'react-redux';
 import Badge from '@material-ui/core/Badge';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import PhotoLibraryRoundedIcon from '@material-ui/icons/PhotoLibraryRounded';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -47,9 +46,6 @@ function UseCard({ user }) {
   };
   return (
     <ListItem button selected={isSelected(user)}>
-      {/* <ListItemAvatar>
-        <Avatar src={user.avatar}></Avatar>
-      </ListItemAvatar> */}
       <ListItemAvatar>
         <StyledBadge
           overlap="circular"

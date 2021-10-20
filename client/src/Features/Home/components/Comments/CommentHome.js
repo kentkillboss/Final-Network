@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import CommentDisplay from './CommentDisplay';
 
 Comment.propTypes = {};
@@ -45,12 +44,10 @@ function Comment({ post }) {
         />
       ))}
       {comments.length - next > 0 ? (
-        // <Box>
         <Typography onClick={() => setNext(next + 10)} className={classes.seeMore}>
           See more comment
         </Typography>
       ) : (
-        // </Box>
         comments.length > 2 && (
           <Typography onClick={() => setNext(2)} className={classes.seeMore}>
             Hide more comment...

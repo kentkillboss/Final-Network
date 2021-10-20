@@ -63,11 +63,11 @@ const useStyles = makeStyles((theme) => ({
     width: 494,
     height: 166,
   },
-  image:{
+  image: {
     width: '100%',
     height: '100%',
-    objectFit: 'cover'
-  }
+    objectFit: 'cover',
+  },
 }));
 
 function StatusModal({ setShowModal }) {
@@ -81,9 +81,6 @@ function StatusModal({ setShowModal }) {
   const refCanvas = useRef();
   const [tracks, setTracks] = useState('');
   const [showIcon, setShowIcon] = useState(false);
-  const handleClose = () => {
-    setShowModal(false);
-  };
   const handleChangeImages = (e) => {
     const files = [...e.target.files];
     let err = '';

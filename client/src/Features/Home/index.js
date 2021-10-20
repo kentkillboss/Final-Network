@@ -1,19 +1,13 @@
-import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
+import PostLoading from 'Components/Loading/SkeletonPost';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Posts from './components/Post';
-import Status from './components/Status';
-import PostLoading from 'Components/Loading/SkeletonPost';
-
-import Header from 'Components/Header';
 import LeftBar from './components/LeftBar';
+import Posts from './components/Post';
 import RightBar from './components/RightBar';
+import Status from './components/Status';
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   flexGrow: 1,
-  // },
-  // paper: {},
   right: {
     [theme.breakpoints.down('sm')]: {
       display: 'none',
@@ -49,7 +43,7 @@ function Home(props) {
           )}
         </Grid>
         <Grid item sm={1} xs={0} className={classes.box} />
-        <Grid item sm={3} className={classes.right}>
+        <Grid item sm={3} xs={0} className={classes.right}>
           <RightBar />
         </Grid>
       </Grid>

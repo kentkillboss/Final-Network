@@ -19,15 +19,13 @@ import { Link } from 'react-router-dom';
 import { getUserActions } from 'Redux/Action/suggestionAction';
 
 const useStyles = makeStyles((theme) => ({
-  paper: {
-    
-  },
+  paper: {},
   container: {
     paddingTop: theme.spacing(10),
     position: 'sticky',
     top: 0,
     backgroundColor: '#f0f2f5',
-    height: '100vh'
+    height: '100vh',
   },
   title: {
     fontSize: 20,
@@ -77,11 +75,10 @@ function RightBar(props) {
           <CircularProgress />
         </Box>
       ) : (
-        
         <List>
           {suggestions.users.map((user) => (
-            <Link className={classes.linkSuggestions} to={`/profile/${user._id}`}>
-              <ListItem key={user._id} style={{ padding: 0 }}>
+            <Link key={user._id} className={classes.linkSuggestions} to={`/profile/${user._id}`}>
+              <ListItem style={{ padding: 0 }}>
                 <ListItem button className={classes.listitem}>
                   <ListItemAvatar>
                     <Avatar src={user.avatar}></Avatar>

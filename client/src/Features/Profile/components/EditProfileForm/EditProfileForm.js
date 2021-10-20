@@ -21,7 +21,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { updateProfileUser } from 'Redux/Action/profileAction';
 import { checkImage } from 'utils/imageUpload';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import './editProfile.css';
 
 EditProfileForm.propTypes = {

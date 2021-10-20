@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { getDiscoverPosts, DISCOVER_TYPES } from 'Redux/Action/discoverAction';
-import LoadIcon from 'images/load.gif';
-import PostThumb from 'Features/Profile/components/PostThumb';
-import LoadMoreBtn from './components/LoadMoreBtn';
-import { getDataAPI } from 'api/fetchData';
-import { Box, Grid } from '@material-ui/core';
-import LeftBar from 'Features/Home/components/LeftBar';
-import { Link } from 'react-router-dom';
+import { Grid } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import Header from 'Components/Header';
+import { getDataAPI } from 'api/fetchData';
+import LeftBar from 'Features/Home/components/LeftBar';
+import PostThumb from 'Features/Profile/components/PostThumb';
+import LoadIcon from 'images/load.gif';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { DISCOVER_TYPES, getDiscoverPosts } from 'Redux/Action/discoverAction';
+import LoadMoreBtn from './components/LoadMoreBtn';
 
 Discover.propTypes = {};
 
 function Discover(props) {
-  const { auth, discover, theme } = useSelector((state) => state);
+  const { auth, discover } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
 

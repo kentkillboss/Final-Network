@@ -1,11 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Grid, makeStyles } from '@material-ui/core';
-import LeftSide from './components/LeftSide/index.js';
-import RightSide from './components/RightSide/index.js';
 import ImgMess from 'images/image-mess.png';
+import React from 'react';
+import LeftSide from './components/LeftSide/index.js';
 
-Message.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   img: {
     position: 'absolute',

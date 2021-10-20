@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
-
 import { alpha, Box, makeStyles } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
+import SearchIcon from '@material-ui/icons/Search';
 import { getDataAPI } from 'api/fetchData';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { Link } from 'react-router-dom';
-
 import SearchCard from './searchCard';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 Search.propTypes = {};
 
@@ -91,22 +89,25 @@ function Search(props) {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
-    if (search) {
-      setLoad(true);
-      getDataAPI(`search?username=${search}`, auth.token)
-        .then((res) => setUsers(res.data.users))
-        .catch((err) => {
-          dispatch({
-            type: GLOBALTYPES.ALERT,
-            payload: {
-              err: err.response.data.msg,
-            },
+    async function handleSearch() {
+      if (search) {
+        setLoad(true);
+        await getDataAPI(`search?username=${search}`, auth.token)
+          .then((res) => setUsers(res.data.users))
+          .catch((err) => {
+            dispatch({
+              type: GLOBALTYPES.ALERT,
+              payload: {
+                err: err.response.data.msg,
+              },
+            });
           });
-        });
-      setLoad(false);
-    } else {
-      setUsers([]);
+        setLoad(false);
+      } else {
+        setUsers([]);
+      }
     }
+    handleSearch();
   }, [search, auth.token, dispatch]);
 
   const handleClose = () => {
@@ -130,6 +131,12 @@ function Search(props) {
           value={search}
           onChange={(e) => setSearch(e.target.value.toLowerCase().replace(/ /g, ''))}
         />
+        {load && (
+          <CircularProgress
+            style={{ width: '20px', height: '20px', position: 'absolute', top: '7px', color: 'white' }}
+          />
+        )}
+
         {search && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
       </div>
 

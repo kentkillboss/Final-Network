@@ -26,7 +26,7 @@ const useAudio = (src, volume = 1) => {
     const AUDIO = new Audio(src);
     AUDIO.volume = volume;
     setAudio(AUDIO);
-  }, [src]);
+  }, [src, volume]);
   return {
     play: () => audio.play(),
     pause: () => audio.pause(),
@@ -116,7 +116,7 @@ const CountDown = ({ fx, onComplete }) => {
     return () => {
       if (count.current) count.current.kill();
     };
-  }, []);
+  }, [fx, onComplete]);
   return (
     <Fragment>
       <h2 ref={three} className="countdown-number" style={{ display: 'none' }}>
@@ -178,6 +178,11 @@ const StartScreen = ({ onStart }) => (
       <span>Mole</span>
     </h1>
     <button onClick={onStart}>Start Game</button>
+    <button>
+      <a href="/" style={{ textDecoration: 'none', color: 'white' }}>
+        Home Page
+      </a>
+    </button>
   </div>
 );
 
@@ -428,14 +433,23 @@ const Mole = ({ active = false, loading = false, onWhack, speed, delay, points, 
     return () => {
       gsap.set(
         [
+          // eslint-disable-next-line
           capRef.current,
+          // eslint-disable-next-line
           capPeak.current,
+          // eslint-disable-next-line
           capBody.current,
+          // eslint-disable-next-line
           faceRef.current,
+          // eslint-disable-next-line
           noseRef.current,
+          // eslint-disable-next-line
           eyesRef.current,
+          // eslint-disable-next-line
           specsRef.current,
+          // eslint-disable-next-line
           tummyRef.current,
+          // eslint-disable-next-line
         ],
         {
           xPercent: 0,
@@ -444,7 +458,7 @@ const Mole = ({ active = false, loading = false, onWhack, speed, delay, points, 
       );
       if (loadingRef.current) loadingRef.current.kill();
     };
-  }, [loading]);
+  }, [loading, setMole]);
 
   // To render the score, we don't need React elements.
   // We can render them straight to the DOM and remove them once they've animated.

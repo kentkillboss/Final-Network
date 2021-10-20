@@ -1,19 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box, Card, makeStyles } from '@material-ui/core';
+import { getDataAPI } from 'api/fetchData';
+import PostLoading from 'Components/Loading/SkeletonPost';
+import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
+import CommentHome from 'Features/Home/components/Comments/CommentHome';
+import React, { useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { POST_TYPES } from 'Redux/Action/postAction';
+import InputComment from '../Comments/InputComment';
+import PostBodyHome from './PostBodyHome';
 import PostContent from './PostContent';
 import PostFooter from './PostFooter';
-import CommentHome from 'Features/Home/components/Comments/CommentHome';
-import InputComment from '../Comments/InputComment';
-import { POST_TYPES } from 'Redux/Action/postAction';
-import { getDataAPI } from 'api/fetchData';
-import { useState } from 'react';
-import LoadIcon from 'images/load.gif';
-import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import PostLoading from 'Components/Loading/SkeletonPost';
-import PostBodyHome from './PostBodyHome';
 
 Posts.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
   box: {
     width: '100%',
     marginTop: theme.spacing(1),
-    // boxShadow: 'rgba(0, 0, 0, 0.24) 0px 2px 5px',
   },
 }));
 function Posts(props) {
@@ -32,14 +28,14 @@ function Posts(props) {
   const { posts, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
-  const [hasMore, sethasMore] = useState(true);
+  // const [hasMore, sethasMore] = useState(true);
   const handleLoadMore = async () => {
     setLoad(true);
     const res = await getDataAPI(`posts?limit=${posts.page * 3}`, auth.token);
     dispatch({ type: POST_TYPES.GET_POSTS, payload: { ...res.data, page: posts.page + 1 } });
-    if (res.length === 0 || res.length < 20) {
-      sethasMore(false);
-    }
+    // if (res.length === 0 || res.length < 20) {
+    //   sethasMore(false);
+    // }
     setLoad(false);
   };
 

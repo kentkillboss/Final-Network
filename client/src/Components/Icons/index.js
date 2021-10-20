@@ -1,7 +1,6 @@
-import { Box, Button, makeStyles } from '@material-ui/core';
-import React from 'react';
+import { Box, makeStyles } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   menu: {
@@ -69,7 +68,6 @@ function Icons({ setShowIcon, setContent, content }) {
     '😠',
     '😡',
   ];
-  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClose = () => {
     setShowIcon(false);

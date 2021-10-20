@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import Avatar from '@material-ui/core/Avatar';
-import { Link, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { Box, CardHeader, IconButton, makeStyles, Typography } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import moment from 'moment';
+import Avatar from '@material-ui/core/Avatar';
+import CardContent from '@material-ui/core/CardContent';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import FileCopyRoundedIcon from '@material-ui/icons/FileCopyRounded';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import StatusModal from '../Status/StatusModal';
 import { deletePost } from 'Redux/Action/postAction';
 import { BASE_URL } from 'utils/config';
-import CardContent from '@material-ui/core/CardContent';
 
 PostContent.propTypes = {};
 const useStyles = makeStyles((theme) => ({

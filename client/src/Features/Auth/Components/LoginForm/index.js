@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,13 +13,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../../Components/Form-Controls/InputField';
 import PasswordField from '../../../../Components/Form-Controls/PasswordField';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import Alert from 'Components/Alert/alert';
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -27,7 +26,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="https://facebook.com">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -123,18 +122,18 @@ function LoginForm(props) {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <NavLink className={classes.navlink} to="/register">
-                  {"Don't have an account? Sign Up"}
-                </NavLink>
-              </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
           </form>
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <NavLink className={classes.navlink} to="/register">
+                {"Don't have an account? Sign Up"}
+              </NavLink>
+            </Grid>
+          </Grid>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
         </div>
       </Grid>
     </Grid>

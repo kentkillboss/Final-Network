@@ -1,25 +1,20 @@
-import React from 'react';
-
 import Avatar from '@material-ui/core/Avatar';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
+import React from 'react';
 import {
-  EmailShareButton,
   EmailIcon,
-  FacebookShareButton,
+  EmailShareButton,
   FacebookIcon,
-  TelegramShareButton,
+  FacebookShareButton,
   TelegramIcon,
-  TwitterShareButton,
+  TelegramShareButton,
   TwitterIcon,
-  WhatsappShareButton,
-  WhatsappIcon,
-  RedditShareButton,
-  RedditIcon,
+  TwitterShareButton,
 } from 'react-share';
 
 function ShareModal({ setIsShare, url }) {

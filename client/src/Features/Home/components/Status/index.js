@@ -1,14 +1,8 @@
-import { Box, Button, Card, Grid, Icon, IconButton, makeStyles, Paper, TextField } from '@material-ui/core';
-import React from 'react';
-import DuoRoundedIcon from '@material-ui/icons/DuoRounded';
-import Typography from '@material-ui/core/Typography';
-import CameraAltRoundedIcon from '@material-ui/icons/CameraAltRounded';
-import EmojiEmotionsRoundedIcon from '@material-ui/icons/EmojiEmotionsRounded';
-import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, makeStyles, Paper } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { useState } from 'react';
-import StatusModal from './StatusModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +48,6 @@ function Status(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
-  const [showModal, setShowModal] = useState(false);
   return (
     <div className={classes.root}>
       <Paper className={classes.paperCenter}>
@@ -73,8 +66,6 @@ function Status(props) {
             </Button>
           </Box>
         </Box>
-
-        {/* {showModal && <StatusModal setShowModal={setShowModal} />} */}
       </Paper>
     </div>
   );

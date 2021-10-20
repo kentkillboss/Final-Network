@@ -1,7 +1,7 @@
 import { Box, Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
 import './style.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 Loading.propTypes = {};
 const useStyle = makeStyles((theme) => ({

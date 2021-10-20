@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { makeStyles } from '@material-ui/core';
-import Loading from 'Components/Loading';
-import Notistack from './Notistack';
+import { useDispatch, useSelector } from 'react-redux';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import Notistack from './Notistack';
 
 // Notify.propTypes = {};
 // const useStyles = makeStyles((theme) => ({

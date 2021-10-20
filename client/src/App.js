@@ -8,7 +8,6 @@ import StatusModal from 'Features/Home/components/Status/StatusModal';
 import Message from 'Features/Message';
 import CallModal from 'Features/Message/components/callModal/index';
 import Conversation from 'Features/Message/components/conversation/index.js';
-import Notify from 'Features/Notify';
 import Post from 'Features/Post';
 import Profile from 'Features/Profile';
 import Peer from 'peerjs';
@@ -81,12 +80,12 @@ function App() {
             <Route path="/" component={auth.token ? Home : Login} exact />
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
-            <Route path="/post/:id" component={Post} />
+            <PrivateRouter path="/post/:id" component={Post} />
             <PrivateRouter path="/message" component={Message} exact />
             <PrivateRouter path="/message/:id" component={Conversation} exact />
             <PrivateRouter path="/discover" component={Discover} />
-            <Route path="/profile/:id" component={auth.token ? Profile : Login} />
-            <Route path="/games" component={Games} />
+            <PrivateRouter path="/profile/:id" component={auth.token ? Profile : Login} />
+            <PrivateRouter path="/games" component={Games} />
             <Route component={NotFound} />
           </Switch>
         </div>

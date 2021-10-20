@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, Switch, useRouteMatch } from 'react-router';
 import { Box } from '@material-ui/core';
+import React from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router';
 import GameHome from './GameHome';
 import WhacAMole from './Whac-A-Mole';
 

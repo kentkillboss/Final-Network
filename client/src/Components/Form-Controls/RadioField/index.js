@@ -1,9 +1,8 @@
-import { Radio, TextField } from '@material-ui/core';
-import React from 'react';
-import FormLabel from '@material-ui/core/FormLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
+import { Radio } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 
 RadioField.propTypes = {

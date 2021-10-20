@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { CardActions, IconButton, Typography } from '@material-ui/core';
-import ShareIcon from '@material-ui/icons/Share';
 import BookmarksRoundedIcon from '@material-ui/icons/BookmarksRounded';
 import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRounded';
-import LikeButton from './LikeButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { likePost, savePost, unLikePost, unSavePost } from 'Redux/Action/postAction';
-import ShareModal from './ShareModal';
-import { BASE_URL } from 'utils/config';
+import ShareIcon from '@material-ui/icons/Share';
 import TurnedInNotRoundedIcon from '@material-ui/icons/TurnedInNotRounded';
-import TurnedInRoundedIcon from '@material-ui/icons/TurnedInRounded';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { likePost, savePost, unLikePost, unSavePost } from 'Redux/Action/postAction';
+import { BASE_URL } from 'utils/config';
+import LikeButton from './LikeButton';
+import ShareModal from './ShareModal';
 
 PostFooter.propTypes = {};
 

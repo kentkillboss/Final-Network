@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import CommentCard from './CommentCard';
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import CommentCard from './CommentCard';
 
 CommentDisplay.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -30,18 +29,18 @@ function CommentDisplay({ comment, post, replyCm }) {
   }, [replyCm, next]);
   return (
     <div>
-      <CommentCard comment={comment} post={post} commentId={comment._id} style={{padding: 0}}></CommentCard>
-      <Box className={classes.reply}  style={{padding: 0}}>
+      <CommentCard comment={comment} post={post} commentId={comment._id} style={{ padding: 0 }}></CommentCard>
+      <Box className={classes.reply} style={{ padding: 0 }}>
         {showRep.map(
           (item, index) => item.reply && <CommentCard key={index} comment={item} post={post} commentId={comment._id} />
         )}
         {replyCm.length - next > 0 ? (
-          <Typography onClick={() => setNext(next + 10)} className={classes.seeMore}>
+          <Typography component="span" onClick={() => setNext(next + 10)} className={classes.seeMore}>
             See more comment
           </Typography>
         ) : (
           replyCm.length > 1 && (
-            <Typography onClick={() => setNext(1)} className={classes.seeMore}>
+            <Typography component="span" onClick={() => setNext(1)} className={classes.seeMore}>
               Hide more comment...
             </Typography>
           )

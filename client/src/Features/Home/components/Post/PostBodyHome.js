@@ -1,14 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
 // import ImageGrid from 'react-fb-image-grid';
 import Photogrid from 'react-facebook-photo-grid';
-import Box from '@material-ui/core/Box';
-import { useState } from 'react';
 
 function PostBodyHome({ post }) {
-
   return (
     <>
       <CardContent style={{ padding: '0 16px' }}>

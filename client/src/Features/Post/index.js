@@ -1,20 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useParams } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { getPost } from 'Redux/Action/postAction';
-import LoadIcon from 'images/load.gif';
 import { Box, Card, Grid } from '@material-ui/core';
-import Posts from 'Features/Home/components/Post/index';
-import PostContent from 'Features/Home/components/Post/PostContent';
-import PostBody from 'Features/Home/components/Post/PostBody';
-import PostFooter from 'Features/Home/components/Post/PostFooter';
 import Comment from 'Features/Home/components/Comments/Comment';
 import InputComment from 'Features/Home/components/Comments/InputComment';
-
-Post.propTypes = {};
+import PostBody from 'Features/Home/components/Post/PostBody';
+import PostContent from 'Features/Home/components/Post/PostContent';
+import PostFooter from 'Features/Home/components/Post/PostFooter';
+import LoadIcon from 'images/load.gif';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { getPost } from 'Redux/Action/postAction';
 
 function Post(props) {
   const { id } = useParams();
