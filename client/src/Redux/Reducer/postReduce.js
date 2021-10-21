@@ -6,6 +6,8 @@ const initialState = {
   posts: [],
   result: 0,
   page: 2,
+  rpPosts: [],
+  rpResult: 0
 };
 
 const postReducer = (state = initialState, action) => {
@@ -36,6 +38,12 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: DeleteData(state.posts, action.payload._id),
+      };
+    case POST_TYPES.GET_ALL_POSTS:
+      return {
+        ...state,
+        rpPosts: action.payload.posts,
+        rpResult: action.payload.result,
       };
 
     default:

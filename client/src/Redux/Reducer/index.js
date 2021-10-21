@@ -14,6 +14,7 @@ import message from 'Redux/Reducer/messageReduce';
 import online from 'Redux/Reducer/onlineReduce';
 import call from 'Redux/Reducer/callReduce';
 import peer from 'Redux/Reducer/peerReduce';
+import admin from 'Redux/Reducer/adminReduce';
 
 export default combineReducers({
   auth,
@@ -30,5 +31,6 @@ export default combineReducers({
   message,
   online,
   call,
-  peer
+  peer,
+  admin
 });

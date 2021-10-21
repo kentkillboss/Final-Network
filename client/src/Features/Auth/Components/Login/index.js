@@ -1,8 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { login } from '../../userSlice';
-// import { unwrapResult } from '@reduxjs/toolkit';
-// import { useSnackbar } from 'notistack';
 import { useHistory } from 'react-router-dom';
 import LoginForm from '../LoginForm';
 import { useEffect } from 'react';
@@ -13,7 +10,6 @@ Login.propTypes = {};
 function Login(props) {
   const dispatch = useDispatch();
   const { auth } = useSelector((state) => state);
-  // const { enqueueSnackbar } = useSnackbar();
   const history = useHistory();
   useEffect(() => {
     if (auth.token) history.push('/');

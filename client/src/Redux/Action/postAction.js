@@ -10,6 +10,7 @@ export const POST_TYPES = {
   UPDATE_POST: 'UPDATE_POST',
   GET_POST: 'GET_POST',
   DELETE_POST: 'DELETE_POST',
+  GET_ALL_POSTS: 'GET_ALL_POSTS'
 };
 
 export const createPost =
@@ -170,7 +171,7 @@ export const deletePost =
       const res = await deleteDataAPI(`post/${post._id}`, auth.token);
 
       //notify
-      const msg = {
+      const msg = { 
         id: post._id,
         text: 'added a new post',
         recipients: res.data.newPost.user.followers,
@@ -210,6 +211,51 @@ export const unSavePost =
 
     try {
       await patchDataAPI(`unSavePost/${post._id}`, null, auth.token);
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: err.response.data.msg },
+      });
+    }
+  };
+
+export const reportPost = ({post, auth}) => async (dispatch) => {
+    const newPost = { ...post, report: [...post.report, auth.user] };
+    dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+    try {
+      await patchDataAPI(`report/${post._id}`, null, auth.token);
+    } catch (error) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: error.response.data.msg },
+      });
+    }
+}
+
+export const getAllPosts = (auth) => async (dispatch) => {
+
+  try {
+        dispatch({type: POST_TYPES.LOADING_POST, payload: true});
+
+        const res = await getDataAPI('getAllPosts', auth.token);
+        dispatch({type: POST_TYPES.GET_ALL_POSTS, payload: res.data});
+
+        dispatch({type: POST_TYPES.LOADING_POST, payload: false});
+  } catch (error) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: { error: error.response.data.msg },
+    });
+  }
+}
+
+export const adminDeletePost =
+  ({ post, auth, userId }) =>
+  async (dispatch) => {
+    dispatch({ type: POST_TYPES.DELETE_POST, payload: post });
+    try {
+      await deleteDataAPI(`post/${post._id}/${userId}`, auth.token);
+
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

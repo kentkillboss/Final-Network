@@ -13,6 +13,9 @@ router
   .get(auth, postCtrl.getPost)
   .delete(auth, postCtrl.deletePost);
 
+router.delete("/post/:id/:userId", auth, postCtrl.adminDeletePost);
+
+
 router.patch("/post/:id/like", auth, postCtrl.likePost);
 
 router.patch("/post/:id/unlike", auth, postCtrl.unLikePost);
@@ -26,5 +29,11 @@ router.patch("/savePost/:id", auth, postCtrl.savePost);
 router.patch("/unSavePost/:id", auth, postCtrl.unSavePost);
 
 router.get("/getSavePosts", auth, postCtrl.getSavePosts);
+
+router.patch("/report/:id", auth, postCtrl.reportPost);
+
+router.get("/getAllPosts", auth, postCtrl.getAllPostsReport);
+
+
 
 module.exports = router;

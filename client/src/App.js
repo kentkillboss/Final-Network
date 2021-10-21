@@ -25,6 +25,7 @@ import './App.css';
 import NotFound from './Components/NotFound';
 import Login from './Features/Auth/Components/Login';
 import Register from './Features/Auth/Components/Register';
+import Admin from './Admin/components/layout/Layout';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -72,20 +73,22 @@ function App() {
       <Alert />
       <div className="App">
         <div className="main">
-          {auth.token && <Header />}
+          {/* {auth.token && <Header/>} */}
+          {auth.token ? (auth.user.role === 'admin' ? <></> : <Header/>) : <></>}
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}
           <Switch>
-            <Route path="/" component={auth.token ? Home : Login} exact />
+            <Route path="/" component={auth.token ? (auth.user.role === 'admin' ? Admin : Home) : Login} exact />
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
-            <PrivateRouter path="/post/:id" component={Post} />
-            <PrivateRouter path="/message" component={Message} exact />
-            <PrivateRouter path="/message/:id" component={Conversation} exact />
-            <PrivateRouter path="/discover" component={Discover} />
-            <PrivateRouter path="/profile/:id" component={auth.token ? Profile : Login} />
+            <PrivateRouter path="/post/:id" component={auth.token ? (auth.user.role === 'admin' ? Admin : Post) : Login} />
+            <PrivateRouter path="/message" component={auth.token ? (auth.user.role === 'admin' ? Admin : Message) : Login} exact />
+            <PrivateRouter path="/message/:id" component={auth.token ? (auth.user.role === 'admin' ? Admin : Conversation) : Login} exact />
+            <PrivateRouter path="/discover" component={auth.token ? (auth.user.role === 'admin' ? Admin : Discover) : Login} />
+            <PrivateRouter path="/profile/:id" component={auth.token ? (auth.user.role === 'admin' ? Admin : Profile) : Login} />
             <PrivateRouter path="/games" component={Games} />
+            <PrivateRouter path="/dashboard" component={auth.token ? (auth.user.role === 'admin' ? Admin : Home) : Login} />
             <Route component={NotFound} />
           </Switch>
         </div>

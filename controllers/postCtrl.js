@@ -203,10 +203,12 @@ const postCtrl = {
   },
   deletePost: async (req, res) => {
     try {
+      console.log(req);
       const post = await Posts.findOneAndDelete({
         _id: req.params.id,
         user: req.user._id,
       });
+      
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
       res.json({
@@ -280,6 +282,76 @@ const postCtrl = {
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
+    }
+  },
+  reportPost: async (req, res) => {
+    try {
+      const post = await Posts.find({
+        _id: req.params.id,
+        report: req.user._id,
+      });
+      if (post.length > 0)
+        return res.status(400).json({ msg: "You reported this post." });
+
+      const report = await Posts.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          $push: { report: req.user._id },
+        },
+        { new: true }
+      );
+
+      if (!report)
+        return res.status(400).json({ msg: "This post does not exist." });
+
+      res.json({ msg: "reported Post!" });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getAllPostsReport: async (req, res) => {
+    try {
+      const features = new APIfeatures(
+        Posts.find({}),
+        req.query
+      );
+      const posts = await features.query
+        .sort("-createdAt")
+        .populate("user likes", "avatar username fullname followers report")
+        .populate({
+          path: "comments",
+          populate: {
+            path: "user likes",
+            select: "-password",
+          },
+        });
+
+      res.json({
+        msg: "Success!",
+        result: posts.length,
+        posts,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  adminDeletePost: async (req, res) => {
+    try {
+      const post = await Posts.findOneAndDelete({
+        _id: req.params.id,
+        user: req.params.userId
+      });
+      await Comments.deleteMany({ _id: { $in: post.comments } });
+
+      res.json({
+        msg: "Deleted Post.",
+        newPost: {
+          ...post,
+          user: req.user,
+        },
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 };

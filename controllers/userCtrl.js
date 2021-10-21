@@ -137,6 +137,25 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  getUsers: async (req, res) => {
+    try {
+      // const features = new APIfeatures(
+      //   Users.find({}),
+      //   req.query
+      // ).paginating();
+      // const users = await features.query.select("-password");
+
+      const users = await Users.find({});
+
+      res.json({
+        msg: "Success!",
+        result: users.length,
+        users,
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 
 module.exports = userCtrl;

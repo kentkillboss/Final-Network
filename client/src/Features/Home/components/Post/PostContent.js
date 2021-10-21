@@ -12,8 +12,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { deletePost } from 'Redux/Action/postAction';
+import { deletePost, reportPost } from 'Redux/Action/postAction';
 import { BASE_URL } from 'utils/config';
+import ReportIcon from '@material-ui/icons/Report';
 
 PostContent.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +60,7 @@ function PostContent({ post }) {
     dispatch({ type: GLOBALTYPES.STATUS, payload: { ...post, onEdit: true } });
   };
   const handleDeletePost = () => {
-    if (window.confirm('Are you sure want to delete this post?')) {
+    if (window.confirm('Bạn chắc chắn muốn xoá bài viết này?')) {
       dispatch(deletePost({ post, auth, socket }));
       history.push('/');
     }
@@ -68,6 +69,13 @@ function PostContent({ post }) {
     navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`);
     setAnchorEl(null);
   };
+  const handleReportPost = async () => {
+    if (window.confirm('Bạn chắc chắn muốn báo cáo bài viết này?')) {
+      await dispatch(reportPost({ post, auth }));
+      handleClose();
+      history.push('/');
+    }
+  }
 
   const [readMore, setReadMore] = useState(false);
   return (
@@ -127,6 +135,10 @@ function PostContent({ post }) {
         <MenuItem onClick={handleCopyLink}>
           <FileCopyRoundedIcon className={classes.icon} />
           Copy Link
+        </MenuItem>
+        <MenuItem onClick={handleReportPost}>
+          <ReportIcon className={classes.icon} />
+          Report this post
         </MenuItem>
       </Menu>
     </>
