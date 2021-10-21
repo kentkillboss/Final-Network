@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './sidebar.css';
 
 import sidebar_items from 'Admin/assets/JsonData/sidebar_routes.json';
-import Logo from 'Admin/assets/images/logo.png';
+import Logo from 'images/logo1.png';
 
 const SidebarItem = props => {
 
@@ -29,6 +29,7 @@ const Sidebar = props => {
         <div className='sidebar'>
             <div className="sidebar__logo">
                 <img src={Logo} alt="company logo" />
+                <p>Dulcie</p>
             </div>
             {
                 sidebar_items.map((item, index) => (

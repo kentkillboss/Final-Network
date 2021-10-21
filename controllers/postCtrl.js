@@ -316,7 +316,7 @@ const postCtrl = {
         req.query
       );
       const posts = await features.query
-        .sort("-createdAt")
+        .sort("-report")
         .populate("user likes", "avatar username fullname followers report")
         .populate({
           path: "comments",

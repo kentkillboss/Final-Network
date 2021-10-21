@@ -16,7 +16,15 @@
 }
 
 .sidebar__logo > img {
-    height: 45px;
+    height: 60px;
+}
+
+.sidebar__logo > p {
+    font-size: 35px;
+    font-weight: bold;
+    color: #5C8D89;
+    padding-left: 10px;
+    font-family: 'Acme', cursive;
 }
 
 .sidebar__item {

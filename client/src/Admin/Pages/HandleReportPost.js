@@ -143,25 +143,35 @@ function HandleReportPost() {
     }
   }
 
+  const sortFn = (a, b) => {
+    if(a.report.length > b.report.length) return -1;
+    if(a.report.length === b.report.length) return 0;
+    return 1;
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell align="right">User's Post</StyledTableCell>
             <StyledTableCell align="right">Post Content</StyledTableCell>
-            <StyledTableCell align="right">Number OF Report</StyledTableCell>
-            <StyledTableCell align="right">delete</StyledTableCell>
+            <StyledTableCell align="right">Number Of Report</StyledTableCell>
+            <StyledTableCell align="right">Delete Post</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
             ? reportPosts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : reportPosts
-          ).map((post, index) => (
+          ).sort(sortFn).map((post, index) => (
             <TableRow key={post._id}>
               <TableCell component="th" style={{ width: 160 }} scope="row">
-                {index}
+                {index + 1}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="right">
+                {post.user.username}
               </TableCell>
               <TableCell  align="right">
                 {post.content.slice(0, 50)}...

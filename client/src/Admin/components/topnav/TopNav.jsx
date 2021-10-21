@@ -1,47 +1,10 @@
-import React from 'react'
-import './topnav.css';
-import { Link } from 'react-router-dom'
-import Dropdown from '../dropdown/Dropdown'
-import notifications from 'Admin/assets/JsonData/notification.json'
-import user_image from 'Admin/assets/images/tuat.png'
-import user_menu from 'Admin/assets/JsonData/user_menus.json'
-import { useDispatch, useSelector } from 'react-redux';
-import Box from '@material-ui/core/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'Redux/Action/authAction';
+import './topnav.css';
 
-const curr_user = {
-    display_name: 'Tuat Tran',
-    image: user_image
-}
-
-const renderNotificationItem = (item, index) => (
-    <div className="notification-item" key={index}>
-        <i className={item.icon}></i>
-        <span>{item.content}</span>
-    </div>
-)
-
-const renderUserToggle = (user) => (
-    <div className="topnav__right-user">
-        <div className="topnav__right-user__image">
-            <img src={user.image} alt="" />
-        </div>
-        <div className="topnav__right-user__name">
-            {user.display_name}
-        </div>
-    </div>
-)
-
-const renderUserMenu =(item, index) => (
-    <Link to='/' key={index}>
-        <div className="notification-item">
-            <i className={item.icon}></i>
-            <span>{item.content}</span>
-        </div>
-    </Link>
-)
 
 const Topnav = () => {
     const {auth, posts} = useSelector(state => state);
@@ -65,7 +28,7 @@ const Topnav = () => {
                 <div className="topnav__right-item">
                     {/* dropdown here */}
 
-                    <div className="topnav__right-user" onClick={handleClick}>
+                    <div className="topnav__right-user" style={{cursor: 'pointer'}} onClick={handleClick}>
                         <div className="topnav__right-user__image">
                             <img src={auth.user.avatar} alt="" />
                         </div>
