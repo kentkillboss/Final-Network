@@ -7,7 +7,7 @@ import './topnav.css';
 
 
 const Topnav = () => {
-    const {auth, posts} = useSelector(state => state);
+    const {auth} = useSelector(state => state);
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = React.useState(null);
 

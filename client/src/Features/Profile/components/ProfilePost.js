@@ -13,6 +13,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { useParams } from 'react-router-dom';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 
 function TabPanel(props) {
@@ -70,6 +71,7 @@ function ProfilePost({ auth, id, dispatch, profile }) {
   const [resultSave, setResultSave] = useState(9);
   const [pageSave, setPageSave] = useState(2);
   const [loadSave, setLoadSave] = useState(false);
+  const params = useParams();
   useEffect(() => {
     profile.userPosts.forEach((data) => {
       if (data._id === id) {
@@ -151,22 +153,24 @@ function ProfilePost({ auth, id, dispatch, profile }) {
           <LoadMoreBtn result={result} page={page} load={load} handleLoadMore={handleLoadMore} />
         </div>
       </TabPanel>
-      <TabPanel value={value} index={1} dir={theme.direction}>
-        <div>
-          <Grid container>
-            {savePosts.map((postSave) => (
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <Link to={`/post/${postSave._id}`}>
-                  <PostThumb posts={postSave} result={resultSave} />
-                </Link>
-              </Grid>
-            ))}
-          </Grid>
-          {loadSave && <img src={LoadIcon} alt="loading1" />}
+      {auth.user._id === params.id && (
+        <TabPanel value={value} index={1} dir={theme.direction}>
+          <div>
+            <Grid container>
+              {savePosts.map((postSave) => (
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <Link to={`/post/${postSave._id}`}>
+                    <PostThumb posts={postSave} result={resultSave} />
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+            {loadSave && <img src={LoadIcon} alt="loading1" />}
 
-          <LoadMoreBtn result={resultSave} page={pageSave} load={loadSave} handleLoadMore={handleLoadMoreSave} />
-        </div>
-      </TabPanel>
+            <LoadMoreBtn result={resultSave} page={pageSave} load={loadSave} handleLoadMore={handleLoadMoreSave} />
+          </div>
+        </TabPanel>
+      )}
     </div>
   );
 }

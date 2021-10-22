@@ -6,16 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from 'app/store1';
-import 'Admin/assets/css/grid.css'
-import 'Admin/assets/css/theme.css'
-import 'Admin/assets/css/index.css'
-import 'Admin/assets/boxicons-2.0.7/css/boxicons.min.css'
+import 'Admin/assets/css/grid.css';
+import 'Admin/assets/css/index.css';
+import 'Admin/assets/boxicons-2.0.7/css/boxicons.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-          <App />
+        <App />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

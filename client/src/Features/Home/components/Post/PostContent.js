@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   hr: {
     border: '0.5px solid #ebdfdf',
     width: '93%',
+    margin: '0 auto',
   },
   readMore: {
     cursor: 'pointer',
@@ -75,7 +76,7 @@ function PostContent({ post }) {
       handleClose();
       history.push('/');
     }
-  }
+  };
 
   const [readMore, setReadMore] = useState(false);
   return (

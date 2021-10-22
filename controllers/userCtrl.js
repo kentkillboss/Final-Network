@@ -1,4 +1,9 @@
 const Users = require("../models/useModel");
+const Posts = require("../models/postModel");
+const Comments = require("../models/commentModel");
+const Messages = require("../models/messageModels");
+const Conversations = require("../models/conversationModel");
+
 const userCtrl = {
   searchUser: async (req, res) => {
     try {
@@ -27,8 +32,16 @@ const userCtrl = {
   },
   updateUser: async (req, res) => {
     try {
-      const { avatar, background, fullname, mobile, address, story, website, gender } =
-        req.body;
+      const {
+        avatar,
+        background,
+        fullname,
+        mobile,
+        address,
+        story,
+        website,
+        gender,
+      } = req.body;
       if (!fullname)
         return res.status(400).json({ msg: "Please add your fullname." });
       await Users.findOneAndUpdate(
@@ -139,13 +152,7 @@ const userCtrl = {
   },
   getUsers: async (req, res) => {
     try {
-      // const features = new APIfeatures(
-      //   Users.find({}),
-      //   req.query
-      // ).paginating();
-      // const users = await features.query.select("-password");
-
-      const users = await Users.find({});
+      const users = await Users.find({}).select("-password");
 
       res.json({
         msg: "Success!",

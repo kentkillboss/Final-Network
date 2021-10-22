@@ -203,12 +203,11 @@ const postCtrl = {
   },
   deletePost: async (req, res) => {
     try {
-      console.log(req);
       const post = await Posts.findOneAndDelete({
         _id: req.params.id,
         user: req.user._id,
       });
-      
+
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
       res.json({
@@ -311,10 +310,7 @@ const postCtrl = {
   },
   getAllPostsReport: async (req, res) => {
     try {
-      const features = new APIfeatures(
-        Posts.find({}),
-        req.query
-      );
+      const features = new APIfeatures(Posts.find({}), req.query);
       const posts = await features.query
         .sort("-report")
         .populate("user likes", "avatar username fullname followers report")
@@ -339,7 +335,7 @@ const postCtrl = {
     try {
       const post = await Posts.findOneAndDelete({
         _id: req.params.id,
-        user: req.params.userId
+        user: req.params.userId,
       });
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
