@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   popoverPaper: {
     width: '35%',
     // height: '100%',
-    maxHeight: 'unset',
+    maxHeight: '500px',
     maxWidth: 'unset',
     [theme.breakpoints.down('sm')]: {
       width: '80%',

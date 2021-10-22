@@ -110,7 +110,6 @@ function App() {
               path="/dashboard"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : Home) : Login}
             />
-            <Route path="/notify" component={Notify} />
             <Route component={NotFound} />
           </Switch>
         </div>
