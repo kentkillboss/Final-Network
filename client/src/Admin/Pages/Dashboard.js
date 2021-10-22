@@ -10,7 +10,9 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from 'Redux/Action/adminAction';
-import { Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
+import { isBanUser, isUnBanUser } from 'Redux/Action/adminAction';
+import { useHistory } from 'react-router';
 
 const columns = [
   { id: 'stt', label: 'STT', minWidth: 100 },
@@ -19,19 +21,21 @@ const columns = [
     id: 'population',
     label: 'Email',
     minWidth: 170,
-    format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'size',
     label: 'Phone',
     minWidth: 170,
-    format: (value) => value.toLocaleString('en-US'),
   },
   {
     id: 'density',
     label: 'Address',
     minWidth: 170,
-    format: (value) => value.toFixed(2),
+  },
+  {
+    id: 'btn',
+    label: 'Ban/unBan',
+    minWidth: 80,
   },
 ];
 
@@ -51,6 +55,7 @@ export default function Dashboard() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const { admin, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getUsers(auth));
@@ -63,6 +68,20 @@ export default function Dashboard() {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleBanUser = (user) => {
+    if (window.confirm('Bạn chắc chắn muốn cấm tài khoản này?')) {
+    dispatch(isBanUser({ user, auth }));
+    history.push('/dashboard');
+    }
+  };
+
+  const handleUnBanUser = (user) => {
+    if (window.confirm('Bạn chắc chắn muốn mở lại tài khoản này?')) {
+    dispatch(isUnBanUser({ user, auth }));
+    history.push('/dashboard');
+    }
   };
 
   return (
@@ -103,6 +122,20 @@ export default function Dashboard() {
                     <TableCell style={{ width: 160 }} align="left">
                       {item.address}
                     </TableCell>
+                    {
+                      item.isBan === true 
+                      ? <TableCell style={{ width: 80 }}>
+                      <Button variant="contained" color="primary" onClick={() => handleUnBanUser(item)}>
+                        UnBan
+                      </Button>
+                    </TableCell>
+                      : <TableCell style={{ width: 80 }}>
+                      <Button variant="contained" color="secondary" onClick={() => handleBanUser(item)}>
+                        Ban
+                      </Button>
+                    </TableCell>
+                    }
+                    
                   </TableRow>
                 );
               })}

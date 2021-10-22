@@ -163,6 +163,34 @@ const userCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+  isBan: async (req, res) => {
+    try {
+      const user = await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          isBan: true,
+        }
+      );
+
+      return res.json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  isUnBan: async (req, res) => {
+    try {
+      const user = await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          isBan: false,
+        }
+      );
+
+      return res.json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = userCtrl;
