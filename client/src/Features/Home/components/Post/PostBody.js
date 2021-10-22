@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: 'auto',
     maxHeight: '490px',
+    minHeight: '490px', 
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     objectFit: 'contain',

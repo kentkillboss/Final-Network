@@ -148,10 +148,10 @@ function HandleReportPost() {
         <TableHead>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
-            <StyledTableCell align="right">User's Post</StyledTableCell>
-            <StyledTableCell align="right">Post Content</StyledTableCell>
-            <StyledTableCell align="right">Number Of Report</StyledTableCell>
-            <StyledTableCell align="right">Delete Post</StyledTableCell>
+            <StyledTableCell >User's Post</StyledTableCell>
+            <StyledTableCell >Post Content</StyledTableCell>
+            <StyledTableCell >Number Of Report</StyledTableCell>
+            <StyledTableCell >Delete Post</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -162,14 +162,14 @@ function HandleReportPost() {
                 <TableCell component="th" style={{ width: 160 }} scope="row">
                   {index + 1}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} >
                   {post.user.username}
                 </TableCell>
-                <TableCell align="right">{post.content.slice(0, 50)}...</TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell >{post.content.slice(0, 50)}...</TableCell>
+                <TableCell style={{ width: 160 }} >
                   {post.report.length}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} >
                   <Button variant="contained" color="secondary" onClick={() => handleAdminDelete(post, post.user._id)}>
                     Delete
                   </Button>

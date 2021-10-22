@@ -69,6 +69,9 @@ const authCtrl = {
       if (!isMatch)
         return res.status(400).json({ msg: "Password is incorrect." });
 
+      if (user.isBan === true)
+        return res.status(400).json({ msg: "Your account has been banned." });
+
       const access_token = createAccessToken({ id: user._id });
       const refresh_token = createRefreshToken({ id: user._id });
 
