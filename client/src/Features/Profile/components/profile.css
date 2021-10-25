@@ -72,6 +72,7 @@
 
   .user_profile_headline span {
     margin: 2px 64px 0px 63px;
+    font-size: 12px;
   }
   .user_profile_headline .span {
     margin: 2px 64px 0px 1px;
@@ -81,7 +82,7 @@
     position: absolute;
     top: -11px;
     /* right: -70px; */
-    width: 94px;
+    width: 70px;
     height: 29px;
   }
 }

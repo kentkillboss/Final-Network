@@ -16,6 +16,7 @@ import { useHistory } from 'react-router';
 import { getDataAPI } from 'api/fetchData';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import SearchIcon from '@material-ui/icons/Search';
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 
 const columns = [
   { id: 'stt', label: 'STT', minWidth: 100 },
@@ -42,7 +43,7 @@ const columns = [
   },
 ];
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
@@ -50,7 +51,23 @@ const useStyles = makeStyles({
     maxHeight: 440,
     borderRadius: '5px',
   },
-});
+  cancelIcon: {
+    padding: theme.spacing(0, 2),
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '54px',
+    right: '63%',
+    top: '22.5%',
+    cursor: 'pointer',
+    color: '#577875',
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+      right: '5px',
+    },
+  },
+}));
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -78,15 +95,15 @@ export default function Dashboard() {
 
   const handleBanUser = (user) => {
     if (window.confirm('Bạn chắc chắn muốn cấm tài khoản này?')) {
-    dispatch(isBanUser({ user, auth }));
-    history.push('/dashboard');
+      dispatch(isBanUser({ user, auth }));
+      history.push('/dashboard');
     }
   };
 
   const handleUnBanUser = (user) => {
     if (window.confirm('Bạn chắc chắn muốn mở lại tài khoản này?')) {
-    dispatch(isUnBanUser({ user, auth }));
-    history.push('/dashboard');
+      dispatch(isUnBanUser({ user, auth }));
+      history.push('/dashboard');
     }
   };
 
@@ -108,29 +125,33 @@ export default function Dashboard() {
           });
         });
     }
-    if(!value) {
+    if (!value) {
       setNewData(data);
     }
   }, [value, auth.token, dispatch, data]);
+  const handleClose = () => {
+    setValue('');
+  };
 
   return (
     <>
       <Typography> Số lượng người sử dụng của Dulcie: {admin.result}</Typography>
 
-      <form className={classes.root} noValidate autoComplete="off" style={{marginBottom: '5px'}}>
-          <Input
-            id="input-with-icon-adornment"
-            onChange={(e) => setValue(e.target.value)}
-            value={value}
-            placeholder='Tìm kiếm User...'
-            startAdornment={
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            }
-          />
+      <form className={classes.root} noValidate autoComplete="off" style={{ marginBottom: '5px' }}>
+        <Input
+          id="input-with-icon-adornment"
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+          placeholder="Tìm kiếm User..."
+          startAdornment={
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          }
+        />
+        {value && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
       </form>
-      
+
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
@@ -166,20 +187,19 @@ export default function Dashboard() {
                     <TableCell style={{ width: 160 }} align="left">
                       {item.address}
                     </TableCell>
-                    {
-                      item.isBan === true 
-                      ? <TableCell style={{ width: 80 }}>
-                      <Button variant="contained" color="primary" onClick={() => handleUnBanUser(item)}>
-                        UnBan
-                      </Button>
-                    </TableCell>
-                      : <TableCell style={{ width: 80 }}>
-                      <Button variant="contained" color="secondary" onClick={() => handleBanUser(item)}>
-                        Ban
-                      </Button>
-                    </TableCell>
-                    }
-                    
+                    {item.isBan === true ? (
+                      <TableCell style={{ width: 80 }}>
+                        <Button variant="contained" color="primary" onClick={() => handleUnBanUser(item)}>
+                          UnBan
+                        </Button>
+                      </TableCell>
+                    ) : (
+                      <TableCell style={{ width: 80 }}>
+                        <Button variant="contained" color="secondary" onClick={() => handleBanUser(item)}>
+                          Ban
+                        </Button>
+                      </TableCell>
+                    )}
                   </TableRow>
                 );
               })}

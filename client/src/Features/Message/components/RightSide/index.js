@@ -111,7 +111,7 @@ function RightSide(props) {
   const history = useHistory();
   const [user, setUser] = useState([]);
   const [text, setText] = useState('');
-  const [showIcon, setShowIcon] = useState(false);
+  const [showIcon, setShowIcon] = useState(null);
   const [media, setMedia] = useState([]);
   const [loadMedia, setLoadMedia] = useState(false);
   const refDisplay = useRef();
@@ -159,9 +159,8 @@ function RightSide(props) {
     });
     if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
     setMedia([...media, ...newMedia]);
-    
   };
-  
+
   const imageShow = (src) => {
     return <img src={src} alt="images" />;
   };
@@ -291,6 +290,9 @@ function RightSide(props) {
     caller({ video: true });
     callUser({ video: true });
   };
+  const handleClick = (event) => {
+    setShowIcon(event.currentTarget);
+  };
 
   return (
     <>
@@ -299,17 +301,26 @@ function RightSide(props) {
           <List style={{ width: '100%', borderBottom: '1px solid #ece0e0', padding: 0, marginTop: '8px' }}>
             <ListItem>
               <ListItemAvatar>
-                <Avatar src={user.avatar} style={{filter: theme ? 'invert(1)' : 'invert(0)'}}></Avatar>
+                <Avatar src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}></Avatar>
               </ListItemAvatar>
               <ListItemText primary={<b>{user.username}</b>} secondary={user.fullname} />
               <ListItemText style={{ textAlign: 'right' }}>
-                <IconButton onClick={handleCall} style={{ color: '#5C8D89', filter: theme ? 'invert(1)' : 'invert(0)' }}>
+                <IconButton
+                  onClick={handleCall}
+                  style={{ color: '#5C8D89', filter: theme ? 'invert(1)' : 'invert(0)' }}
+                >
                   <PhoneIcon />
                 </IconButton>
-                <IconButton onClick={handleVideoCall} style={{ color: '#5C8D89', filter: theme ? 'invert(1)' : 'invert(0)' }}>
+                <IconButton
+                  onClick={handleVideoCall}
+                  style={{ color: '#5C8D89', filter: theme ? 'invert(1)' : 'invert(0)' }}
+                >
                   <VideocamRoundedIcon />
                 </IconButton>
-                <IconButton onClick={handleConversation} style={{ color: '#df1b1b', filter: theme ? 'invert(1)' : 'invert(0)' }}>
+                <IconButton
+                  onClick={handleConversation}
+                  style={{ color: '#df1b1b', filter: theme ? 'invert(1)' : 'invert(0)' }}
+                >
                   <DeleteIcon />
                 </IconButton>
               </ListItemText>
@@ -345,8 +356,8 @@ function RightSide(props) {
                   {img.type.match(/video/i)
                     ? videoShow(URL.createObjectURL(img))
                     : img.type.includes('image/png') || img.type.includes('image/jpeg')
-                      ? imageShow(URL.createObjectURL(img))
-                      : fileShow()}
+                    ? imageShow(URL.createObjectURL(img))
+                    : fileShow()}
 
                   <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
                     <CancelIcon />
@@ -359,18 +370,22 @@ function RightSide(props) {
         <form onSubmit={handleSubmit}>
           <Box className={classes.boxIcon}>
             <TextField
-             style={{ marginLeft: '5px', filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}
+              style={{ marginLeft: '5px', filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}
               placeholder="Add your cmt..."
               value={text}
               onChange={(e) => setText(e.target.value)}
-            
               fullWidth
             ></TextField>
             <Box style={{ display: 'flex', justifyContent: 'space-around', width: '20%' }}>
-              <IconButton style={{ padding: '4px' }} onClick={() => setShowIcon(true)}>
+              <IconButton
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                style={{ padding: '4px' }} /*onClick={() => setShowIcon(true)}*/
+              >
                 <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
               </IconButton>
-              {showIcon && <Icons setContent={setText} content={text} setShowIcon={setShowIcon} />}
+              {showIcon && <Icons setContent={setText} content={text} showIcon={showIcon} setShowIcon={setShowIcon} />}
               <IconButton component="label" size="sm" style={{ padding: '4px' }}>
                 <PhotoLibraryRoundedIcon style={{ color: 'blue', cursor: 'pointer' }} />
                 <input

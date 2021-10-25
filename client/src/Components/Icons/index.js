@@ -3,20 +3,27 @@ import Menu from '@material-ui/core/Menu';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-  menu: {
-    width: '100%',
-    top: '269px',
-    left: '749px',
-  },
   popoverPaper: {
-    width: '30%',
-    // height: '100%',
+    width: '14%',
     maxHeight: 'unset',
     maxWidth: 'unset',
+    [theme.breakpoints.down('sm')]: {
+      width: '31%',
+    },
+  },
+  span: {
+    fontSize: '20px',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '15px',
+    },
+    '&:hover': {
+      backgroundColor: 'grey',
+      cursor: 'pointer',
+    },
   },
 }));
 
-function Icons({ setShowIcon, setContent, content }) {
+function Icons({ showIcon, setShowIcon, setContent, content }) {
   const classes = useStyles();
   const reactions = [
     '🙂',
@@ -67,27 +74,25 @@ function Icons({ setShowIcon, setContent, content }) {
     '😤',
     '😠',
     '😡',
+    '🌚',
   ];
 
   const handleClose = () => {
     setShowIcon(false);
   };
   return (
-    <div style={{ width: '500px' }} >
+    <div style={{ width: '500px' }}>
       <Menu
-        anchorOrigin={{
-          vertical: 'left',
-          horizontal: 'right',
-        }}
-        PopoverClasses={{ paper: classes.popoverPaper }}
         id="simple-menu"
+        anchorEl={showIcon}
         keepMounted
-        open={setShowIcon}
+        open={Boolean(showIcon)}
         onClose={handleClose}
+        PopoverClasses={{ paper: classes.popoverPaper }}
       >
-        <Box>
+        <Box style={{ maxHeight: '166px' }}>
           {reactions.map((icon) => (
-            <span key={icon} onClick={() => setContent(content + icon)}>
+            <span className={classes.span} key={icon} onClick={() => setContent(content + icon)}>
               {icon}
             </span>
           ))}

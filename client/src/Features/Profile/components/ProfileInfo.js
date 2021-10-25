@@ -11,6 +11,8 @@ import Following from './Following';
 import './profile.css';
 import ProfilePost from './ProfilePost';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { MESS_TYPES } from 'Redux/Action/messageAction';
 
 ProfileInfo.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -63,8 +65,8 @@ const useStyles = makeStyles((theme) => ({
 
 function ProfileInfo({ id, auth, profile, dispatch }) {
   const classes = useStyles();
-
-  const {theme} = useSelector(state => state);
+  const history = useHistory();
+  const { theme } = useSelector((state) => state);
 
   const [userData, setUserData] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -79,10 +81,15 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
     }
   }, [id, auth, dispatch, profile.users]);
 
+  const handleLinkMessage = (user) => {
+    dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
+    return history.push(`/message/${user._id}`);
+  };
+
   return (
     <Box>
       {userData.map((user) => (
-        <Grid key={user._id} container spacing={0} style={{backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
+        <Grid key={user._id} container spacing={0} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
           <Grid item xs={12} className={classes.cover}>
             <Box className="user_profile_cap">
               <Box className="user_profile_cover">
@@ -99,6 +106,21 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   </Button>
                 ) : (
                   <FollowBtn user={user} />
+                )}
+                {user._id === auth.user._id ? (
+                  ''
+                ) : (
+                  // <Link to={`/message/${user._id}`}>
+                  <Button
+                    onClick={() => {
+                      handleLinkMessage(user);
+                    }}
+                    className="btnEdit"
+                    variant="outlined"
+                  >
+                    Nhắn tin
+                  </Button>
+                  // </Link>
                 )}
               </Box>
             </Box>
@@ -190,7 +212,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={8} >
+          <Grid item xs={12} md={8}>
             <Box spacing={3} style={{ margin: '40px' }}>
               <ProfilePost auth={auth} profile={profile} dispatch={dispatch} id={id} />
             </Box>

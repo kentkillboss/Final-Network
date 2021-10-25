@@ -67,7 +67,7 @@ function PostContent({ post }) {
     }
   };
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(`${BASE_URL}/post/${post._id}`);
+    navigator.clipboard.writeText(`${BASE_URL}post/${post._id}`);
     setAnchorEl(null);
   };
   const handleReportPost = async () => {
@@ -86,7 +86,11 @@ function PostContent({ post }) {
           className={classes.cardheader}
           avatar={
             <Link to={`/profile/${post.user._id}`}>
-              <Avatar src={post.user.avatar} className={classes.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />{' '}
+              <Avatar
+                src={post.user.avatar}
+                className={classes.avatar}
+                style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+              />{' '}
             </Link>
           }
           action={
@@ -101,7 +105,11 @@ function PostContent({ post }) {
           }
           subheader={moment(post.createdAt).fromNow()}
         />
-        <Typography variant="body1" component="p" style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}>
+        <Typography
+          variant="body1"
+          component="p"
+          style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}
+        >
           {post.content.length < 60
             ? post.content
             : readMore

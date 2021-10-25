@@ -80,7 +80,7 @@ function StatusModal({ setShowModal }) {
   const videoRef = useRef();
   const refCanvas = useRef();
   const [tracks, setTracks] = useState('');
-  const [showIcon, setShowIcon] = useState(false);
+  const [showIcon, setShowIcon] = useState(null);
   const handleChangeImages = (e) => {
     const files = [...e.target.files];
     let err = '';
@@ -169,6 +169,9 @@ function StatusModal({ setShowModal }) {
   const videoShow = (src) => {
     return <video controls src={src} alt="images" />;
   };
+  const handleClick = (event) => {
+    setShowIcon(event.currentTarget);
+  };
 
   return (
     <div>
@@ -243,7 +246,12 @@ function StatusModal({ setShowModal }) {
                     <IconButton onClick={handleStream} style={{ padding: '4px' }}>
                       <CameraAltRoundedIcon style={{ color: 'green', cursor: 'pointer' }} />
                     </IconButton>
-                    <IconButton style={{ padding: '4px' }} onClick={() => setShowIcon(true)}>
+                    <IconButton
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                      style={{ padding: '4px' }}
+                    >
                       <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
                     </IconButton>
 
@@ -269,7 +277,9 @@ function StatusModal({ setShowModal }) {
               Subscribe
             </Button>
           </DialogActions>
-          {showIcon && <Icons setShowIcon={setShowIcon} setContent={setContent} content={content} />}
+          {showIcon && (
+            <Icons showIcon={showIcon} setShowIcon={setShowIcon} setContent={setContent} content={content} />
+          )}
         </form>
       </Dialog>
     </div>

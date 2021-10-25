@@ -15,7 +15,6 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { useParams } from 'react-router-dom';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   const classes = useStyles();
@@ -28,7 +27,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3} className={classes.post}>
+        <Box className={classes.post}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -123,7 +122,7 @@ function ProfilePost({ auth, id, dispatch, profile }) {
   };
 
   return (
-    <div className={classes.root} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}>
+    <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}

@@ -167,14 +167,14 @@ function LeftSide(props) {
   };
 
   return (
-    <Box className={classes.root}  style={{backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
+    <Box className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
       <form autoComplete="off">
-        <FormControl fullWidth variant="outlined" >
+        <FormControl fullWidth variant="outlined">
           <InputLabel htmlFor="outlined-adornment-amount" className={classes.labelInput}>
             Nhập để tìm kiếm
           </InputLabel>
           <OutlinedInput
-           style={{backgroundColor: theme ? '#c5c4c3' : '#f0f2f5'}}
+            style={{ backgroundColor: theme ? '#c5c4c3' : '#f0f2f5' }}
             className={classes.search}
             id="outlined-adornment-amount"
             value={search}
@@ -189,7 +189,7 @@ function LeftSide(props) {
           {search && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
         </FormControl>
       </form>
-      <List component="nav" className={classes.listItem}  style={{backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
+      <List component="nav" className={classes.listItem} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
         {search && searchUsers.length !== 0 ? (
           <>
             {searchUsers.map((user) => (

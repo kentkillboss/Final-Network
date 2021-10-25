@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     width: '82%',
     height: '90%',
     margin: 'auto',
-    color: 'white'
+    color: 'white',
   },
   btnSubmit: {},
   hr: {
@@ -38,7 +38,7 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
   const { auth, socket, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [content, setContent] = useState('');
-  const [showIcon, setShowIcon] = useState(false);
+  const [showIcon, setShowIcon] = useState(null);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -58,62 +58,70 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
     dispatch(createComment({ post, newComment, auth, socket }));
     if (setOnReply) return setOnReply(false);
   };
-  return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      {children}
-      <hr className={classes.hr}></hr>
-      <Box style={{ display: 'flex' }}>
-        <Avatar
-          src={auth.user.avatar}
-          style={{ marginLeft: '-8px', marginRight: '6px', filter: theme ? 'invert(1)' : 'invert(0)' }}
-        />
-        <Box className={classes.box} style={{ backgroundColor: theme ? '#c5c4c3' : '#f0f2f5' }}>
-          {tag ? (
-            <TextField
-            style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
-              size="small"
-              className={classes.textfield}
-              // variant="none"
-              type="text"
-              placeholder="Add your cmt..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Link to={`/profile/${link}`}>{`@${tag}:`}</Link>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          ) : (
-            <TextField
-            style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
-              size="small"
-              className={classes.textfield}
-              // variant="none"
-              type="text"
-              placeholder="Add your cmt..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-          )}
-          <IconButton onClick={() => setShowIcon(true)} size="small">
-            <EmojiEmotionsRoundedIcon />
-          </IconButton>
 
-          <Button
-            className={classes.btnSubmit}
-            type="submit"
-            color="primary"
-            style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
-          >
-            <SendRoundedIcon />
-          </Button>
+  const handleClick = (event) => {
+    setShowIcon(event.currentTarget);
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit} className={classes.form}>
+        {/* {children} */}
+        <hr className={classes.hr}></hr>
+        <Box style={{ display: 'flex' }}>
+          <Avatar
+            src={auth.user.avatar}
+            style={{ marginLeft: '-8px', marginRight: '6px', filter: theme ? 'invert(1)' : 'invert(0)' }}
+          />
+          <Box className={classes.box} style={{ backgroundColor: theme ? '#c5c4c3' : '#f0f2f5' }}>
+            {tag ? (
+              <TextField
+                style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+                size="small"
+                className={classes.textfield}
+                // variant="none"
+                type="text"
+                placeholder="Add your cmt..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Link to={`/profile/${link}`}>{`@${tag}:`}</Link>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            ) : (
+              <TextField
+                style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+                size="small"
+                className={classes.textfield}
+                // variant="none"
+                type="text"
+                placeholder="Add your cmt..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            )}
+            <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} size="small">
+              <EmojiEmotionsRoundedIcon />
+            </IconButton>
+
+            <Button
+              className={classes.btnSubmit}
+              disabled={content ? false : true}
+              type="submit"
+              color="primary"
+              style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+            >
+              <SendRoundedIcon />
+            </Button>
+          </Box>
         </Box>
-      </Box>
-      {showIcon && <Icons setShowIcon={setShowIcon} setContent={setContent} content={content} />}
-    </form>
+        {showIcon && <Icons showIcon={showIcon} setShowIcon={setShowIcon} setContent={setContent} content={content} />}
+      </form>
+    </div>
   );
 }
 

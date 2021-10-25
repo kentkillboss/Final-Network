@@ -33,6 +33,7 @@ function Comment({ post }) {
     const newRep = post.comments.filter((cm) => cm.reply);
     setReplyComments(newRep);
   }, [post.comments]);
+
   return (
     <Box>
       {showComments.map((comment, index) => (
