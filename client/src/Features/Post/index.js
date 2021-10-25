@@ -12,7 +12,7 @@ import { getPost } from 'Redux/Action/postAction';
 
 function Post(props) {
   const { id } = useParams();
-  const { auth, detailPost } = useSelector((state) => state);
+  const { auth, detailPost, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [post, setPost] = useState([]);
 
@@ -28,7 +28,7 @@ function Post(props) {
     <Box style={{ paddingTop: '10px' }}>
       {post.length === 0 && <img src={LoadIcon} alt="loading" />}
       {post.map((item) => (
-        <Grid container style={{ justifyContent: 'center' }}>
+        <Grid container style={{ justifyContent: 'center', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
           <Grid item xs={12} sm={8}>
             <Card key={item._id} style={{ margin: '0', marginBottom: '25px' }}>
               <PostBody post={item} />
@@ -40,7 +40,7 @@ function Post(props) {
             <PostFooter post={item} />
 
             <Comment post={item} />
-            <InputComment post={item} />
+            <InputComment post={item} /> 
           </Grid>
         </Grid>
       ))}

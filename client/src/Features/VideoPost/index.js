@@ -52,9 +52,8 @@ function VideoPosts(props) {
         <Grid item xs={2} sm={2} style={{ display: 'block' }}>
           <LeftBar />
         </Grid>
-        <Grid item xs={1} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
         <Grid item xs={1} sm={1} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
-        <Grid item xs={7} sm={7} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5' }}>
+        <Grid item xs={8} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5' }}>
           <Box className={classes.box}>
             <InfiniteScroll
               dataLength={posts.rpPosts.length} //This is important field to render the next data
