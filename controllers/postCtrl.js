@@ -14,6 +14,13 @@ class APIfeatures {
     this.query = this.query.skip(skip).limit(limit);
     return this;
   }
+  videoPaginating() {
+    const rpPage = this.queryString.rpPage * 1 || 1;
+    const limit = this.queryString.limit * 1 || 30;
+    const skip = (rpPage - 1) * limit;
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
 }
 
 const postCtrl = {
@@ -310,9 +317,9 @@ const postCtrl = {
   },
   getAllPostsReport: async (req, res) => {
     try {
-      const features = new APIfeatures(Posts.find({}), req.query);
+      const features = new APIfeatures(Posts.find({}), req.query).videoPaginating();
       const posts = await features.query
-        .sort("-report")
+        .sort("-createdAt")
         .populate("user likes", "avatar username fullname followers report")
         .populate({
           path: "comments",

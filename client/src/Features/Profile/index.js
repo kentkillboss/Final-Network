@@ -17,7 +17,7 @@ function Profile(props) {
   }, [id, auth, dispatch, profile.ids]);
 
   return (
-    <Box style={{ paddingTop: '80px' }}>
+    <Box style={{ paddingTop: '20px' }}>
       {profile.loading ? (
         <img src={LoadingIcon} alt="loading" />
       ) : (

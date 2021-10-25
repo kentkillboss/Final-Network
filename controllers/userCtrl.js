@@ -11,7 +11,7 @@ const userCtrl = {
         username: { $regex: req.query.username },
       })
         .limit(10)
-        .select("fullname username avatar");
+        .select("fullname username avatar email mobile address isBan");
 
       res.json({ users });
     } catch (error) {

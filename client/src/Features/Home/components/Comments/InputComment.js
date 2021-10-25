@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     width: '82%',
     height: '90%',
     margin: 'auto',
+    color: 'white'
   },
   btnSubmit: {},
   hr: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 
 function InputComment({ children, post, onReply, setOnReply, tag, link }) {
   const classes = useStyles();
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [content, setContent] = useState('');
   const [showIcon, setShowIcon] = useState(false);
@@ -62,10 +63,14 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
       {children}
       <hr className={classes.hr}></hr>
       <Box style={{ display: 'flex' }}>
-        <Avatar src={auth.user.avatar} style={{ marginLeft: '-8px', marginRight: '6px' }} />
-        <Box className={classes.box}>
+        <Avatar
+          src={auth.user.avatar}
+          style={{ marginLeft: '-8px', marginRight: '6px', filter: theme ? 'invert(1)' : 'invert(0)' }}
+        />
+        <Box className={classes.box} style={{ backgroundColor: theme ? '#c5c4c3' : '#f0f2f5' }}>
           {tag ? (
             <TextField
+            style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
               size="small"
               className={classes.textfield}
               // variant="none"
@@ -83,6 +88,7 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
             />
           ) : (
             <TextField
+            style={{filter: theme ? 'invert(1)' : 'invert(0)'}}
               size="small"
               className={classes.textfield}
               // variant="none"
@@ -96,7 +102,12 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
             <EmojiEmotionsRoundedIcon />
           </IconButton>
 
-          <Button className={classes.btnSubmit} type="submit" color="primary">
+          <Button
+            className={classes.btnSubmit}
+            type="submit"
+            color="primary"
+            style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+          >
             <SendRoundedIcon />
           </Button>
         </Box>

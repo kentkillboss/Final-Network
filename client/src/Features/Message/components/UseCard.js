@@ -38,7 +38,7 @@ const StyledBadge = withStyles((theme) => ({
 
 function UseCard({ user }) {
   const { id } = useParams();
-  const { auth } = useSelector((state) => state);
+  const { auth, theme } = useSelector((state) => state);
 
   const isSelected = (user) => {
     if (id === user._id) return true;
@@ -55,7 +55,7 @@ function UseCard({ user }) {
           }}
           variant={user.online ? 'dot' : 'standard'}
         >
-          <Avatar alt="Remy Sharp" src={user.avatar} />
+          <Avatar alt="Remy Sharp" src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
         </StyledBadge>
       </ListItemAvatar>
       <ListItemText

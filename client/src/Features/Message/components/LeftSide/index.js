@@ -14,7 +14,7 @@ import UseCard from '../UseCard';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 'calc(100vh - 85px)',
+    height: 'calc(100vh - 68px)',
     borderRight: '1px solid #deb7b7',
     paddingTop: '20px',
   },
@@ -85,7 +85,7 @@ function LeftSide(props) {
 
   const [search, setSearch] = useState();
   const [searchUsers, setSearchUsers] = useState([]);
-  const { auth, message, online } = useSelector((state) => state);
+  const { auth, message, online, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
   const pageEnd = useRef();
@@ -167,13 +167,14 @@ function LeftSide(props) {
   };
 
   return (
-    <Box className={classes.root}>
+    <Box className={classes.root}  style={{backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
       <form autoComplete="off">
-        <FormControl fullWidth variant="outlined">
+        <FormControl fullWidth variant="outlined" >
           <InputLabel htmlFor="outlined-adornment-amount" className={classes.labelInput}>
-            Enter để tìm kiếm
+            Nhập để tìm kiếm
           </InputLabel>
           <OutlinedInput
+           style={{backgroundColor: theme ? '#c5c4c3' : '#f0f2f5'}}
             className={classes.search}
             id="outlined-adornment-amount"
             value={search}
@@ -183,12 +184,12 @@ function LeftSide(props) {
                 <SearchIcon />
               </InputAdornment>
             }
-            labelWidth={120}
+            labelWidth={110}
           />
           {search && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
         </FormControl>
       </form>
-      <List component="nav" className={classes.listItem}>
+      <List component="nav" className={classes.listItem}  style={{backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
         {search && searchUsers.length !== 0 ? (
           <>
             {searchUsers.map((user) => (

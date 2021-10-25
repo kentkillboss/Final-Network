@@ -10,9 +10,12 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from 'Redux/Action/adminAction';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Input, InputAdornment, Typography } from '@material-ui/core';
 import { isBanUser, isUnBanUser } from 'Redux/Action/adminAction';
 import { useHistory } from 'react-router';
+import { getDataAPI } from 'api/fetchData';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import SearchIcon from '@material-ui/icons/Search';
 
 const columns = [
   { id: 'stt', label: 'STT', minWidth: 100 },
@@ -51,11 +54,14 @@ const useStyles = makeStyles({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const { admin, auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
+  const [value, setValue] = useState();
+  const [data, setData] = useState([]);
+  const [newData, setNewData] = useState([]);
 
   useEffect(() => {
     dispatch(getUsers(auth));
@@ -84,9 +90,46 @@ export default function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    const newUser = admin.users.filter((user) => user);
+    setData(newUser);
+  }, [admin.users]);
+
+  useEffect(() => {
+    if (value) {
+      getDataAPI(`search?username=${value}`, auth.token)
+        .then((res) => setNewData(res.data.users))
+        .catch((err) => {
+          dispatch({
+            type: GLOBALTYPES.ALERT,
+            payload: {
+              err: err.response.data.msg,
+            },
+          });
+        });
+    }
+    if(!value) {
+      setNewData(data);
+    }
+  }, [value, auth.token, dispatch, data]);
+
   return (
     <>
       <Typography> Số lượng người sử dụng của Dulcie: {admin.result}</Typography>
+
+      <form className={classes.root} noValidate autoComplete="off" style={{marginBottom: '5px'}}>
+          <Input
+            id="input-with-icon-adornment"
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+            placeholder='Tìm kiếm User...'
+            startAdornment={
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            }
+          />
+      </form>
       
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
@@ -105,7 +148,7 @@ export default function Dashboard() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {admin.users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
+              {newData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => {
                 return (
                   <TableRow key={item._id}>
                     <TableCell component="th" style={{ width: 100 }} scope="row">

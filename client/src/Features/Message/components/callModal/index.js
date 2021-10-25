@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, IconButton, makeStyles, Typography } from '@material-ui/core';
 import Avatar from 'Components/Avatar/Avatar';
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
 
 function CallModal(props) {
   const classes = useStyles();
-  const { auth, call, peer, socket } = useSelector((state) => state);
+  const { auth, call, peer, socket, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const [mins, setMins] = useState(0);
@@ -104,6 +104,7 @@ function CallModal(props) {
   const [answer, setAnswer] = useState(false);
   const [hours, setHours] = useState(0);
   const [tracks, setTracks] = useState(null);
+  const [newCall, setNewCall] = useState(null);
 
   const youVideo = useRef();
   const ortheVideo = useRef();
@@ -144,6 +145,7 @@ function CallModal(props) {
     if (tracks) {
       tracks.forEach((track) => track.stop());
     }
+    if(newCall) newCall.close();
     let times = answer ? total : 0;
     socket.emit('endCall', { ...call, times });
     addCallMessage(call, times);
@@ -168,11 +170,12 @@ function CallModal(props) {
       if (tracks) {
         tracks.forEach((track) => track.stop());
       }
+      if(newCall) newCall.close();
       addCallMessage(data, data.times);
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
     });
     return () => socket.off('endCallToClient');
-  }, [socket, dispatch, tracks, addCallMessage]);
+  }, [socket, dispatch, tracks, addCallMessage, newCall]);
 
   //Stream media
   const openStream = (video) => {
@@ -197,7 +200,7 @@ function CallModal(props) {
         playStream(ortheVideo.current, remoteStream);
       });
       setAnswer(true);
-      // setNewCall(newCall)
+      setNewCall(newCall)
     });
   };
 
@@ -217,7 +220,7 @@ function CallModal(props) {
           }
         });
         setAnswer(true);
-        // setNewCall(newCall)
+        setNewCall(newCall)
       });
     });
     return () => peer.removeListener('call');
@@ -229,13 +232,14 @@ function CallModal(props) {
       if (tracks) {
         tracks.forEach((track) => track.stop());
       }
+      if(newCall) newCall.close();
       let times = answer ? total : 0;
       addCallMessage(call, times, true);
       dispatch({ type: GLOBALTYPES.CALL, payload: null });
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: `${call.username} mất kết nối!!` } });
     });
     return () => socket.off('callerDisconnect');
-  }, [socket, tracks, dispatch, call, addCallMessage, answer, total]);
+  }, [socket, tracks, dispatch, call, addCallMessage, answer, total, newCall]);
 
   //audio message
   const playAudio = (newAudio) => {
@@ -257,7 +261,7 @@ function CallModal(props) {
   }, [answer]);
   return (
     <Box className={classes.root}>
-      <Box className={classes.callBox} style={{ display: answer && call.video ? 'none' : 'flex' }}>
+      <Box className={classes.callBox} style={{ display: answer && call.video ? 'none' : 'flex', filter: theme ? 'invert(1)' : 'invert(0)' }}>
         {call.recipient === auth.user._id && !answer ? (
           <Typography>
             <strong>{call.username}</strong> đang gọi cho bạn...
@@ -316,9 +320,9 @@ function CallModal(props) {
           )}
         </Box>
       </Box>
-      <Box className={classes.showVideo} style={{ opacity: answer && call.video ? '1' : '0' }}>
-        <video ref={youVideo} className={classes.youVideo} />
-        <video ref={ortheVideo} className={classes.ortheVideo} />
+      <Box className={classes.showVideo} style={{ opacity: answer && call.video ? '1' : '0', filter: theme ? 'invert(1)' : 'invert(0)' }}>
+        <video ref={youVideo} className={classes.youVideo} playsInline muted />
+        <video ref={ortheVideo} className={classes.ortheVideo} playsInline />
         <Box className={classes.timeVideo}>
           <span>{hours.toString().length < 2 ? '0' + hours : hours}</span>
           <span>:</span>

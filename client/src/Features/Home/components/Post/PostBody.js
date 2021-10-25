@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
@@ -10,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     width: 'auto',
-    maxHeight: '490px',
-    minHeight: '490px', 
+    maxHeight: 'calc(100vh - 115px)',
+    minHeight: 'calc(100vh - 115px)', 
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     objectFit: 'contain',
@@ -20,10 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostBody({ post, theme }) {
+function PostBody({ post }) {
+  const {theme} = useSelector(state => state);
+  
   const classes = useStyles();
   return (
-    <Carousel>
+    <Carousel showThumbs={false}>
       {post.images.map((img, index) => (
         <div key={index} className={classes.container}>
           {img.url.match(/video/i) ? (

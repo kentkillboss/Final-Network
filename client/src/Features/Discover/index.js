@@ -13,7 +13,7 @@ import LoadMoreBtn from './components/LoadMoreBtn';
 Discover.propTypes = {};
 
 function Discover(props) {
-  const { auth, discover } = useSelector((state) => state);
+  const { auth, discover, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
 
@@ -33,11 +33,11 @@ function Discover(props) {
   return (
     <div>
       <Grid container>
-        <Grid item xs={2}>
+        <Grid item xs={2} sm={2}  style={{ display: 'block'}}>
           <LeftBar />
         </Grid>
-        <Grid item xs={1}></Grid>
-        <Grid item xs={8} style={{ display: 'block', paddingTop: '80px' }}>
+        <Grid item xs={1} sm={1} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5'}}></Grid>
+        <Grid item xs={8} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5'}} >
           <Grid container>
             {discover.loading ? (
               <>
@@ -64,7 +64,7 @@ function Discover(props) {
             )}
           </Grid>
         </Grid>
-        {/* <Grid item xs={2}></Grid> */}
+        <Grid item xs={1} style={{ backgroundColor: theme ? '#dbdad9' : '#f0f2f5'}}></Grid>
       </Grid>
     </div>
   );

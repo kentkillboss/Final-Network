@@ -7,7 +7,7 @@ import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(1),
   },
   paper: {
     padding: theme.spacing(2),
@@ -47,16 +47,17 @@ const useStyles = makeStyles((theme) => ({
 function Status(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { auth } = useSelector((state) => state);
+  const { auth, theme } = useSelector((state) => state);
   return (
     <div className={classes.root}>
-      <Paper className={classes.paperCenter}>
+      <Paper className={classes.paperCenter} style={{backgroundColor: theme ? '#dbdad9' : '#ffffff'}}>
         <Box className={classes.box1}>
           <Box>
-            <Avatar src={auth.user.avatar} />
+            <Avatar src={auth.user.avatar} style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
           </Box>
-          <Box style={{ width: '100%' }}>
+          <Box style={{ width: '100%'}} >
             <Button
+              style={{backgroundColor: theme ? '#c5c4c3' : '#f0f2f5'}}
               onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}
               fullWidth
               color="default"

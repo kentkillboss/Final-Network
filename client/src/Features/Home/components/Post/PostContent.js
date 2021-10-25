@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function PostContent({ post }) {
   const classes = useStyles();
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, theme } = useSelector((state) => state);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -86,7 +86,7 @@ function PostContent({ post }) {
           className={classes.cardheader}
           avatar={
             <Link to={`/profile/${post.user._id}`}>
-              <Avatar src={post.user.avatar} className={classes.avatar} />{' '}
+              <Avatar src={post.user.avatar} className={classes.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />{' '}
             </Link>
           }
           action={
@@ -101,7 +101,7 @@ function PostContent({ post }) {
           }
           subheader={moment(post.createdAt).fromNow()}
         />
-        <Typography variant="body1" component="p">
+        <Typography variant="body1" component="p" style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}>
           {post.content.length < 60
             ? post.content
             : readMore

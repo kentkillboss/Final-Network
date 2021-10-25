@@ -4,6 +4,7 @@ import PrivateRouter from 'CustomRouter/customRouter';
 import Discover from 'Features/Discover';
 import Games from 'Features/Games';
 import Home from 'Features/Home';
+import VideoPosts from 'Features/VideoPost';
 import StatusModal from 'Features/Home/components/Status/StatusModal';
 import Message from 'Features/Message';
 import CallModal from 'Features/Message/components/callModal/index';
@@ -26,7 +27,6 @@ import NotFound from './Components/NotFound';
 import Login from './Features/Auth/Components/Login';
 import Register from './Features/Auth/Components/Register';
 import Admin from './Admin/components/layout/Layout';
-import Notify from 'Features/Notify';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -69,11 +69,12 @@ function App() {
 
   return (
     <>
-      <input type="checkbox" id="theme" />
+      <input type="checkbox" id="theme"/>
       {/* <Loading /> */}
       <Alert />
       <div className="App">
         <div className="main">
+          
           {/* {auth.token && <Header/>} */}
           {auth.token ? auth.user.role === 'admin' ? <></> : <Header /> : <></>}
           {status && <StatusModal />}
@@ -109,6 +110,10 @@ function App() {
             <PrivateRouter
               path="/dashboard"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : Home) : Login}
+            />
+            <PrivateRouter
+              path="/video"
+              component={auth.token ? (auth.user.role === 'admin' ? Admin : VideoPosts) : Login}
             />
             <Route component={NotFound} />
           </Switch>

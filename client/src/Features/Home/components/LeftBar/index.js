@@ -6,20 +6,22 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import VideogameAssetRoundedIcon from '@material-ui/icons/VideogameAssetRounded';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    height: '100vh',
+    height: 'calc(100vh - 65px)',
     color: 'white',
-    paddingTop: theme.spacing(10),
-    backgroundColor: '#5C8D89',
+    paddingTop: theme.spacing(2),
+    backgroundColor: '#f0f2f5',
     position: 'sticky',
-    top: 0,
-    [theme.breakpoints.up('sm')]: {
-      backgroundColor: '#f0f2f5',
+    top: theme.spacing(8),
+    [theme.breakpoints.down('sm')]: {
+      backgroundColor: '#5C8D89',
       color: '#555',
       border: '1px solid #ece7e7',
+      top: theme.spacing(7),
     },
   },
   item: {
@@ -50,10 +52,16 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: '#5C8D89',
   },
+  info: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  }
 }));
 
 function LeftBar(props) {
   const classes = useStyles();
+  const {theme} = useSelector(state => state);
   const isActive = {
     color: '#587850',
   };
@@ -69,6 +77,16 @@ function LeftBar(props) {
       path: '/discover',
     },
     {
+      text: 'Video',
+      icon: <PlayCircleOutline className={classes.icon} style={{ fontSize: '31px' }} />,
+      path: '/video',
+    },
+    {
+      text: 'Games',
+      icon: <VideogameAssetRoundedIcon className={classes.icon} style={{ fontSize: '31px' }} />,
+      path: '/games',
+    },
+    {
       text: 'Message',
       icon: <TelegramIcon className={classes.icon} style={{ fontSize: '31px' }} />,
       path: '/message',
@@ -77,11 +95,6 @@ function LeftBar(props) {
       text: 'Notify',
       icon: <FavoriteRoundedIcon className={classes.icon} style={{ fontSize: '31px' }} />,
       path: '/notify',
-    },
-    {
-      text: 'Games',
-      icon: <VideogameAssetRoundedIcon className={classes.icon} style={{ fontSize: '31px' }} />,
-      path: '/games',
     },
     {
       text: 'List',
@@ -93,14 +106,10 @@ function LeftBar(props) {
       icon: <Storefront className={classes.icon} style={{ fontSize: '31px' }} />,
       path: '/market',
     },
-    {
-      text: 'Video',
-      icon: <PlayCircleOutline className={classes.icon} style={{ fontSize: '31px' }} />,
-      path: '/video',
-    },
   ];
   return (
-    <Container className={classes.container}>
+    <div className={classes.container}  style={{backgroundColor: theme ? '#e7e6e5' : ''}}>
+    <Container style={{filter: theme ? 'invert(1)' : 'invert(0)'}}>
       {navLinkItem.map((link, index) => (
         <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>
           <div className={classes.item}>
@@ -110,16 +119,17 @@ function LeftBar(props) {
         </NavLink>
       ))}
       <hr></hr>
-      <div className={classes.item}>
+      <div className={classes.item} style={{color: 'grey'}}>
         <Bookmark className={classes.icon} style={{ fontSize: '31px' }} />
         <Typography className={classes.text}>Collections</Typography>
       </div>
-      <Box>
-        <Typography variant="body2" color="textSecondary" align="center">
-          <span color="inherit">Quyền riêng tư - điều khoản - quảng cáo - Lựa chọn quảng bá TA Network © 2021</span>{' '}
+      <Box className={classes.info}>
+        <Typography variant="body2" color="textSecondary" align="center" style={{color: theme ? 'white' : 'grey'}}>
+          <span color="inherit">Quyền riêng tư - điều khoản - Lựa chọn quảng bá TA Network © 2021</span>{' '}
         </Typography>
       </Box>
     </Container>
+    </div>
   );
 }
 

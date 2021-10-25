@@ -1,6 +1,7 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import ImgMess from 'images/image-mess.png';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import LeftSide from './components/LeftSide/index.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,14 +17,15 @@ const useStyles = makeStyles((theme) => ({
 
 function Message(props) {
   const classes = useStyles();
+  const {theme} = useSelector(state => state);
   return (
     <div>
-      <Grid container>
-        <Grid item xs={12} sm={4} style={{ display: 'block', paddingTop: '60px' }}>
+      <Grid container >
+        <Grid item xs={12} sm={4} style={{ display: 'block'}}>
           <LeftSide />
         </Grid>
-        <Grid item xs={0} sm={8} style={{ display: 'block', paddingTop: '60px' }}>
-          <img className={classes.img} src={ImgMess} alt="mess"></img>
+        <Grid item xs={0} sm={8} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
+          <img className={classes.img} src={ImgMess} alt="mess"  style={{filter: theme ? 'invert(1)' : 'invert(0)'}}></img>
         </Grid>
       </Grid>
     </div>

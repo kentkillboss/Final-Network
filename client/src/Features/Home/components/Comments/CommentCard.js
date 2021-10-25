@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
   listItemText: {
     backgroundColor: '#f0f2f5',
-    borderRadius: '5px',
+    borderRadius: '10px',
     padding: '5px',
   },
   textarea: {
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function CommentCard({ children, comment, post, commentId }) {
   const classes = useStyles();
-  const { auth } = useSelector((state) => state);
+  const { auth, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [content, setContent] = useState('');
   const [readMore, setReadMore] = useState(false);
@@ -112,15 +112,16 @@ function CommentCard({ children, comment, post, commentId }) {
 
   return (
     <Box style={styleCard}>
-      <List className={classes.root}>
+      <List className={classes.root} style={{backgroundColor: theme ? '#dbdad9' : '#ffffff'}}>
         <ListItem alignItems="flex-start" style={{ display: 'flex' }}>
           <Link to={`/profile/${comment.user._id}`}>
             <ListItemAvatar className={classes.listItemAvatar}>
-              <Avatar alt="avatar" src={comment.user.avatar} className={classes.small} />
+              <Avatar alt="avatar" src={comment.user.avatar} className={classes.small} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
             </ListItemAvatar>
           </Link>
           <Box>
             <ListItemText
+              style={{backgroundColor: theme ? '#c5c4c3' : '#f0f2f5'}}
               className={classes.listItemText}
               primary={<Typography className={classes.fonts}>{comment.user.username}</Typography>}
               secondary={
@@ -142,7 +143,7 @@ function CommentCard({ children, comment, post, commentId }) {
                             </Link>
                           )}
 
-                          <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                          <Typography component="span" variant="body2" className={classes.inline} color="textPrimary" style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}>
                             {content.length < 100 ? content : readMore ? content + ' ' : content.slice(0, 100) + '....'}
                             {content.length > 100 && (
                               <span className={classes.span} onClick={() => setReadMore(!readMore)}>
@@ -188,7 +189,7 @@ function CommentCard({ children, comment, post, commentId }) {
                       </Typography>
                     </Box>
                     <Box style={{ display: 'flex' }}>
-                      <LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
+                      <LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} theme={theme} />
                       <CommentMenu post={post} comment={comment} setOnEdit={setOnEdit} />
                     </Box>
                   </Box>

@@ -14,7 +14,7 @@ import ShareModal from './ShareModal';
 PostFooter.propTypes = {};
 
 function PostFooter({ post }) {
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [isLike, setIsLike] = useState(false);
   const [loadLike, setLoadLike] = useState(false);
@@ -74,7 +74,7 @@ function PostFooter({ post }) {
     <>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} />
+          <LikeButton isLike={isLike} handleLike={handleLike} handleUnLike={handleUnLike} theme={theme} />
         </IconButton>
         <Link to={`/post/${post._id}`}>
           <IconButton aria-label="add to favorites">
@@ -86,7 +86,7 @@ function PostFooter({ post }) {
         </IconButton>
         <IconButton style={{ marginLeft: 'auto' }}>
           {saved ? (
-            <BookmarksRoundedIcon style={{ color: 'rgb(63, 81, 181)' }} onClick={handleUnSavePosts} />
+            <BookmarksRoundedIcon style={{ color: 'rgb(63, 81, 181)', filter: theme ? 'invert(1)' : 'invert(0)' }} onClick={handleUnSavePosts} />
           ) : (
             <TurnedInNotRoundedIcon onClick={handleSavePosts} />
           )}

@@ -10,6 +10,7 @@ import Followers from './Followers';
 import Following from './Following';
 import './profile.css';
 import ProfilePost from './ProfilePost';
+import { useSelector } from 'react-redux';
 
 ProfileInfo.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
 function ProfileInfo({ id, auth, profile, dispatch }) {
   const classes = useStyles();
 
+  const {theme} = useSelector(state => state);
+
   const [userData, setUserData] = useState([]);
   const [edit, setEdit] = useState(false);
   const [showFollowers, setShowFollowers] = useState(false);
@@ -79,14 +82,14 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
   return (
     <Box>
       {userData.map((user) => (
-        <Grid key={user._id} container spacing={0}>
+        <Grid key={user._id} container spacing={0} style={{backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
           <Grid item xs={12} className={classes.cover}>
             <Box className="user_profile_cap">
               <Box className="user_profile_cover">
-                <img src={user.background} alt="img" />
+                <img src={user.background} alt="img" style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
               </Box>
               <Box className="user_profile_headline">
-                <img src={user.avatar} alt="img" />
+                <img src={user.avatar} alt="img" style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                 <h2>{user.username}</h2>
                 <span className="span">{user.fullname}</span>
 
@@ -187,7 +190,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
             </Box>
           </Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8} >
             <Box spacing={3} style={{ margin: '40px' }}>
               <ProfilePost auth={auth} profile={profile} dispatch={dispatch} id={id} />
             </Box>

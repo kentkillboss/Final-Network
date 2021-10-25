@@ -1,7 +1,0 @@
-.carousel .slide{
-    max-height: calc(100vh - 240px);
-}
-
-.image-gallery-slide .image-gallery-image{
-    width: auto;
-}

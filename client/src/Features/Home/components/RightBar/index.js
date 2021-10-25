@@ -21,11 +21,12 @@ import { getUserActions } from 'Redux/Action/suggestionAction';
 const useStyles = makeStyles((theme) => ({
   paper: {},
   container: {
-    paddingTop: theme.spacing(10),
+    // paddingTop: theme.spacing(10),
     position: 'sticky',
-    top: 0,
+    top: theme.spacing(8),
     backgroundColor: '#f0f2f5',
-    height: '100vh',
+    height: 'calc(100vh - 63px)',
+    paddingTop: theme.spacing(2)
   },
   title: {
     fontSize: 20,
@@ -54,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 function RightBar(props) {
   const classes = useStyles();
-  const { auth, suggestions } = useSelector((state) => state);
+  const { auth, suggestions, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   return (
     // <Paper elevation={1}>
-    <Container className={classes.container}>
+    <Container className={classes.container} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}>
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
           Đề xuất người dùng
@@ -81,7 +82,7 @@ function RightBar(props) {
               <ListItem style={{ padding: 0 }}>
                 <ListItem button className={classes.listitem}>
                   <ListItemAvatar>
-                    <Avatar src={user.avatar}></Avatar>
+                    <Avatar src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}></Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={user.username} />
                 </ListItem>

@@ -1,6 +1,6 @@
 import { Grid, makeStyles } from '@material-ui/core';
 import PostLoading from 'Components/Loading/SkeletonPost';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import LeftBar from './components/LeftBar';
 import Posts from './components/Post';
@@ -22,17 +22,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+let scroll = 0;
+
 function Home(props) {
   const classes = useStyles();
-  const { posts } = useSelector((state) => state);
+  const { posts, theme } = useSelector((state) => state);
+  
+  window.addEventListener('scroll', () => {
+    if ((window.location.patchname = '/')) {
+      scroll = window.pageYOffset;
+      return scroll;
+    }
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo({top: scroll, behavior: 'smooth'})
+    }, 300)
+  }, [])
+
   return (
     <div>
-      <Grid container className={classes.container}>
+      <Grid container className={classes.container} >
         <Grid item sm={2} xs={2}>
           <LeftBar />
         </Grid>
-        <Grid item sm={1} xs={0} className={classes.box} />
-        <Grid item sm={5} xs={10} className={classes.box}>
+        <Grid item sm={1} xs={0} className={classes.box} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}  />
+        <Grid item sm={5} xs={10} className={classes.box} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}>
           <Status />
           {posts.loading ? (
             <PostLoading />
@@ -42,8 +58,8 @@ function Home(props) {
             <Posts />
           )}
         </Grid>
-        <Grid item sm={1} xs={0} className={classes.box} />
-        <Grid item sm={3} xs={0} className={classes.right}>
+        <Grid item sm={1} xs={0} className={classes.box} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}} />
+        <Grid item sm={3} xs={0} className={classes.right} >
           <RightBar />
         </Grid>
       </Grid>

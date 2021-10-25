@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     // width: '100%',
-    height: 'calc(100vh - 210px)',
+    height: 'calc(100vh - 200px)',
     // display: 'flex',
     flexDirection: 'column',
     overflowY: 'auto',
@@ -105,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RightSide(props) {
   const classes = useStyles();
-  const { auth, message, socket, peer } = useSelector((state) => state);
+  const { auth, message, socket, peer, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const { id } = useParams();
   const history = useHistory();
@@ -299,17 +299,17 @@ function RightSide(props) {
           <List style={{ width: '100%', borderBottom: '1px solid #ece0e0', padding: 0, marginTop: '8px' }}>
             <ListItem>
               <ListItemAvatar>
-                <Avatar src={user.avatar}></Avatar>
+                <Avatar src={user.avatar} style={{filter: theme ? 'invert(1)' : 'invert(0)'}}></Avatar>
               </ListItemAvatar>
-              <ListItemText primary={user.username} secondary={user.fullname} />
+              <ListItemText primary={<b>{user.username}</b>} secondary={user.fullname} />
               <ListItemText style={{ textAlign: 'right' }}>
-                <IconButton onClick={handleCall} style={{ color: '#5C8D89' }}>
+                <IconButton onClick={handleCall} style={{ color: '#5C8D89', filter: theme ? 'invert(1)' : 'invert(0)' }}>
                   <PhoneIcon />
                 </IconButton>
-                <IconButton onClick={handleVideoCall} style={{ color: '#5C8D89' }}>
+                <IconButton onClick={handleVideoCall} style={{ color: '#5C8D89', filter: theme ? 'invert(1)' : 'invert(0)' }}>
                   <VideocamRoundedIcon />
                 </IconButton>
-                <IconButton onClick={handleConversation} style={{ color: '#df1b1b' }}>
+                <IconButton onClick={handleConversation} style={{ color: '#df1b1b', filter: theme ? 'invert(1)' : 'invert(0)' }}>
                   <DeleteIcon />
                 </IconButton>
               </ListItemText>
@@ -359,10 +359,11 @@ function RightSide(props) {
         <form onSubmit={handleSubmit}>
           <Box className={classes.boxIcon}>
             <TextField
+             style={{ marginLeft: '5px', filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}
               placeholder="Add your cmt..."
               value={text}
               onChange={(e) => setText(e.target.value)}
-              style={{ marginLeft: '5px' }}
+            
               fullWidth
             ></TextField>
             <Box style={{ display: 'flex', justifyContent: 'space-around', width: '20%' }}>

@@ -238,7 +238,7 @@ export const getAllPosts = (auth) => async (dispatch) => {
         dispatch({type: POST_TYPES.LOADING_POST, payload: true});
 
         const res = await getDataAPI('getAllPosts', auth.token);
-        dispatch({type: POST_TYPES.GET_ALL_POSTS, payload: res.data});
+        dispatch({type: POST_TYPES.GET_ALL_POSTS, payload: { ...res.data, rpPage: 2 }});
 
         dispatch({type: POST_TYPES.LOADING_POST, payload: false});
   } catch (error) {

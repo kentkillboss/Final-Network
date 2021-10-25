@@ -25,7 +25,7 @@ function Post(props) {
   }, [detailPost, dispatch, id, auth]);
 
   return (
-    <Box style={{ paddingTop: '80px' }}>
+    <Box style={{ paddingTop: '10px' }}>
       {post.length === 0 && <img src={LoadIcon} alt="loading" />}
       {post.map((item) => (
         <Grid container style={{ justifyContent: 'center' }}>

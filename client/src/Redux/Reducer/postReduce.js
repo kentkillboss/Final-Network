@@ -7,7 +7,8 @@ const initialState = {
   result: 0,
   page: 2,
   rpPosts: [],
-  rpResult: 0
+  rpResult: 0,
+  rpPage: 2
 };
 
 const postReducer = (state = initialState, action) => {
@@ -44,6 +45,7 @@ const postReducer = (state = initialState, action) => {
         ...state,
         rpPosts: action.payload.posts,
         rpResult: action.payload.result,
+        rpPage: action.payload.rpPage,
       };
 
     default:

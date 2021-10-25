@@ -15,6 +15,14 @@ import { Link } from 'react-router-dom';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 const useStyles = makeStyles((theme) => ({
+  root: {
+    zIndex: 1100,
+    position: 'sticky',
+    top: 0,
+  },
+  appBar: {
+    backgroundColor: '#5C8D89',
+  },
   link: {
     textDecoration: 'none',
     color: 'black',
@@ -117,14 +125,14 @@ export default function Header() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" style={{ backgroundColor: '#5C8D89' }}>
+      <AppBar position="sticky" className={classes.appBar} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <img className={classes.logoSm1} src={Logo} alt="logo" />
             <Typography
               variant="h6"
               className={classes.logoLg}
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              onClick={() => window.scrollTo({ top: 0 })}
               style={{ fontFamily: 'Acme, cursive' }}
             >
               Dulcie

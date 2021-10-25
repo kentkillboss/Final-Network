@@ -49,7 +49,7 @@ function Followers({ users, setShowFollowers }) {
         </IconButton>
         <DialogTitle id="alert-dialog-title">Followers &nbsp;&nbsp;&nbsp;&nbsp;</DialogTitle>
         <DialogContent>
-          <List>
+          <List style={{maxHeight: '400px'}}>
             {users.map((user) => (
               <ListItem key={user._id}>
                 <ListItem button className={classes.listitem} onClick={() => handleClick(user._id)}>

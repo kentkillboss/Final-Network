@@ -73,7 +73,7 @@ function Icons({ setShowIcon, setContent, content }) {
     setShowIcon(false);
   };
   return (
-    <div style={{ width: '500px' }}>
+    <div style={{ width: '500px' }} >
       <Menu
         anchorOrigin={{
           vertical: 'left',

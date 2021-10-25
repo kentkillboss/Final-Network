@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 
 function MessageDisplay({ user, msg, data }) {
   const classes = useStyles();
-  const { auth } = useSelector((state) => state);
+  const { auth, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   const handleDeleteMessages = () => {
@@ -116,10 +116,10 @@ function MessageDisplay({ user, msg, data }) {
   };
 
   const imageShow = (src) => {
-    return <img width="100%" height="100%" style={{ borderRadius: '10px' }} src={src} alt="images" />;
+    return <img width="100%" height="100%" style={{ borderRadius: '10px', filter: theme ? 'invert(1)' : 'invert(0)' }} src={src} alt="images" />;
   };
   const videoShow = (src) => {
-    return <video width="100%" height="100%" controls src={src} alt="images" />;
+    return <video width="100%" height="100%" controls src={src} alt="images"  style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />;
   };
   let newName = '';
   const fileShow = (src, tail, name) => {
@@ -146,7 +146,7 @@ function MessageDisplay({ user, msg, data }) {
           <DeleteIcon className={classes.deleteIcon} onClick={handleDeleteMessages} />
           <Box className={classes.contentBox}>
             {msg.text && (
-              <Box className={classes.content}>
+              <Box className={classes.content} style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : '' }} >
                 <Typography className={classes.contentText}>{msg.text}</Typography>
               </Box>
             )}
@@ -168,14 +168,14 @@ function MessageDisplay({ user, msg, data }) {
                 <Box style={{ marginRight: '4px' }}>
                   {msg.call.times === 0 ? (
                     msg.call.video ? (
-                      <VideocamOffRoundedIcon />
+                      <VideocamOffRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
                     ) : (
-                      <PhoneDisabledRoundedIcon />
+                      <PhoneDisabledRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
                     )
                   ) : msg.call.video ? (
-                    <VideocamRoundedIcon />
+                    <VideocamRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
                   ) : (
-                    <CallRoundedIcon />
+                    <CallRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
                   )}
                 </Box>
                 <Box>
@@ -195,7 +195,7 @@ function MessageDisplay({ user, msg, data }) {
           </Box>
         </Box>
         <Box className={classes.title}>
-          <Avatar className={classes.avatar} src={user.avatar} />
+          <Avatar className={classes.avatar} src={user.avatar} style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
         </Box>
       </Box>
 

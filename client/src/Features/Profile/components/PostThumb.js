@@ -2,17 +2,19 @@ import ChatBubbleOutlineRoundedIcon from '@material-ui/icons/ChatBubbleOutlineRo
 import FavoriteBorderRoundedIcon from '@material-ui/icons/FavoriteBorderRounded';
 import 'Features/Discover/hover.scss';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 PostThumb.propTypes = {};
 
 function PostThumb({ posts, result }) {
+  const {theme} = useSelector(state => state);
   if (result === 0) return <h2>No Post</h2>;
   return (
     <div className="photo">
       {posts.images[0].url.match(/video/i) ? (
-        <video width="100%" controls src={posts.images[0].url} />
+        <video width="100%" controls src={posts.images[0].url} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
       ) : (
-        <img src={posts.images[0].url} alt={posts.images[0].url} />
+        <img src={posts.images[0].url} alt={posts.images[0].url} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
       )}
 
       <div className="photo__overlay">

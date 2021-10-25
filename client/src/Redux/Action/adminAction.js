@@ -12,7 +12,7 @@ export const getUsers = (auth) => async (dispatch) => {
         dispatch({type: ADMIN_TYPES.LOADING, payload: true});
 
         const res = await getDataAPI('users', auth.token);
-        dispatch({type: ADMIN_TYPES.GET_ALL_USERS, payload: res.data});
+        dispatch({type: ADMIN_TYPES.GET_ALL_USERS, payload: res.data}); 
 
         dispatch({type: ADMIN_TYPES.LOADING, payload: false});
     } catch (error) {

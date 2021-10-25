@@ -149,7 +149,16 @@ function NotifyModal({ setShowMenu }) {
                 )}
               </ListItem>
               <ListItemSecondaryAction style={{ right: '30px' }}>
-                <Avatar className={classes.small} src={msg.image}></Avatar>
+                {msg.image && (
+                  <>
+                    {msg.image.match(/video/i) ? (
+                      <video className={classes.small} src={msg.image} width="5%" />
+                    ) : (
+                      <Avatar className={classes.small} src={msg.image}></Avatar>
+                    )}
+                  </>
+                )}
+
                 <ListItemText secondary={moment(msg.createdAt).fromNow()} />
               </ListItemSecondaryAction>
               {!msg.isRead && (
@@ -177,7 +186,15 @@ function NotifyModal({ setShowMenu }) {
                 />
               </ListItem>
               <ListItemSecondaryAction style={{ right: '30px' }}>
-                <Avatar className={classes.smallmobie} src={msg.image}></Avatar>
+                {msg.image && (
+                  <>
+                    {msg.image.match(/video/i) ? (
+                      <video className={classes.smallmobie} src={msg.image} width="5%" />
+                    ) : (
+                      <Avatar className={classes.smallmobie} src={msg.image}></Avatar>
+                    )}
+                  </>
+                )}
               </ListItemSecondaryAction>
               {!msg.isRead && (
                 <ListItemSecondaryAction style={{ right: '4px' }}>

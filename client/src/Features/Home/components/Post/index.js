@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Posts(props) {
   const classes = useStyles();
-  const { posts, auth } = useSelector((state) => state);
+  const { posts, auth, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
   // const [hasMore, sethasMore] = useState(true);
   const handleLoadMore = async () => {
     setLoad(true);
-    const res = await getDataAPI(`posts?limit=${posts.page * 3}`, auth.token);
+    const res = await getDataAPI(`posts?limit=${posts.page * 3}`, auth.token); 
     dispatch({ type: POST_TYPES.GET_POSTS, payload: { ...res.data, page: posts.page + 1 } });
     // if (res.length === 0 || res.length < 20) {
     //   sethasMore(false);
@@ -49,7 +49,7 @@ function Posts(props) {
         endMessage={<h1>End</h1>}
       >
         {posts.posts.map((post) => (
-          <Card key={post._id} className={classes.root} style={{ margin: '0', marginBottom: '25px' }}>
+          <Card key={post._id} className={classes.root} style={{ margin: '0', marginBottom: '25px', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
             <PostContent post={post} />
             <PostBodyHome post={post} />
             <PostFooter post={post} />
