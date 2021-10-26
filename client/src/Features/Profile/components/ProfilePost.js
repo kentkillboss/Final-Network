@@ -122,7 +122,7 @@ function ProfilePost({ auth, id, dispatch, profile }) {
   };
 
   return (
-    <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
+    <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}

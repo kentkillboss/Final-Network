@@ -124,8 +124,8 @@ export default function Header() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="sticky" className={classes.appBar} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
+    <div className={classes.root} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
+      <AppBar position="sticky" className={classes.appBar} >
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <img className={classes.logoSm1} src={Logo} alt="logo" />

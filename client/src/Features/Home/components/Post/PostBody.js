@@ -13,11 +13,17 @@ const useStyles = makeStyles((theme) => ({
     width: 'auto',
     maxHeight: 'calc(100vh - 115px)',
     minHeight: 'calc(100vh - 115px)', 
+    maxWidth: '100%',
+    minWidth: '100%', 
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     objectFit: 'contain',
     // backgroundSize: '100%',
     // backgroundRepeat: 'no-repeat'
+    [theme.breakpoints.down('sm')]: {
+      maxHeight: 'calc(100vh - 500px)',
+    minHeight: 'calc(100vh - 500px)', 
+    },
   },
 }));
 
