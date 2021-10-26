@@ -92,10 +92,10 @@ function StatusModal({ setShowModal }) {
       }
       return newImages.push(file);
     });
-    console.log(files);
     if (err) dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err } });
     setImages([...images, ...newImages]);
   };
+
   const handleDeleteImages = (index) => {
     const newArr = [...images];
     newArr.splice(index, 1);
@@ -137,9 +137,18 @@ function StatusModal({ setShowModal }) {
       return dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
-          error: 'Please add your photo.',
+          error: 'Vui lòng thêm ảnh hoặc video',
         },
       });
+    let arr = [];
+    images.forEach((img) => {
+      if (img.type === 'video/mp4') {
+        arr.push(img.type);
+      }
+    });
+    if (arr.length >= 2) {
+      return dispatch({ type: GLOBALTYPES.ALERT, payload: { error: 'Bạn không thể đăng nhiều hơn 2 video 1 lúc!!' } });
+    }
 
     if (status.onEdit) {
       dispatch(updatePost({ content, images, auth, status }));
