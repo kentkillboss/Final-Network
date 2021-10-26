@@ -124,16 +124,16 @@ export default function Header() {
   };
 
   return (
-    <div className={classes.root} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
+    <div className={classes.root}>
       <AppBar position="sticky" className={classes.appBar} >
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img className={classes.logoSm1} src={Logo} alt="logo" />
+            <img className={classes.logoSm1} src={Logo} alt="logo"  style={{ filter: theme ? 'invert(1)' : 'invert(0)'}} />
             <Typography
               variant="h6"
               className={classes.logoLg}
               onClick={() => window.scrollTo({ top: 0 })}
-              style={{ fontFamily: 'Acme, cursive' }}
+              style={{ fontFamily: 'Acme, cursive', filter: theme ? 'invert(1)' : 'invert(0)' }}
             >
               Dulcie
             </Typography>
@@ -141,11 +141,11 @@ export default function Header() {
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
             <img className={classes.logoSm} src={Logo} alt="logo" />
           </Link>
-          <Box className={classes.search}>
+          <Box className={classes.search} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
             <SearchCard />
             <Cancel className={classes.cancel} onClick={() => setOpen(false)} />
           </Box>
-          <Box className={classes.icons}>
+          <Box className={classes.icons} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
             <IconButton>
               <Search className={classes.searchButton} onClick={() => setOpen(true)} />
             </IconButton>
