@@ -112,16 +112,21 @@ function CommentCard({ children, comment, post, commentId }) {
 
   return (
     <Box style={styleCard}>
-      <List className={classes.root} style={{backgroundColor: theme ? '#dbdad9' : '#ffffff'}}>
+      <List className={classes.root} style={{ backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
         <ListItem alignItems="flex-start" style={{ display: 'flex' }}>
           <Link to={`/profile/${comment.user._id}`}>
             <ListItemAvatar className={classes.listItemAvatar}>
-              <Avatar alt="avatar" src={comment.user.avatar} className={classes.small} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
+              <Avatar
+                alt="avatar"
+                src={comment.user.avatar}
+                className={classes.small}
+                style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+              />
             </ListItemAvatar>
           </Link>
           <Box>
             <ListItemText
-              style={{backgroundColor: theme ? '#c5c4c3' : '#f0f2f5'}}
+              style={{ backgroundColor: theme ? '#c5c4c3' : '#f0f2f5' }}
               className={classes.listItemText}
               primary={<Typography className={classes.fonts}>{comment.user.username}</Typography>}
               secondary={
@@ -143,7 +148,13 @@ function CommentCard({ children, comment, post, commentId }) {
                             </Link>
                           )}
 
-                          <Typography component="span" variant="body2" className={classes.inline} color="textPrimary" style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                            style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}
+                          >
                             {content.length < 100 ? content : readMore ? content + ' ' : content.slice(0, 100) + '....'}
                             {content.length > 100 && (
                               <span className={classes.span} onClick={() => setReadMore(!readMore)}>

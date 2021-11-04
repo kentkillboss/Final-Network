@@ -141,7 +141,7 @@ function Search(props) {
       </div>
 
       <Box className={classes.card}>
-        {search ? <SearchCard search={search} user={users} onSubmit={handleClose} /> : ''}
+        {search ? <SearchCard load={load} search={search} user={users} onSubmit={handleClose} /> : ''}
       </Box>
     </form>
   );

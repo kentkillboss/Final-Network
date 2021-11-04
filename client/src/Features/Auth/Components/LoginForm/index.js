@@ -120,7 +120,7 @@ function LoginForm(props) {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              Login
             </Button>
           </form>
           <Grid container>

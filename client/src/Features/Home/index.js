@@ -27,7 +27,7 @@ let scroll = 0;
 function Home(props) {
   const classes = useStyles();
   const { posts, theme } = useSelector((state) => state);
-  
+
   window.addEventListener('scroll', () => {
     if ((window.location.patchname = '/')) {
       scroll = window.pageYOffset;
@@ -37,18 +37,18 @@ function Home(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      window.scrollTo({top: scroll, behavior: 'smooth'})
-    }, 300)
-  }, [])
+      window.scrollTo({ top: scroll, behavior: 'smooth' });
+    }, 300);
+  }, []);
 
   return (
     <div>
-      <Grid container className={classes.container} >
+      <Grid container className={classes.container}>
         <Grid item sm={2} xs={2}>
           <LeftBar />
         </Grid>
-        <Grid item sm={1} xs={0} className={classes.box} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}  />
-        <Grid item sm={5} xs={10} className={classes.box} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}>
+        <Grid item sm={1} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} />
+        <Grid item sm={5} xs={10} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
           <Status />
           {posts.loading ? (
             <PostLoading />
@@ -58,8 +58,8 @@ function Home(props) {
             <Posts />
           )}
         </Grid>
-        <Grid item sm={1} xs={0} className={classes.box} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}} />
-        <Grid item sm={3} xs={0} className={classes.right} >
+        <Grid item sm={1} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} />
+        <Grid item sm={3} xs={0} className={classes.right}>
           <RightBar />
         </Grid>
       </Grid>

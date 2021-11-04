@@ -14,6 +14,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
+import Brightness7RoundedIcon from '@material-ui/icons/Brightness7Rounded';
+import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 const useStyles = makeStyles((theme) => ({
   root: {
     zIndex: 1100,
@@ -124,8 +128,8 @@ export default function Header() {
   };
 
   return (
-    <div className={classes.root} style={{ filter: theme ? 'invert(1)' : 'invert(0)'}}>
-      <AppBar position="sticky" className={classes.appBar} >
+    <div className={classes.root} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
+      <AppBar position="sticky" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <img className={classes.logoSm1} src={Logo} alt="logo" />
@@ -150,17 +154,17 @@ export default function Header() {
               <Search className={classes.searchButton} onClick={() => setOpen(true)} />
             </IconButton>
             <Link to="/message" style={{ color: '#ffff', textDecoration: 'none' }}>
-              <IconButton color="inherit">
+              <IconButton color="inherit" style={{ outline: 'none' }}>
                 <Mail />
               </IconButton>
             </Link>
-            <IconButton className={classes.badge} onClick={() => setShowMenu(true)}>
+            <IconButton style={{ outline: 'none' }} className={classes.badge} onClick={() => setShowMenu(true)}>
               <Badge badgeContent={newArr.length} color="error">
                 <Notifications />
               </Badge>
             </IconButton>
 
-            <IconButton className={classes.user} color="inherit" onClick={handleClick}>
+            <IconButton style={{ outline: 'none' }} className={classes.user} color="inherit" onClick={handleClick}>
               <Avatar src={auth.user.avatar} style={{ width: '35px', height: '35px' }} />
               <ArrowDropDownIcon />
             </IconButton>
@@ -184,8 +188,8 @@ export default function Header() {
         getContentAnchorEl={null}
       >
         <MenuItem onClick={handleClose}>
-          <Link className={classes.link} to={`/profile/${auth.user._id}`}>
-            Profile
+          <Link className={classes.link} style={{ display: 'flex' }} to={`/profile/${auth.user._id}`}>
+            <PersonRoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} /> Profile
           </Link>
         </MenuItem>
         <MenuItem>
@@ -200,11 +204,22 @@ export default function Header() {
               })
             }
           >
-            {theme ? 'Light mode' : 'Dark mode'}
+            {theme ? (
+              <Box style={{ display: 'flex' }}>
+                <Brightness7RoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} /> Light mode{' '}
+              </Box>
+            ) : (
+              <Box style={{ display: 'flex' }}>
+                {' '}
+                <Brightness4RoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} />
+                Dark mode{' '}
+              </Box>
+            )}
           </label>
         </MenuItem>
-        <MenuItem onClick={() => dispatch(logout())}>
-          <Link className={classes.link} to="/">
+        <MenuItem onClick={() => dispatch(logout())} style={{ borderTop: '1px solid #74B49B' }}>
+          <Link className={classes.link} to="/" style={{ display: 'flex' }}>
+            <ExitToAppRoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} />
             Logout
           </Link>
         </MenuItem>

@@ -69,14 +69,14 @@ function App() {
 
   return (
     <>
-      <input type="checkbox" id="theme"/>
+      <input type="checkbox" id="theme" />
       {/* <Loading /> */}
       <Alert />
       <div className="App">
         <div className="main">
-          
           {/* {auth.token && <Header/>} */}
           {auth.token ? auth.user.role === 'admin' ? <></> : <Header /> : <></>}
+
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}

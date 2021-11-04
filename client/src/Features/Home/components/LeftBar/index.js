@@ -56,12 +56,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
-  }
+  },
 }));
 
 function LeftBar(props) {
   const classes = useStyles();
-  const {theme} = useSelector(state => state);
+  const { theme } = useSelector((state) => state);
   const isActive = {
     color: '#587850',
   };
@@ -108,27 +108,27 @@ function LeftBar(props) {
     },
   ];
   return (
-    <div className={classes.container}  style={{backgroundColor: theme ? '#e7e6e5' : ''}}>
-    <Container style={{filter: theme ? 'invert(1)' : 'invert(0)'}}>
-      {navLinkItem.map((link, index) => (
-        <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>
-          <div className={classes.item}>
-            {link.icon}
-            <Typography className={classes.text}>{link.text}</Typography>
-          </div>
-        </NavLink>
-      ))}
-      <hr></hr>
-      <div className={classes.item} style={{color: 'grey'}}>
-        <Bookmark className={classes.icon} style={{ fontSize: '31px' }} />
-        <Typography className={classes.text}>Collections</Typography>
-      </div>
-      <Box className={classes.info}>
-        <Typography variant="body2" color="textSecondary" align="center" style={{color: theme ? 'white' : 'grey'}}>
-          <span color="inherit">Quyền riêng tư - điều khoản - Lựa chọn quảng bá TA Network © 2021</span>{' '}
-        </Typography>
-      </Box>
-    </Container>
+    <div className={classes.container} style={{ backgroundColor: theme ? '#e7e6e5' : '' }}>
+      <Container style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
+        {navLinkItem.map((link, index) => (
+          <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>
+            <div className={classes.item}>
+              {link.icon}
+              <Typography className={classes.text}>{link.text}</Typography>
+            </div>
+          </NavLink>
+        ))}
+        <hr></hr>
+        <div className={classes.item} style={{ color: 'grey' }}>
+          <Bookmark className={classes.icon} style={{ fontSize: '31px' }} />
+          <Typography className={classes.text}>Collections</Typography>
+        </div>
+        <Box className={classes.info}>
+          <Typography variant="body2" color="textSecondary" align="center" style={{ color: theme ? 'white' : 'grey' }}>
+            <span color="inherit">Quyền riêng tư - điều khoản - Lựa chọn quảng bá TA Network © 2021</span>{' '}
+          </Typography>
+        </Box>
+      </Container>
     </div>
   );
 }

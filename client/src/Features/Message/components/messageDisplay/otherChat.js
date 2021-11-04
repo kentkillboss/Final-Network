@@ -73,12 +73,12 @@ const useStyles = makeStyles((theme) => ({
     color: 'black',
     border: '1px solid #e4e6eb',
     borderRadius: '14px 14px 14px 14px',
-  }
+  },
 }));
 
 function MessageDisplayOther({ user, msg }) {
   const classes = useStyles();
-  const {theme} = useSelector(state => state);
+  const { theme } = useSelector((state) => state);
 
   const handleDownload = (url, filename) => {
     axios
@@ -91,10 +91,27 @@ function MessageDisplayOther({ user, msg }) {
   };
 
   const imageShow = (src) => {
-    return <img width="100%" height="100%" style={{ borderRadius: '10px', filter: theme ? 'invert(1)' : 'invert(0)' }} src={src} alt="images" />;
+    return (
+      <img
+        width="100%"
+        height="100%"
+        style={{ borderRadius: '10px', filter: theme ? 'invert(1)' : 'invert(0)' }}
+        src={src}
+        alt="images"
+      />
+    );
   };
   const videoShow = (src) => {
-    return <video width="100%" height="100%" controls src={src} alt="images" style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />;
+    return (
+      <video
+        width="100%"
+        height="100%"
+        controls
+        src={src}
+        alt="images"
+        style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+      />
+    );
   };
   let newName = '';
   const fileShow = (src, tail, name) => {
@@ -118,7 +135,7 @@ function MessageDisplayOther({ user, msg }) {
     <>
       <Box style={{ display: 'flex', justifyContent: 'flex-start' }}>
         <Box className={classes.title}>
-          <Avatar className={classes.avatar} src={user.avatar} style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+          <Avatar className={classes.avatar} src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
         </Box>
         <Box className={classes.contentBox}>
           {msg.text && (
@@ -143,25 +160,21 @@ function MessageDisplayOther({ user, msg }) {
               <Box>
                 {msg.call.times === 0 ? (
                   msg.call.video ? (
-                    <VideocamOffRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                    <VideocamOffRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                   ) : (
-                    <PhoneDisabledRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                    <PhoneDisabledRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                   )
                 ) : msg.call.video ? (
-                  <VideocamRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                  <VideocamRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                 ) : (
-                  <CallRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                  <CallRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                 )}
               </Box>
               <Box>
                 <ListItemText
                   primary={msg.call.video ? 'Video Call' : 'Audio Call'}
                   secondary={
-                    msg.call.times > 0 ? (
-                      <Times total={msg.call.times} />
-                    ) : (
-                      new Date(msg.createdAt).toLocaleTimeString()
-                    )
+                    msg.call.times > 0 ? <Times total={msg.call.times} /> : new Date(msg.createdAt).toLocaleTimeString()
                   }
                 />
               </Box>

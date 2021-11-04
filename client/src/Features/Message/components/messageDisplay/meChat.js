@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     color: 'black',
     border: '1px solid #e4e6eb',
     borderRadius: '14px 14px 14px 14px',
-  }
+  },
 }));
 
 function MessageDisplay({ user, msg, data }) {
@@ -116,10 +116,35 @@ function MessageDisplay({ user, msg, data }) {
   };
 
   const imageShow = (src) => {
-    return <img width="100%" height="100%" style={{ borderRadius: '10px', filter: theme ? 'invert(1)' : 'invert(0)' }} src={src} alt="images" />;
+    return (
+      <div>
+        <img
+          width="100%"
+          height="100%"
+          style={{
+            borderRadius: '10px',
+            filter: theme ? 'invert(1)' : 'invert(0)',
+          }}
+          src={src}
+          alt="images"
+        />
+      </div>
+    );
   };
   const videoShow = (src) => {
-    return <video width="100%" height="100%" controls src={src} alt="images"  style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />;
+    return (
+      <video
+        width="100%"
+        height="100%"
+        controls
+        src={src}
+        alt="images"
+        style={{
+          borderRadius: '10px',
+          filter: theme ? 'invert(1)' : 'invert(0)',
+        }}
+      />
+    );
   };
   let newName = '';
   const fileShow = (src, tail, name) => {
@@ -127,15 +152,15 @@ function MessageDisplay({ user, msg, data }) {
     return (
       <Box className={classes.file}>
         <DescriptionRoundedIcon />
-      <Typography
-        onClick={() => {
-          handleDownload(src, newName);
-        }}
-        style={{ cursor: 'pointer', paddingLeft: '2px' }}
-        className={classes.contentText}
-      >
-        {newName}
-      </Typography>
+        <Typography
+          onClick={() => {
+            handleDownload(src, newName);
+          }}
+          style={{ cursor: 'pointer', paddingLeft: '2px' }}
+          className={classes.contentText}
+        >
+          {newName}
+        </Typography>
       </Box>
     );
   };
@@ -146,7 +171,10 @@ function MessageDisplay({ user, msg, data }) {
           <DeleteIcon className={classes.deleteIcon} onClick={handleDeleteMessages} />
           <Box className={classes.contentBox}>
             {msg.text && (
-              <Box className={classes.content} style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : '' }} >
+              <Box
+                className={classes.content}
+                style={{ filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : '' }}
+              >
                 <Typography className={classes.contentText}>{msg.text}</Typography>
               </Box>
             )}
@@ -168,14 +196,14 @@ function MessageDisplay({ user, msg, data }) {
                 <Box style={{ marginRight: '4px' }}>
                   {msg.call.times === 0 ? (
                     msg.call.video ? (
-                      <VideocamOffRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                      <VideocamOffRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                     ) : (
-                      <PhoneDisabledRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                      <PhoneDisabledRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                     )
                   ) : msg.call.video ? (
-                    <VideocamRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                    <VideocamRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                   ) : (
-                    <CallRoundedIcon style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+                    <CallRoundedIcon style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
                   )}
                 </Box>
                 <Box>
@@ -195,7 +223,7 @@ function MessageDisplay({ user, msg, data }) {
           </Box>
         </Box>
         <Box className={classes.title}>
-          <Avatar className={classes.avatar} src={user.avatar} style={{filter: theme ? 'invert(1)' : 'invert(0)'}} />
+          <Avatar className={classes.avatar} src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
         </Box>
       </Box>
 

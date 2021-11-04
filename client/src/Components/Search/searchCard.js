@@ -7,6 +7,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import { useHistory } from 'react-router';
+import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 SearchCard.propTypes = {
   search: PropTypes.object,
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchCard({ user, onSubmit, search }) {
+function SearchCard({ user, onSubmit, search, load }) {
   const classes = useStyles();
   const history = useHistory();
   const handleClick = (id) => {
@@ -46,14 +49,24 @@ function SearchCard({ user, onSubmit, search }) {
   return (
     <>
       <List className={classes.root}>
+        <ListItem style={{ borderBottom: '1px solid gray' }}>
+          {load ? (
+            <CircularProgress style={{ width: '20px', height: '20px', color: '#f50057' }} />
+          ) : (
+            <SearchRoundedIcon color="secondary" style={{ marginRight: '5px' }} />
+          )}
+          <Typography color="secondary">Tìm '{search}'</Typography>
+        </ListItem>
         {search &&
           user.map((user) => (
-            <ListItem onClick={() => handleClick(user._id)} button>
-              <ListItemAvatar>
-                <Avatar src={user.avatar} size={classes.user} />
-              </ListItemAvatar>
-              <ListItemText className={classes.listitemtext} primary={user.username} secondary={user.fullname} />
-            </ListItem>
+            <>
+              <ListItem onClick={() => handleClick(user._id)} button>
+                <ListItemAvatar>
+                  <Avatar src={user.avatar} size={classes.user} />
+                </ListItemAvatar>
+                <ListItemText className={classes.listitemtext} primary={user.username} secondary={user.fullname} />
+              </ListItem>
+            </>
           ))}
       </List>
     </>

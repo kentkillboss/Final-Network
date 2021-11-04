@@ -1,5 +1,5 @@
 import { Box } from '@material-ui/core';
-import LoadingIcon from 'images/load.gif';
+import Loader from 'Components/Loading/LoadingPost';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -17,13 +17,16 @@ function Profile(props) {
   }, [id, auth, dispatch, profile.ids]);
 
   return (
-    <Box style={{ paddingTop: '20px' }}>
+    <>
       {profile.loading ? (
-        <img src={LoadingIcon} alt="loading" />
+        // <img src={LoadingIcon} alt="loading" />
+        <Loader />
       ) : (
-        <ProfileInfo auth={auth} profile={profile} dispatch={dispatch} id={id} />
+        <Box style={{ paddingTop: '20px' }}>
+          <ProfileInfo auth={auth} profile={profile} dispatch={dispatch} id={id} />
+        </Box>
       )}
-    </Box>
+    </>
   );
 }
 

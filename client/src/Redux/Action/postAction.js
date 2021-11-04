@@ -10,7 +10,7 @@ export const POST_TYPES = {
   UPDATE_POST: 'UPDATE_POST',
   GET_POST: 'GET_POST',
   DELETE_POST: 'DELETE_POST',
-  GET_ALL_POSTS: 'GET_ALL_POSTS'
+  GET_ALL_POSTS: 'GET_ALL_POSTS',
 };
 
 export const createPost =
@@ -18,13 +18,13 @@ export const createPost =
   async (dispatch) => {
     let media = [];
     try {
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+      dispatch({ type: GLOBALTYPES.ALERTPOST, payload: { loadingg: true } });
       if (images.length > 0) media = await imageUpload(images);
       const res = await postDataAPI('posts', { content, images: media }, auth.token);
 
       dispatch({ type: POST_TYPES.CREATE_POST, payload: { ...res.data.newPost, user: auth.user } });
 
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+      dispatch({ type: GLOBALTYPES.ALERTPOST, payload: { loadingg: false } });
 
       //notify
       const msg = {
@@ -72,7 +72,7 @@ export const updatePost =
 
     if (status.content === content && imgNewUrl.length === 0 && imgOldUrl.length === status.images.length) return;
     try {
-      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+      dispatch({ type: GLOBALTYPES.ALERTPOST, payload: { loadingg: true } });
       if (imgNewUrl.length > 0) media = await imageUpload(imgNewUrl);
       const res = await patchDataAPI(
         `post/${status._id}`,
@@ -171,7 +171,7 @@ export const deletePost =
       const res = await deleteDataAPI(`post/${post._id}`, auth.token);
 
       //notify
-      const msg = { 
+      const msg = {
         id: post._id,
         text: 'added a new post',
         recipients: res.data.newPost.user.followers,
@@ -219,7 +219,9 @@ export const unSavePost =
     }
   };
 
-export const reportPost = ({post, auth}) => async (dispatch) => {
+export const reportPost =
+  ({ post, auth }) =>
+  async (dispatch) => {
     const newPost = { ...post, report: [...post.report, auth.user] };
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
     try {
@@ -230,24 +232,23 @@ export const reportPost = ({post, auth}) => async (dispatch) => {
         payload: { error: error.response.data.msg },
       });
     }
-}
+  };
 
 export const getAllPosts = (auth) => async (dispatch) => {
-
   try {
-        dispatch({type: POST_TYPES.LOADING_POST, payload: true});
+    dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
 
-        const res = await getDataAPI('getAllPosts', auth.token);
-        dispatch({type: POST_TYPES.GET_ALL_POSTS, payload: { ...res.data, rpPage: 2 }});
+    const res = await getDataAPI('getAllPosts', auth.token);
+    dispatch({ type: POST_TYPES.GET_ALL_POSTS, payload: { ...res.data, rpPage: 2 } });
 
-        dispatch({type: POST_TYPES.LOADING_POST, payload: false});
+    dispatch({ type: POST_TYPES.LOADING_POST, payload: false });
   } catch (error) {
     dispatch({
       type: GLOBALTYPES.ALERT,
       payload: { error: error.response.data.msg },
     });
   }
-}
+};
 
 export const adminDeletePost =
   ({ post, auth, userId }) =>
@@ -255,7 +256,6 @@ export const adminDeletePost =
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post });
     try {
       await deleteDataAPI(`post/${post._id}/${userId}`, auth.token);
-
     } catch (err) {
       dispatch({
         type: GLOBALTYPES.ALERT,

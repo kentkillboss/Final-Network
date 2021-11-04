@@ -1,15 +1,16 @@
 import {
   Box,
-  Button,
   IconButton,
   ImageList,
   ImageListItem,
+  InputAdornment,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   makeStyles,
-  TextField,
+  Input,
+  Divider,
 } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -30,33 +31,14 @@ import { imageUpload } from 'utils/imageUpload';
 import MessageDisplay from '../messageDisplay/meChat';
 import MessageDisplayOther from '../messageDisplay/otherChat';
 import fileIcon from 'images/file.png';
-
+import AttachFileRoundedIcon from '@material-ui/icons/AttachFileRounded';
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // maxHeight: '500px',
-  },
   container: {
-    // width: '100%',
     height: 'calc(100vh - 200px)',
-    // display: 'flex',
     flexDirection: 'column',
     overflowY: 'auto',
-    // padding: '0 10px',
   },
-  // chatDisplay: {
-  //   // display: 'grid',
-  //   // gridTemplateColumns: '70%',
-  //   // marginBottom: '10px',
-  //   // paddingRight: '10px',
-  //   // justifyItems: 'end',
-  //   //  flexDirection: 'column',
-  //   // justifyContent: 'flex-end',
-  //   width: '100%',
-  //   minHeight: '100%',
-  //   display: 'flex',
-  //   flexDirection: 'column',
-  //   justifyContent: 'flex-end'
-  // },
+
   textfield: {
     width: '82%',
     height: '90%',
@@ -100,6 +82,14 @@ const useStyles = makeStyles((theme) => ({
     top: '-2px',
     right: '-1px',
     zIndex: 1,
+  },
+  box: {
+    minHeight: 55,
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center',
+    paddingLeft: theme.spacing(1),
+    backgroundColor: '#e1e7eb',
   },
 }));
 
@@ -368,45 +358,65 @@ function RightSide(props) {
           </Box>
         </Box>
         <form onSubmit={handleSubmit}>
-          <Box className={classes.boxIcon}>
-            <TextField
-              style={{ marginLeft: '5px', filter: theme ? 'invert(1)' : 'invert(0)', color: theme ? 'white' : 'black' }}
-              placeholder="Add your cmt..."
+          <Box className={classes.box}>
+            <Input
               value={text}
               onChange={(e) => setText(e.target.value)}
               fullWidth
-            ></TextField>
-            <Box style={{ display: 'flex', justifyContent: 'space-around', width: '20%' }}>
-              <IconButton
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-                style={{ padding: '4px' }} /*onClick={() => setShowIcon(true)}*/
-              >
-                <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
-              </IconButton>
-              {showIcon && <Icons setContent={setText} content={text} showIcon={showIcon} setShowIcon={setShowIcon} />}
-              <IconButton component="label" size="sm" style={{ padding: '4px' }}>
-                <PhotoLibraryRoundedIcon style={{ color: 'blue', cursor: 'pointer' }} />
-                <input
-                  type="file"
-                  multiple
-                  name="file"
-                  id="file"
-                  accept="image/*, video/*"
-                  onChange={handleChangeMedia}
-                  hidden
-                />
-              </IconButton>
-              <Button
-                disabled={text || media.length > 0 ? false : true}
-                className={classes.btnSubmit}
-                type="submit"
-                color="primary"
-              >
-                <SendIcon />
-              </Button>
-            </Box>
+              disableUnderline
+              placeholder="Type a message"
+              startAdornment={
+                <InputAdornment position="start">
+                  <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                    <EmojiEmotionsRoundedIcon style={{ color: '#ec7d14' }} />
+                  </IconButton>
+                  {showIcon && (
+                    <Icons setContent={setText} content={text} showIcon={showIcon} setShowIcon={setShowIcon} />
+                  )}
+                </InputAdornment>
+              }
+              endAdornment={
+                <Box style={{ display: 'flex' }} spacing={0.5} mr={1.5}>
+                  <IconButton component="label" size="small">
+                    <AttachFileRoundedIcon style={{ color: '#ec7d14' }} width={24} height={24} />
+                    <input
+                      type="file"
+                      multiple
+                      name="file"
+                      id="file"
+                      accept=".docx, .doc, .xlsx, .xls, .txt"
+                      onChange={handleChangeMedia}
+                      hidden
+                    />
+                  </IconButton>
+                  <IconButton component="label" size="small">
+                    <PhotoLibraryRoundedIcon style={{ color: '#ec7d14' }} width={24} height={24} />
+                    <input
+                      type="file"
+                      multiple
+                      name="file"
+                      id="file"
+                      accept="image/*, video/*"
+                      onChange={handleChangeMedia}
+                      hidden
+                    />
+                  </IconButton>
+                </Box>
+              }
+              sx={{ height: '100%' }}
+            />
+
+            <Divider orientation="vertical" flexItem />
+
+            <IconButton
+              disabled={text || media.length > 0 ? false : true}
+              className={classes.btnSubmit}
+              type="submit"
+              color="primary"
+              sx={{ mx: 1 }}
+            >
+              <SendIcon width={24} height={24} />
+            </IconButton>
           </Box>
         </form>
       </Box>
