@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function Posts(props) {
-  const classes = useStyles();
+  const classes = useStyles(); 
   const { posts, auth, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);

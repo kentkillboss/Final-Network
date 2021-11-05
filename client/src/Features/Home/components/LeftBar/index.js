@@ -27,10 +27,17 @@ const useStyles = makeStyles((theme) => ({
   item: {
     display: 'flex',
     alignItems: 'center',
-    marginBottom: theme.spacing(4),
+    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
-      marginBottom: theme.spacing(3),
+      paddingBottom: theme.spacing(1.5),
+      paddingTop: theme.spacing(1.5),
+      paddingLeft: theme.spacing(1),
       cursor: 'pointer',
+      '&:hover': {
+        borderRadius: '5px',
+        backgroundColor: '#e0e0e0'
+      }
     },
   },
   icon: {
@@ -51,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
   navbarlink: {
     textDecoration: 'none',
     color: '#5C8D89',
+    
   },
   info: {
     [theme.breakpoints.down('sm')]: {

@@ -234,11 +234,11 @@ export const reportPost =
     }
   };
 
-export const getAllPosts = (auth) => async (dispatch) => {
+export const getAllPosts = (token) => async (dispatch) => {
   try {
     dispatch({ type: POST_TYPES.LOADING_POST, payload: true });
 
-    const res = await getDataAPI('getAllPosts', auth.token);
+    const res = await getDataAPI('getAllPosts', token);
     dispatch({ type: POST_TYPES.GET_ALL_POSTS, payload: { ...res.data, rpPage: 2 } });
 
     dispatch({ type: POST_TYPES.LOADING_POST, payload: false });

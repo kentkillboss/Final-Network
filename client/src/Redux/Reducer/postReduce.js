@@ -34,6 +34,7 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: EditData(state.posts, action.payload._id, action.payload),
+        rpPosts: EditData(state.rpPosts, action.payload._id, action.payload),
       };
     case POST_TYPES.DELETE_POST:
       return {
@@ -43,8 +44,8 @@ const postReducer = (state = initialState, action) => {
     case POST_TYPES.GET_ALL_POSTS:
       return {
         ...state,
-        rpPosts: action.payload.posts,
-        rpResult: action.payload.result,
+        rpPosts: action.payload.rpPosts,
+        rpResult: action.payload.rpResult,
         rpPage: action.payload.rpPage,
       };
 

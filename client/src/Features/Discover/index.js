@@ -33,11 +33,11 @@ function Discover(props) {
   return (
     <div>
       <Grid container>
-        <Grid item xs={2} sm={2}  style={{ display: 'block'}}>
+        <Grid item xs={2} sm={3}  style={{ display: 'block'}}>
           <LeftBar />
         </Grid>
-        <Grid item xs={1} sm={1} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}></Grid>
-        <Grid item xs={8} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#ffffff'}} >
+        <Grid item xs={0} sm={0} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}></Grid>
+        <Grid item xs={10} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#ffffff'}} >
           <Grid container>
             {discover.loading ? (
               <>
@@ -64,7 +64,7 @@ function Discover(props) {
             )}
           </Grid>
         </Grid>
-        <Grid item xs={1} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}></Grid>
+        <Grid item xs={0} sm={1} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}></Grid>
       </Grid>
     </div>
   );

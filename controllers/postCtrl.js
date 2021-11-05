@@ -318,7 +318,7 @@ const postCtrl = {
   getAllPostsReport: async (req, res) => {
     try {
       const features = new APIfeatures(Posts.find({}), req.query).videoPaginating();
-      const posts = await features.query
+      const rpPosts = await features.query
         .sort("-createdAt")
         .populate("user likes", "avatar username fullname followers report")
         .populate({
@@ -331,8 +331,8 @@ const postCtrl = {
 
       res.json({
         msg: "Success!",
-        result: posts.length,
-        posts,
+        rpResult: rpPosts.length,
+        rpPosts,
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

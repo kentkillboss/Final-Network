@@ -44,10 +44,10 @@ function Home(props) {
   return (
     <div>
       <Grid container className={classes.container}>
-        <Grid item sm={2} xs={2}>
+        <Grid item sm={3} xs={2}>
           <LeftBar />
         </Grid>
-        <Grid item sm={1} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} />
+        {/* <Grid item sm={0} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} /> */}
         <Grid item sm={5} xs={10} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
           <Status />
           {posts.loading ? (

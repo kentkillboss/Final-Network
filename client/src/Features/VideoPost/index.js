@@ -31,17 +31,13 @@ function VideoPosts(props) {
   const [video, setVideo] = useState([]);
 
   useEffect(() => {
-    dispatch(getAllPosts(auth));
-  }, [dispatch, auth]);
-
-  useEffect(() => {
     const newPost = posts.rpPosts.filter((post) => post.images[0].url.match(/video/i));
     setVideo(newPost);
   }, [posts.rpPosts]);
 
   const handleLoadMore = async () => {
     setLoad(true);
-    const res = await getDataAPI(`getAllPosts?limit=${posts.rpPage * 9}`, auth.token);
+    const res = await getDataAPI(`getAllPosts?limit=${posts.rpPage * 3}`, auth.token);
     dispatch({ type: POST_TYPES.GET_ALL_POSTS, payload: { ...res.data, rpPage: posts.rpPage + 1 } });
     setLoad(false);
   };
@@ -49,14 +45,19 @@ function VideoPosts(props) {
   return (
     <div>
       <Grid container>
-        <Grid item xs={2} sm={2} style={{ display: 'block' }}>
+        <Grid item xs={2} sm={3} style={{ display: 'block' }}>
           <LeftBar />
         </Grid>
-        <Grid item xs={1} sm={1} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
-        <Grid item xs={8} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5' }}>
+        <Grid item xs={0} sm={0} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
+        <Grid item xs={10} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5' }}>
+        {posts.loading ? (
+            <PostLoading />
+          ) : video.length === 0 ? (
+            <h2>No Post</h2>
+          ) : (
           <Box className={classes.box}>
             <InfiniteScroll
-              dataLength={posts.rpPosts.length} //This is important field to render the next data
+              dataLength={video.length} //This is important field to render the next data
               next={handleLoadMore}
               hasMore={true}
               loader={''}
@@ -73,14 +74,15 @@ function VideoPosts(props) {
                   <PostFooter post={post} />
 
                   <CommentHome post={post} />
-                  <InputComment post={post} />
+                  <InputComment post={post} /> 
                 </Card>
               ))}
             </InfiniteScroll>
             {load && <PostLoading />}
           </Box>
+          )}
         </Grid>
-        <Grid item xs={1} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
+        <Grid item xs={1} sm={1} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
       </Grid>
     </div>
   );

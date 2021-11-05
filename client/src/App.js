@@ -18,7 +18,7 @@ import { Route, Switch } from 'react-router-dom';
 import { refreshToken } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { getNotifies } from 'Redux/Action/notifyAction';
-import { getPosts } from 'Redux/Action/postAction';
+import { getAllPosts, getPosts } from 'Redux/Action/postAction';
 import { getUserActions } from 'Redux/Action/suggestionAction';
 import io from 'socket.io-client';
 import SocketClient from 'SocketClient';
@@ -43,6 +43,7 @@ function App() {
       dispatch(getPosts(auth.token));
       dispatch(getUserActions(auth.token));
       dispatch(getNotifies(auth.token));
+      dispatch(getAllPosts(auth.token));
     }
   }, [dispatch, auth.token]);
 
