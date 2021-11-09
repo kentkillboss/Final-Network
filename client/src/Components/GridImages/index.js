@@ -5,6 +5,8 @@ import { Grid, IconButton, Dialog } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { useSelector } from 'react-redux';
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 export default function PictureGrid(props) {
   const {theme} = useSelector(state => state);
@@ -40,7 +42,7 @@ export default function PictureGrid(props) {
         );
       } else {
         return (
-          <>
+          <Carousel>
             {images.map((image) => {
               if (isAVideo(image)) {
                 return (
@@ -81,7 +83,7 @@ export default function PictureGrid(props) {
                 </Grid>
               );
             })}
-          </>
+          </Carousel>
         );
       }
     }
