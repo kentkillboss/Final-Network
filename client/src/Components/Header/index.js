@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     top: 0,
   },
   appBar: {
-    backgroundColor: '#5C8D89',
+    // backgroundColor: '#5C8D89',
+    backgroundColor: '#ffffffff',
   },
   link: {
     textDecoration: 'none',
@@ -68,6 +69,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '25px',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
+      color: '#5C8D89',
     },
   },
   logoSm: {
@@ -150,28 +152,31 @@ export default function Header() {
           <Link to="/" style={{ color: '#ffff', textDecoration: 'none' }}>
             <img className={classes.logoSm} src={Logo} alt="logo" />
           </Link>
-          <Box className={classes.search} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
+          <Box className={classes.search} style={{ color: 'black' }}>
             <SearchCard />
             <Cancel className={classes.cancel} onClick={() => setOpen(false)} />
           </Box>
-          <Box className={classes.icons} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
+          <Box className={classes.icons}>
             <IconButton>
               <Search className={classes.searchButton} onClick={() => setOpen(true)} />
             </IconButton>
             <Link to="/message" style={{ color: '#ffff', textDecoration: 'none' }}>
-              <IconButton color="inherit" style={{ outline: 'none' }}>
-                <Mail />
+              <IconButton color="inherit">
+                <Mail style={{ color: 'black' }} />
               </IconButton>
             </Link>
-            <IconButton style={{ outline: 'none' }} className={classes.badge} onClick={() => setShowMenu(true)}>
+            <IconButton className={classes.badge} onClick={() => setShowMenu(true)}>
               <Badge badgeContent={newArr.length} color="error">
-                <Notifications />
+                <Notifications style={{ color: 'black' }} />
               </Badge>
             </IconButton>
 
-            <IconButton style={{ outline: 'none' }} className={classes.user} color="inherit" onClick={handleClick}>
-              <Avatar src={auth.user.avatar} style={{ width: '35px', height: '35px' }} />
-              <ArrowDropDownIcon />
+            <IconButton className={classes.user} color="inherit" onClick={handleClick}>
+              <Avatar
+                src={auth.user.avatar}
+                style={{ width: '35px', height: '35px', filter: theme ? 'invert(1)' : 'invert(0)' }}
+              />
+              <ArrowDropDownIcon style={{ color: 'black' }} />
             </IconButton>
           </Box>
         </Toolbar>

@@ -1,5 +1,6 @@
 import { Box, Card, Grid } from '@material-ui/core';
-import Comment from 'Features/Home/components/Comments/Comment';
+import Loader from 'Components/Loading/LoadingPost';
+import Comment from 'Features/Home/components/Comments/CommentHome';
 import InputComment from 'Features/Home/components/Comments/InputComment';
 import PostBody from 'Features/Home/components/Post/PostBody';
 import PostContent from 'Features/Home/components/Post/PostContent';
@@ -26,7 +27,8 @@ function Post(props) {
 
   return (
     <Box style={{ paddingTop: '10px' }}>
-      {post.length === 0 && <img src={LoadIcon} alt="loading" />}
+      {/* {post.length === 0 && <img src={LoadIcon} alt="loading" />} */}
+      {post.length === 0 && <Loader />}
       {post.map((item) => (
         <Grid container style={{ justifyContent: 'center', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
           <Grid item xs={12} sm={8}>
@@ -40,7 +42,7 @@ function Post(props) {
             <PostFooter post={item} />
 
             <Comment post={item} />
-            <InputComment post={item} /> 
+            <InputComment post={item} />
           </Grid>
         </Grid>
       ))}

@@ -5,9 +5,10 @@ import { Grid, IconButton, Dialog } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { useSelector } from 'react-redux';
+import Slider from 'infinite-react-carousel';
 
 export default function PictureGrid(props) {
-  const {theme} = useSelector(state => state);
+  const { theme } = useSelector((state) => state);
   const useStyles = makeStyles((theme) => ({
     title: {
       color: 'black',
@@ -40,7 +41,7 @@ export default function PictureGrid(props) {
         );
       } else {
         return (
-          <>
+          <Slider>
             {images.map((image) => {
               if (isAVideo(image)) {
                 return (
@@ -71,6 +72,7 @@ export default function PictureGrid(props) {
                     }}
                   >
                     <IconButton
+                      style={{ position: 'absolute', left: '13px' }}
                       onClick={() => {
                         setShowGallaryView(false);
                       }}
@@ -81,7 +83,7 @@ export default function PictureGrid(props) {
                 </Grid>
               );
             })}
-          </>
+          </Slider>
         );
       }
     }
@@ -267,10 +269,9 @@ export default function PictureGrid(props) {
                       ></Grid>
                     );
                   }
-                }return null;
-              }
-                
-              )}
+                }
+                return null;
+              })}
             </Grid>
           </Grid>
         );
@@ -328,7 +329,8 @@ export default function PictureGrid(props) {
                       }}
                     ></Grid>
                   );
-                }return null;
+                }
+                return null;
               })}
             </Grid>
           </Grid>
@@ -475,7 +477,8 @@ export default function PictureGrid(props) {
                         );
                       }
                     }
-                  }return null;
+                  }
+                  return null;
                 })}
               </Grid>
             </Grid>

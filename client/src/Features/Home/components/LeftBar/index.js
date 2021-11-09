@@ -6,8 +6,10 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import VideogameAssetRoundedIcon from '@material-ui/icons/VideogameAssetRounded';
 import React from 'react';
+import Particles from 'react-particles-js';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import particlesConfig from 'utils/paritcleConfig';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,8 +38,8 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
       '&:hover': {
         borderRadius: '5px',
-        backgroundColor: '#e0e0e0'
-      }
+        backgroundColor: '#e0e0e0',
+      },
     },
   },
   icon: {
@@ -58,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
   navbarlink: {
     textDecoration: 'none',
     color: '#5C8D89',
-    
   },
   info: {
     [theme.breakpoints.down('sm')]: {
@@ -117,6 +118,7 @@ function LeftBar(props) {
   ];
   return (
     <div className={classes.container} style={{ backgroundColor: theme ? '#e7e6e5' : '' }}>
+      <Particles params={particlesConfig} height="100vh" width="25%" style={{ position: 'fixed' }}></Particles>
       <Container style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
         {navLinkItem.map((link, index) => (
           <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>

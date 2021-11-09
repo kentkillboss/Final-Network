@@ -15,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.black, 0.07),
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.black, 0.15),
     },
     marginLeft: 0,
     width: '100%',
@@ -86,7 +86,7 @@ function Search(props) {
   const [users, setUsers] = useState([]);
   const [load, setLoad] = useState(false);
 
-  const { auth } = useSelector((state) => state);
+  const { auth, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     async function handleSearch() {
@@ -133,7 +133,7 @@ function Search(props) {
         />
         {load && (
           <CircularProgress
-            style={{ width: '20px', height: '20px', position: 'absolute', top: '7px', color: 'white' }}
+            style={{ width: '20px', height: '20px', position: 'absolute', top: '7px', color: 'black' }}
           />
         )}
 
@@ -141,7 +141,7 @@ function Search(props) {
       </div>
 
       <Box className={classes.card}>
-        {search ? <SearchCard load={load} search={search} user={users} onSubmit={handleClose} /> : ''}
+        {search ? <SearchCard theme={theme} load={load} search={search} user={users} onSubmit={handleClose} /> : ''}
       </Box>
     </form>
   );

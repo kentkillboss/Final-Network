@@ -9,7 +9,6 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -18,6 +17,7 @@ import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../../Components/Form-Controls/InputField';
 import PasswordField from '../../../../Components/Form-Controls/PasswordField';
+import Logo from 'images/logo.png';
 
 LoginForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -52,8 +52,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    // margin: theme.spacing(1),
+    // backgroundColor: theme.palette.secondary.main,
+    width: 80,
+    height: 80,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -102,11 +104,11 @@ function LoginForm(props) {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         {alert.loading && <LinearProgress />}
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+          <Avatar className={classes.avatar} src={Logo}>
+            {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Đăng nhập vào Dulcie
           </Typography>
           <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)} noValidate>
             <InputField name="email" label="Email" form={form} />

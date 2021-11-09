@@ -147,7 +147,10 @@ function MessageDisplayOther({ user, msg }) {
             <Box className={classes.box} key={index}>
               {item.url.match(/video/i)
                 ? videoShow(item.url)
-                : item.url.includes('png') || item.url.includes('jpg')
+                : item.url.includes('png') ||
+                  item.url.includes('jpg') ||
+                  item.url.includes('.gif') ||
+                  item.url.includes('webp')
                 ? imageShow(item.url)
                 : fileShow(item.url, item.public_id, item.fileName)}
             </Box>

@@ -1,8 +1,10 @@
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
+  background: #ffffff;
 }
 ::-webkit-scrollbar-thumb {
   background-image: linear-gradient(rgb(151, 151, 151), grey);

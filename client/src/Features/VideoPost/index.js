@@ -10,7 +10,7 @@ import PostFooter from 'Features/Home/components/Post/PostFooter';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllPosts, POST_TYPES } from 'Redux/Action/postAction';
+import { POST_TYPES } from 'Redux/Action/postAction';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,36 +50,36 @@ function VideoPosts(props) {
         </Grid>
         <Grid item xs={0} sm={0} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
         <Grid item xs={10} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#f0f2f5' }}>
-        {posts.loading ? (
+          {posts.loading ? (
             <PostLoading />
           ) : video.length === 0 ? (
             <h2>No Post</h2>
           ) : (
-          <Box className={classes.box}>
-            <InfiniteScroll
-              dataLength={video.length} //This is important field to render the next data
-              next={handleLoadMore}
-              hasMore={true}
-              loader={''}
-              endMessage={<h1>End</h1>}
-            >
-              {video.map((post) => (
-                <Card
-                  key={post._id}
-                  className={classes.root}
-                  style={{ margin: '0', marginBottom: '25px', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}
-                >
-                  <PostContent post={post} />
-                  <PostBodyHome post={post} />
-                  <PostFooter post={post} />
+            <Box className={classes.box}>
+              <InfiniteScroll
+                dataLength={video.length} //This is important field to render the next data
+                next={handleLoadMore}
+                hasMore={true}
+                loader={''}
+                endMessage={<h1>End</h1>}
+              >
+                {video.map((post) => (
+                  <Card
+                    key={post._id}
+                    className={classes.root}
+                    style={{ margin: '0', marginBottom: '25px', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}
+                  >
+                    <PostContent post={post} />
+                    <PostBodyHome post={post} />
+                    <PostFooter post={post} />
 
-                  <CommentHome post={post} />
-                  <InputComment post={post} /> 
-                </Card>
-              ))}
-            </InfiniteScroll>
-            {load && <PostLoading />}
-          </Box>
+                    <CommentHome post={post} />
+                    <InputComment post={post} />
+                  </Card>
+                ))}
+              </InfiniteScroll>
+              {load && <PostLoading />}
+            </Box>
           )}
         </Grid>
         <Grid item xs={1} sm={1} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>

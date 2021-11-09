@@ -1,6 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -8,9 +7,9 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Alert from 'Components/Alert/alert';
 import RadioField from 'Components/Form-Controls/RadioField';
+import Logo from 'images/logo.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,18 +21,7 @@ import PasswordField from '../../../../Components/Form-Controls/PasswordField';
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func,
 };
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -52,8 +40,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    // margin: theme.spacing(1),
+    // backgroundColor: theme.palette.secondary.main,
+    width: 80,
+    height: 80,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -121,11 +111,11 @@ function RegisterForm(props) {
         <Alert />
         {/* {isSubmitting && <LinearProgress className={classes.progress} />} */}
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+          <Avatar className={classes.avatar} src={Logo}>
+            {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Đăng ký tài khoản Dulcie
           </Typography>
           <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)} noValidate>
             <InputField name="fullname" label="Full Name" form={form} />
@@ -153,9 +143,6 @@ function RegisterForm(props) {
                 </NavLink>
               </Grid>
             </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
           </form>
         </div>
       </Grid>

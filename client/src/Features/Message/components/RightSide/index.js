@@ -345,7 +345,9 @@ function RightSide(props) {
                 <ImageListItem key={index} cols={1}>
                   {img.type.match(/video/i)
                     ? videoShow(URL.createObjectURL(img))
-                    : img.type.includes('image/png') || img.type.includes('image/jpeg')
+                    : img.type.includes('image/png') ||
+                      img.type.includes('image/jpeg') ||
+                      img.type.includes('image/gif')
                     ? imageShow(URL.createObjectURL(img))
                     : fileShow()}
 

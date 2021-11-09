@@ -43,7 +43,7 @@ export const getProfileUsers =
   };
 
 export const updateProfileUser =
-  ({ userData, avatar, background,  auth }) =>
+  ({ userData, avatar, background, auth }) =>
   async (dispatch) => {
     if (!userData.fullname)
       return dispatch({
@@ -71,20 +71,16 @@ export const updateProfileUser =
 
     try {
       let media;
-      dispatch({
-        type: GLOBALTYPES.ALERT,
-        payload: {
-          loading: true,
-        },
-      });
+      let media1;
+      dispatch({ type: GLOBALTYPES.ALERTPOST, payload: { loadingg: true } });
       if (avatar) media = await imageUpload([avatar]);
-      if (background) media = await imageUpload([background]);
+      if (background) media1 = await imageUpload([background]);
       const res = await patchDataAPI(
         'user',
         {
           ...userData,
           avatar: avatar ? media[0].url : auth.user.avatar,
-          background: background ? media[0].url : auth.user.background,
+          background: background ? media1[0].url : auth.user.background,
         },
         auth.token
       );
@@ -96,11 +92,11 @@ export const updateProfileUser =
             ...auth.user,
             ...userData,
             avatar: avatar ? media[0].url : auth.user.avatar,
-            background: background ? media[0].url : auth.user.background,
+            background: background ? media1[0].url : auth.user.background,
           },
         },
       });
-
+      dispatch({ type: GLOBALTYPES.ALERTPOST, payload: { loadingg: false } });
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
@@ -155,7 +151,7 @@ export const follow =
         url: `/profile/${auth.user._id}`,
       };
 
-      dispatch(createNotify({msg, auth, socket}));
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -204,7 +200,7 @@ export const unFollow =
         url: `/profile/${auth.user._id}`,
       };
 
-      dispatch(removeNotify({msg, auth, socket}));
+      dispatch(removeNotify({ msg, auth, socket }));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
