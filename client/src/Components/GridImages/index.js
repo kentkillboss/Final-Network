@@ -5,12 +5,11 @@ import { Grid, IconButton, Dialog } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import { useSelector } from 'react-redux';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import Slider from 'infinite-react-carousel';
 
 export default function PictureGrid(props) {
-  const {theme} = useSelector(state => state);
-  const useStyles = makeStyles((theme) => ({
+  const { theme } = useSelector((state) => state);
+  const useStyles = makeStyles((theme) => ({ 
     title: {
       color: 'black',
       marginRight: 10,
@@ -42,7 +41,7 @@ export default function PictureGrid(props) {
         );
       } else {
         return (
-          <Carousel>
+          <Slider>
             {images.map((image) => {
               if (isAVideo(image)) {
                 return (
@@ -73,6 +72,7 @@ export default function PictureGrid(props) {
                     }}
                   >
                     <IconButton
+                      style={{ position: 'absolute', left: '13px' }}
                       onClick={() => {
                         setShowGallaryView(false);
                       }}
@@ -83,7 +83,7 @@ export default function PictureGrid(props) {
                 </Grid>
               );
             })}
-          </Carousel>
+          </Slider>
         );
       }
     }
@@ -269,10 +269,9 @@ export default function PictureGrid(props) {
                       ></Grid>
                     );
                   }
-                }return null;
-              }
-                
-              )}
+                }
+                return null;
+              })}
             </Grid>
           </Grid>
         );
@@ -330,7 +329,8 @@ export default function PictureGrid(props) {
                       }}
                     ></Grid>
                   );
-                }return null;
+                }
+                return null;
               })}
             </Grid>
           </Grid>
@@ -477,7 +477,8 @@ export default function PictureGrid(props) {
                         );
                       }
                     }
-                  }return null;
+                  }
+                  return null;
                 })}
               </Grid>
             </Grid>

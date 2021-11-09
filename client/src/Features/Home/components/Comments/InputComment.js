@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     height: '90%',
     margin: 'auto',
     color: 'white',
+    paddingLeft: '10px',
   },
   btnSubmit: {},
   hr: {

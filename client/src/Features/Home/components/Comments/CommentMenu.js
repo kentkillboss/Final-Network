@@ -58,7 +58,7 @@ function CommentMenu({ post, comment, setOnEdit }) {
             ) : (
               comment.user._id === auth.user._id && (
                 <Box>
-                  <MenuItem>
+                  <MenuItem onClick={() => setOnEdit(true)}>
                     <EditRoundedIcon className={classes.icon} /> Edit
                   </MenuItem>
                   <MenuItem onClick={handleRemove}>

@@ -1,4 +1,13 @@
-import { Box, FormControl, InputAdornment, InputLabel, OutlinedInput } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  ListItemAvatar,
+  OutlinedInput,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
@@ -11,6 +20,8 @@ import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { getConversations, MESS_TYPES } from 'Redux/Action/messageAction';
 import SearchCardMessage from '../SearchCardMessage';
 import UseCard from '../UseCard';
+import Avatar from '@material-ui/core/Avatar';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +34,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     marginTop: '5px',
     marginLeft: '2%',
+    maxHeight: 'calc(100vh - 150px)',
+    overflowY: 'scroll',
     [theme.breakpoints.down('sm')]: {
-      width: '80%',
+      width: '98%',
       backgroundColor: theme.palette.background.paper,
       marginTop: '5px',
       marginLeft: '2%',
@@ -75,10 +88,59 @@ const useStyles = makeStyles((theme) => ({
   },
   boxUserCard: {
     [theme.breakpoints.down('sm')]: {
-      width: '122%',
+      width: '100%',
+    },
+  },
+  small: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    marginRight: '26px',
+  },
+  avataSugg: {
+    display: 'flex',
+    marginRight: 10,
+    width: '100%',
+    overflowX: 'hidden',
+    transition: '0.5s',
+    height: 80,
+    '&:hover': {
+      overflowX: 'scroll',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
     },
   },
 }));
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: '32px',
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
 
 function LeftSide(props) {
   const classes = useStyles();
@@ -166,6 +228,19 @@ function LeftSide(props) {
     setSearchUsers([]);
   };
 
+  // useEffect(() => {
+  //   var item = document.getElementById('id');
+
+  //   window.addEventListener('wheel', function (e) {
+  //     if (e.deltaY > 0) item.scrollLeft += 1;
+  //     else item.scrollLeft -= 1;
+  //   });
+  // });
+  let b;
+  auth.user.following.map((item) => {
+    return (b = online.map((x) => x === item._id));
+  });
+
   return (
     <Box className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
       <form autoComplete="off">
@@ -189,25 +264,70 @@ function LeftSide(props) {
           {search && <CancelRoundedIcon onClick={handleClose} className={classes.cancelIcon} />}
         </FormControl>
       </form>
-      <List component="nav" className={classes.listItem} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
-        {search && searchUsers.length !== 0 ? (
-          <>
-            {searchUsers.map((user) => (
-              <Box key={user._id} onClick={() => handleAddUser(user)}>
-                <SearchCardMessage user={user} />
-              </Box>
-            ))}
-          </>
-        ) : (
-          <>
-            {message.users.map((user) => (
-              <Box key={user._id} onClick={() => handleAddUser(user)} className={classes.boxUserCard}>
-                <UseCard user={user} msg={true} />
-              </Box>
-            ))}
-          </>
-        )}
-      </List>
+
+      <Box>
+        <List component="nav" className={classes.listItem} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
+          {search && searchUsers.length !== 0 ? (
+            <>
+              {searchUsers.map((user) => (
+                <Box key={user._id} onClick={() => handleAddUser(user)}>
+                  <SearchCardMessage user={user} />
+                </Box>
+              ))}
+            </>
+          ) : (
+            <>
+              {b.length !== 0 ? (
+                <Box id="id" className={classes.avataSugg}>
+                  {auth.user.following.map((item, index) => (
+                    <Box>
+                      {online.map(
+                        (idx) =>
+                          idx === item._id && (
+                            // <Box>
+                            //   <Avatar onClick={() => handleAddUser(item)} className={classes.small} src={item.avatar} />
+                            //   <Typography>{item.username.slice(0, 5)}...</Typography>
+                            // </Box>
+                            <>
+                              <ListItemAvatar>
+                                <StyledBadge
+                                  overlap="circular"
+                                  anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right',
+                                  }}
+                                  variant={'dot'}
+                                >
+                                  <Avatar
+                                    alt="Remy Sharp"
+                                    onClick={() => handleAddUser(item)}
+                                    className={classes.small}
+                                    src={item.avatar}
+                                    style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+                                  />
+                                </StyledBadge>
+                              </ListItemAvatar>
+                              <Typography>{item.username.slice(0, 5)}...</Typography>
+                            </>
+                          )
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              ) : (
+                ''
+              )}
+
+              {message.users.map((user) => (
+                <Box key={user._id} onClick={() => handleAddUser(user)} className={classes.boxUserCard}>
+                  <UseCard user={user} msg={true} />
+                </Box>
+              ))}
+            </>
+          )}
+        </List>
+      </Box>
+
       <button ref={pageEnd} style={{ display: 'none' }}>
         LoadMore
       </button>

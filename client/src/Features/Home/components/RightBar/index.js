@@ -14,9 +14,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import FollowBtn from 'Features/Profile/components/FollowBtn';
 import React from 'react';
+import Particles from 'react-particles-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUserActions } from 'Redux/Action/suggestionAction';
+import particlesConfig from 'utils/paritcleConfig';
 
 const useStyles = makeStyles((theme) => ({
   paper: {},
@@ -26,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(8),
     backgroundColor: '#f0f2f5',
     height: 'calc(100vh - 63px)',
-    paddingTop: theme.spacing(2)
+    paddingTop: theme.spacing(4),
   },
   title: {
     fontSize: 20,
@@ -60,7 +62,13 @@ function RightBar(props) {
 
   return (
     // <Paper elevation={1}>
-    <Container className={classes.container} style={{backgroundColor: theme ? '#e7e6e5' : '#f0f2f5'}}>
+    <Container className={classes.container} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
+      <Particles
+        params={particlesConfig}
+        height="100vh"
+        width="30%"
+        style={{ position: theme ? 'fixed' : 'fixed', marginLeft: '-110px' }}
+      ></Particles>
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
           Đề xuất người dùng

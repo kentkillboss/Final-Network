@@ -283,7 +283,7 @@ function StatusModal({ setShowModal }) {
           </DialogContent>
           <DialogActions>
             <Button type="submit" color="primary" fullWidth variant="contained">
-              Subscribe
+              Lưu thay đổi
             </Button>
           </DialogActions>
           {showIcon && (
