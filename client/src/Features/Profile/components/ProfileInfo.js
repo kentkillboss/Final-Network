@@ -214,7 +214,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
 
           <Grid item xs={12} md={8}>
             <Box spacing={3} style={{ margin: '40px' }}>
-              <ProfilePost auth={auth} profile={profile} dispatch={dispatch} id={id} />
+              <ProfilePost auth={auth} profile={profile} dispatch={dispatch} id={id} theme={theme} />
             </Box>
           </Grid>
 

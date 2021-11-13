@@ -47,16 +47,20 @@ function UseCard({ user }) {
   return (
     <ListItem button selected={isSelected(user)}>
       <ListItemAvatar>
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          variant={user.online ? 'dot' : 'standard'}
-        >
+        {user.online ? (
+          <StyledBadge
+            overlap="circular"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            variant={'dot'}
+          >
+            <Avatar alt="Remy Sharp" src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
+          </StyledBadge>
+        ) : (
           <Avatar alt="Remy Sharp" src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
-        </StyledBadge>
+        )}
       </ListItemAvatar>
       <ListItemText
         primary={user.username}

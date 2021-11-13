@@ -11,6 +11,7 @@ export const login = (data) => async (dispatch) => {
       payload: {
         token: res.data.access_token,
         user: res.data.user,
+        followingSug: res.data.user.following,
       },
     });
     localStorage.setItem('first login', true);
@@ -44,6 +45,7 @@ export const refreshToken = () => async (dispatch) => {
         payload: {
           token: res.data.access_token,
           user: res.data.user,
+          followingSug: res.data.user.following,
         },
       });
 

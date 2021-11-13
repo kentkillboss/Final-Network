@@ -36,7 +36,7 @@ export const addMessage =
   };
 
 export const getConversations =
-  ({ auth, page = 1 }) =>
+  ({ auth, page = 1, online }) =>
   async (dispatch) => {
     try {
       const res = await getDataAPI(`conversations?limit=${page * 9}`, auth.token);
@@ -44,12 +44,13 @@ export const getConversations =
       res.data.conversations.forEach((item) => {
         item.recipients.forEach((cv) => {
           if (cv._id !== auth.user._id) {
-            newArr.push({ ...cv, text: item.text, media: item.media });
+            newArr.push({ ...cv, text: item.text, media: item.media, call: item.call });
           }
         });
       });
 
       dispatch({ type: MESS_TYPES.GET_CONVERSATIONS, payload: { newArr, result: res.data.result } });
+      dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
     } catch (err) {
       dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
     }

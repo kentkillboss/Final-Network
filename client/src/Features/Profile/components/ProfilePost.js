@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProfilePost({ auth, id, dispatch, profile }) {
+function ProfilePost({ auth, id, dispatch, profile, theme }) {
   const [posts, setPosts] = useState([]);
   const [result, setResult] = useState(9);
   const [page, setPage] = useState(0);
@@ -114,7 +114,7 @@ function ProfilePost({ auth, id, dispatch, profile }) {
     setLoadSave(false);
   };
   const classes = useStyles();
-  const theme = useTheme();
+  const themee = useTheme();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -136,7 +136,7 @@ function ProfilePost({ auth, id, dispatch, profile }) {
           <Tab label="Đã lưu" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0} dir={theme.direction}>
+      <TabPanel value={value} index={0} dir={themee.direction}>
         <div>
           <Grid container>
             {posts.map((post) => (
@@ -153,7 +153,7 @@ function ProfilePost({ auth, id, dispatch, profile }) {
         </div>
       </TabPanel>
       {auth.user._id === params.id && (
-        <TabPanel value={value} index={1} dir={theme.direction}>
+        <TabPanel value={value} index={1} dir={themee.direction}>
           <div>
             <Grid container>
               {savePosts.map((postSave) => (

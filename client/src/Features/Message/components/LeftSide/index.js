@@ -152,6 +152,7 @@ function LeftSide(props) {
   const history = useHistory();
   const pageEnd = useRef();
   const [page, setPage] = useState(0);
+  const [onlineFollowing, setOnlineFollowing] = useState([]);
 
   // const handleSearch = async (e) => {
   //   e.preventDefault();
@@ -192,8 +193,8 @@ function LeftSide(props) {
 
   useEffect(() => {
     if (message.firstLoad) return;
-    dispatch(getConversations({ auth }));
-  }, [dispatch, auth, message.firstLoad]);
+    dispatch(getConversations({ auth, online }));
+  }, [dispatch, auth, message.firstLoad, online]);
 
   //loadmore
   useEffect(() => {
@@ -212,14 +213,15 @@ function LeftSide(props) {
 
   useEffect(() => {
     if (message.resultUsers >= (page - 1) * 9 && page - 1) {
-      dispatch(getConversations({ auth, page }));
+      dispatch(getConversations({ auth, page, online }));
     }
-  }, [message.resultUsers, page, auth, dispatch]);
+  }, [message.resultUsers, page, auth, dispatch, online]);
 
   //Check user online/offline
   useEffect(() => {
     if (message.firstLoad) {
       dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
+      dispatch({ type: GLOBALTYPES.CHECK_ON_OFF, payload: online });
     }
   }, [online, message.firstLoad, dispatch]);
 
@@ -228,18 +230,20 @@ function LeftSide(props) {
     setSearchUsers([]);
   };
 
-  // useEffect(() => {
-  //   var item = document.getElementById('id');
+  useEffect(() => {
+    if (onlineFollowing.length > 6) {
+      var item = document.getElementById('id');
 
-  //   window.addEventListener('wheel', function (e) {
-  //     if (e.deltaY > 0) item.scrollLeft += 1;
-  //     else item.scrollLeft -= 1;
-  //   });
-  // });
-  let b;
-  auth.user.following.map((item) => {
-    return (b = online.map((x) => x === item._id));
+      window.addEventListener('wheel', function (e) {
+        if (e.deltaY > 0) item.scrollLeft += 2;
+        else item.scrollLeft -= 2;
+      });
+    }
   });
+
+  useEffect(() => {
+    setOnlineFollowing(auth.followingSug.filter((user) => user.online === true));
+  }, [auth]);
 
   return (
     <Box className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
@@ -277,40 +281,35 @@ function LeftSide(props) {
             </>
           ) : (
             <>
-              {b.length !== 0 ? (
+              {onlineFollowing.length !== 0 ? (
                 <Box id="id" className={classes.avataSugg}>
-                  {auth.user.following.map((item, index) => (
-                    <Box>
-                      {online.map(
-                        (idx) =>
-                          idx === item._id && (
-                            // <Box>
-                            //   <Avatar onClick={() => handleAddUser(item)} className={classes.small} src={item.avatar} />
-                            //   <Typography>{item.username.slice(0, 5)}...</Typography>
-                            // </Box>
-                            <>
-                              <ListItemAvatar>
-                                <StyledBadge
-                                  overlap="circular"
-                                  anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right',
-                                  }}
-                                  variant={'dot'}
-                                >
-                                  <Avatar
-                                    alt="Remy Sharp"
-                                    onClick={() => handleAddUser(item)}
-                                    className={classes.small}
-                                    src={item.avatar}
-                                    style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
-                                  />
-                                </StyledBadge>
-                              </ListItemAvatar>
-                              <Typography>{item.username.slice(0, 5)}...</Typography>
-                            </>
-                          )
-                      )}
+                  {onlineFollowing.map((item, key) => (
+                    // <Box>
+                    //   <Avatar onClick={() => handleAddUser(item)} className={classes.small} src={item.avatar} />
+                    //   <Typography>{item.username.slice(0, 5)}...</Typography>
+                    // </Box>
+                    <Box style={{ paddingLeft: '10px' }}>
+                      <ListItemAvatar key={key}>
+                        {item.online && (
+                          <StyledBadge
+                            overlap="circular"
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'right',
+                            }}
+                            variant={'dot'}
+                          >
+                            <Avatar
+                              alt="Remy Sharp"
+                              onClick={() => handleAddUser(item)}
+                              className={classes.small}
+                              src={item.avatar}
+                              style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}
+                            />
+                          </StyledBadge>
+                        )}
+                      </ListItemAvatar>
+                      <Typography>{item.username.slice(0, 5)}...</Typography>
                     </Box>
                   ))}
                 </Box>
