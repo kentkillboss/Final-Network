@@ -1,6 +1,8 @@
 const Users = require("../models/useModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const {sendConfirmationEmail} = require('./mailerCtrl');
+const PendingUser = require('../models/pendingUserModel');
 
 const authCtrl = {
   register: async (req, res) => {
@@ -13,7 +15,8 @@ const authCtrl = {
         return res.status(400).json({ msg: "User name already exists." });
 
       const user_email = await Users.findOne({ email });
-      if (user_email)
+      const pUser = await PendingUser.findOne({ email });
+      if (pUser || user_email)
         return res.status(400).json({ msg: "Email already exists." });
 
       if (password.length < 6)
@@ -23,7 +26,7 @@ const authCtrl = {
       // ma hoa pass
       const passwordHash = await bcrypt.hash(password, 12);
 
-      const newUser = new Users({
+      const newUser = new PendingUser({
         fullname,
         username: newUserName,
         email,
@@ -31,24 +34,30 @@ const authCtrl = {
         gender,
       });
 
-      const access_token = createAccessToken({ id: newUser._id });
-      const refresh_token = createRefreshToken({ id: newUser._id });
+      // //test
+      // await newUser.save();
+      // res.json({message: 'You have been registered, check your email address.'})
 
-      res.cookie("refreshtoken", refresh_token, {
-        httpOnly: true,
-        path: "/api/refresh_token",
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30day
-      });
+      // const access_token = createAccessToken({ id: newUser._id });
+      // const refresh_token = createRefreshToken({ id: newUser._id });
+
+      // res.cookie("refreshtoken", refresh_token, {
+      //   httpOnly: true,
+      //   path: "/api/refresh_token",
+      //   maxAge: 30 * 24 * 60 * 60 * 1000, // 30day
+      // });
 
       await newUser.save();
 
+      await sendConfirmationEmail({toUser: newUser, hash: newUser._id})
+
       res.json({
-        msg: "Register Successfully!",
-        access_token,
-        user: {
-          ...newUser._doc,
-          password: "",
-        },
+        msg: "Please visit your email address and active your account!",
+        // access_token,
+        // user: {
+        //   ...newUser._doc,
+        //   password: "",
+        // },
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -133,6 +142,42 @@ const authCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  activateUser: async (req, res) => {
+    const { id } = req.params;
+    
+    try {
+      const user = await PendingUser.findById(id);
+
+      const newUser = new Users({
+        fullname: user.fullname,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        gender: user.gender,
+      });
+
+      await newUser.save();
+      await user.remove();
+      
+      res.json({msg: `User ${id} has been activated`})
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  }
+  // activateUser: async (req, res) => {
+  //   const hash = req.query.hash;
+  //   if(!hash) {
+  //     return res.status(404).json({ msg: 'Cannot validate an User!' });
+  //   }
+  //   const response = await fetch(`http://localhost:5000/api/activate/user/${hash}`);
+  //   if
+  //   (response.status > = 400){
+  //     return res.status(404).json({ msg: 'Cannot validate an User!' });
+  //   }else{
+  //     res.writeHead(307, {Location: 'users/activated'});
+  //     res.end();
+  //   }
+  // },
 };
 
 const createAccessToken = (payload) => {

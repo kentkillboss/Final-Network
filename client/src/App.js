@@ -27,6 +27,7 @@ import NotFound from './Components/NotFound';
 import Login from './Features/Auth/Components/Login';
 import Register from './Features/Auth/Components/Register';
 import Admin from './Admin/components/layout/Layout';
+import Activate from './Features/Auth/Components/activate';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -85,6 +86,7 @@ function App() {
             <Route path="/" component={auth.token ? (auth.user.role === 'admin' ? Admin : Home) : Login} exact />
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
+            <Route path="/activate/user/:id" component={Activate} />
             <PrivateRouter
               path="/post/:id"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : Post) : Login}

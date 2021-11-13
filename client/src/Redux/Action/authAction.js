@@ -1,4 +1,5 @@
-import { postDataAPI } from 'api/fetchData';
+import { getDataAPI, postDataAPI } from 'api/fetchData';
+import axios from 'axios';
 import { GLOBALTYPES } from './globalTypes';
 
 export const login = (data) => async (dispatch) => {
@@ -65,14 +66,14 @@ export const register = (data) => async (dispatch) => {
   try {
     dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
     const res = await postDataAPI('register', data);
-    dispatch({
-      type: GLOBALTYPES.AUTH,
-      payload: {
-        token: res.data.access_token,
-        user: res.data.user,
-      },
-    });
-    localStorage.setItem('first login', true);
+    // dispatch({
+    //   type: GLOBALTYPES.AUTH,
+    //   payload: {
+    //     token: res.data.access_token,
+    //     user: res.data.user,
+    //   },
+    // });
+    // localStorage.setItem('first login', true);
 
     dispatch({
       type: GLOBALTYPES.ALERT,
@@ -103,4 +104,16 @@ export const logout = () => async (dispatch) => {
       },
     });
   }
+};
+
+export const activatedUser = (id) => async (dispatch) => {
+    if(!id) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          error: 'Cannot validate an User!',
+        },
+      });
+    }
+    await getDataAPI(`/activated/user/${id}`);
 };

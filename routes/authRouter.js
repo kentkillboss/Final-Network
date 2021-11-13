@@ -9,4 +9,6 @@ router.post("/logout", authCtrl.logout);
 
 router.post("/refresh_token", authCtrl.generateAccessToken);
 
+router.get("/activated/user/:id", authCtrl.activateUser);
+
 module.exports = router;
