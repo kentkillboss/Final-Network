@@ -1,16 +1,16 @@
 const Users = require("../models/useModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const {sendConfirmationEmail} = require('./mailerCtrl');
-const PendingUser = require('../models/pendingUserModel');
+const { sendConfirmationEmail } = require("./mailerCtrl");
+const PendingUser = require("../models/pendingUserModel");
 
 const authCtrl = {
   register: async (req, res) => {
     try {
       const { fullname, username, email, password, gender } = req.body;
-      let newUserName = username.toLowerCase().replace(/ /g, "");
+      // let newUserName = username.toLowerCase().replace(/ /g, "");
 
-      const user_name = await Users.findOne({ username: newUserName });
+      const user_name = await Users.findOne({ username });
       if (user_name)
         return res.status(400).json({ msg: "User name already exists." });
 
@@ -28,7 +28,7 @@ const authCtrl = {
 
       const newUser = new PendingUser({
         fullname,
-        username: newUserName,
+        username,
         email,
         password: passwordHash,
         gender,
@@ -49,7 +49,7 @@ const authCtrl = {
 
       await newUser.save();
 
-      await sendConfirmationEmail({toUser: newUser, hash: newUser._id})
+      await sendConfirmationEmail({ toUser: newUser, hash: newUser._id });
 
       res.json({
         msg: "Please visit your email address and active your account!",
@@ -144,7 +144,7 @@ const authCtrl = {
   },
   activateUser: async (req, res) => {
     const { id } = req.params;
-    
+
     try {
       const user = await PendingUser.findById(id);
 
@@ -158,12 +158,12 @@ const authCtrl = {
 
       await newUser.save();
       await user.remove();
-      
-      res.json({msg: `User ${id} has been activated`})
+
+      res.json({ msg: `User ${id} has been activated` });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  }
+  },
   // activateUser: async (req, res) => {
   //   const hash = req.query.hash;
   //   if(!hash) {

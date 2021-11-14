@@ -93,7 +93,11 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
           <Grid item xs={12} className={classes.cover}>
             <Box className="user_profile_cap">
               <Box className="user_profile_cover">
-                <img src={user.background} alt="img" style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
+                <img
+                  src={user.background}
+                  alt="img"
+                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover' }}
+                />
               </Box>
               <Box className="user_profile_headline">
                 <img src={user.avatar} alt="img" style={{ filter: theme ? 'invert(1)' : 'invert(0)' }} />
