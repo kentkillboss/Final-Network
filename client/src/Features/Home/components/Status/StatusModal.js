@@ -87,8 +87,8 @@ function StatusModal({ setShowModal }) {
     let newImages = [];
     files.forEach((file) => {
       if (!file) return (err = 'File does not exits.');
-      if (file.size > 1024 * 1024 * 5) {
-        return (err = 'The image largest is 5mb.');
+      if (file.size > 1024 * 1024 * 10) {
+        return (err = 'The image largest is 10mb.');
       }
       return newImages.push(file);
     });

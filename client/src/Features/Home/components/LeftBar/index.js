@@ -107,9 +107,21 @@ function LeftBar(props) {
     },
     {
       text: 'List',
-      icon: <List className={classes.icon} style={{ fontSize: '31px' }} />,
+      icon: (
+        <img
+          src="https://static.xx.fbcdn.net/rsrc.php/v3/yx/r/-XF4FQcre_i.png"
+          className={classes.icon}
+          style={{ fontSize: '31px' }}
+          alt=""
+        />
+      ),
       path: '/list',
     },
+    // {
+    //   text: 'List',
+    //   icon: <List className={classes.icon} style={{ fontSize: '31px' }} />,
+    //   path: '/list',
+    // },
     {
       text: 'Market Place',
       icon: <Storefront className={classes.icon} style={{ fontSize: '31px' }} />,
