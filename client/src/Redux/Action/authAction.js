@@ -1,5 +1,4 @@
 import { getDataAPI, postDataAPI } from 'api/fetchData';
-import axios from 'axios';
 import { GLOBALTYPES } from './globalTypes';
 
 export const login = (data) => async (dispatch) => {
@@ -115,5 +114,75 @@ export const activatedUser = (id) => async (dispatch) => {
         },
       });
     }
-    await getDataAPI(`/activated/user/${id}`);
+    try {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+      const res = await getDataAPI(`/activated/user/${id}`);
+
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: res.data.msg,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          error: err.response.data.msg,
+        },
+      });
+    }
+    
+};
+
+export const resetPassword = (email) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+    const res = await postDataAPI(`reset-password`, email);
+
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        success: res.data.msg,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+  
+};
+
+export const resetPasswordChange = (data) => async (dispatch) => {
+  try {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+
+    const res = await postDataAPI(`reset-password-change`, data);
+
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        success: res.data.msg,
+      },
+    });
+    window.location.href = '/';
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+  
+
 };

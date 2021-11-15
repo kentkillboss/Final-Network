@@ -28,6 +28,8 @@ import Login from './Features/Auth/Components/Login';
 import Register from './Features/Auth/Components/Register';
 import Admin from './Admin/components/layout/Layout';
 import Activate from './Features/Auth/Components/activate';
+import ResetPassword from './Features/Auth/Components/ResetPassword';
+import ResetPasswordWithId from './Features/Auth/Components/ChangePassword';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -87,6 +89,8 @@ function App() {
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
             <Route path="/activate/user/:id" component={Activate} />
+            <Route path="/reset-password" component={ResetPassword} exact />
+            <Route path="/reset-password/:id" component={ResetPasswordWithId} />
             <PrivateRouter
               path="/post/:id"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : Post) : Login}

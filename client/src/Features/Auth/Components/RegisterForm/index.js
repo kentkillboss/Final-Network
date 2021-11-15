@@ -1,9 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import { LinearProgress } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +13,7 @@ import Logo from 'images/logo.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../../Components/Form-Controls/InputField';
@@ -63,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterForm(props) {
   const classes = useStyles();
+  const {alert} = useSelector(state => state);
   const schema = yup.object().shape({
     // title: yup.string().required('Please enter title'),
     fullname: yup
@@ -108,6 +110,7 @@ function RegisterForm(props) {
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        {alert.loading && <LinearProgress />}
         <Alert />
         {/* {isSubmitting && <LinearProgress className={classes.progress} />} */}
         <div className={classes.paper}>
@@ -126,7 +129,7 @@ function RegisterForm(props) {
             <RadioField name="gender" label="Male" form={form} />
 
             <Button
-              disabled={isSubmitting}
+              disabled={isSubmitting || alert.loading}
               type="submit"
               fullWidth
               variant="contained"
@@ -139,7 +142,7 @@ function RegisterForm(props) {
               <Grid xs></Grid>
               <Grid item>
                 <NavLink className={classes.navlink} to="/login">
-                  {'Already have an account. LogIn'}
+                  {'Already have an account? Log In'}
                 </NavLink>
               </Grid>
             </Grid>

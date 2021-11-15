@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
+const pduserSchema = new mongoose.Schema(
   {
     fullname: {
       type: String,
@@ -35,4 +35,4 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("pduser", userSchema);
+module.exports = mongoose.model("pendingUser", pduserSchema);

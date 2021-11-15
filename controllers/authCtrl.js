@@ -2,7 +2,9 @@ const Users = require("../models/useModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendConfirmationEmail } = require("./mailerCtrl");
+const { sendResetPassword } = require("./mailerCtrl");
 const PendingUser = require("../models/pendingUserModel");
+const ResetPw = require("../models/resetPasswordModel");
 
 const authCtrl = {
   register: async (req, res) => {
@@ -164,21 +166,72 @@ const authCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
-  // activateUser: async (req, res) => {
-  //   const hash = req.query.hash;
-  //   if(!hash) {
-  //     return res.status(404).json({ msg: 'Cannot validate an User!' });
-  //   }
-  //   const response = await fetch(`http://localhost:5000/api/activate/user/${hash}`);
-  //   if
-  //   (response.status > = 400){
-  //     return res.status(404).json({ msg: 'Cannot validate an User!' });
-  //   }else{
-  //     res.writeHead(307, {Location: 'users/activated'});
-  //     res.end();
-  //   }
-  // },
+  resetPassword: async (req, res) => {
+      const {email} = req.body;
+      
+      try {
+        const user = await Users.findOne({ email });
+ 
+        if(!user) return res.status(400).json({ msg: "This user does not exist." });
+
+        const hasHash = await ResetPw.findOne({userId: user._id});
+        
+        if(hasHash){
+          return res.status(400).json({ msg: "Email to reset password already send." });
+        } 
+
+        const hash = new ResetPw({userId: user._id});
+        console.log(hash);
+        await hash.save();
+
+        await sendResetPassword({ toUser: user, hash: hash._id });
+
+        res.json({msg: "Please check your email to reset password."})
+      } catch (err) {
+        return res.status(500).json({ msg: err.message });
+      }
+  },
+
+  resetPasswordChange: async (req, res) => {
+    const {password, id} = req.body;
+    
+    try {
+      const aHash = await ResetPw.findOne({_id: id});
+      if (!aHash || !aHash.userId) {
+        return res.status(404).json({msg: 'Cannot reset a password!'});
+      }
+
+      const passwordHash = await bcrypt.hash(password, 12);
+
+      await Users.findOneAndUpdate(
+        { _id: aHash.userId },
+        {
+          password: passwordHash
+        }
+      );
+      await aHash.remove();
+      res.json({ msg: "Update Success!" });
+
+      // const user = await Users.findOne({_id: aHash.userId});
+      // if (!user) {
+      //   return res.status(404).json({msg: 'Cannot reset a password 123!'});
+      // }
+
+      // await user.remove();
+      // await aHash.remove();
+
+      // const passwordHash = await bcrypt.hash(password, 12);
+      // const newUser = new Users({...user, password: passwordHash});
+
+      // await newUser.save();
+      // return res.json({msg: 'Password has been reseted!'});
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+},
 };
+
+
 
 const createAccessToken = (payload) => {
   return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {

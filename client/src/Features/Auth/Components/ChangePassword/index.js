@@ -1,27 +1,22 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
+import PasswordField from 'Components/Form-Controls/PasswordField';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPasswordChange } from 'Redux/Action/authAction';
 import * as yup from 'yup';
-import InputField from '../../../../Components/Form-Controls/InputField';
-import PasswordField from '../../../../Components/Form-Controls/PasswordField';
+import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
+import { LinearProgress } from '@material-ui/core';
 import Logo from 'images/logo.png';
 
-LoginForm.propTypes = {
-  onSubmit: PropTypes.func,
-};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
     backgroundRepeat: 'no-repeat',
-    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundColor:
+      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
@@ -41,10 +37,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   avatar: {
-    // margin: theme.spacing(1),
-    // backgroundColor: theme.palette.secondary.main,
-    width: 80,
-    height: 80,
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -53,38 +47,40 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  progress: {
-    top: theme.spacing(1),
-    margin: theme.spacing(8, 4),
-  },
-  navlink: {
-    textDecoration: 'none',
-  },
 }));
 
-function LoginForm(props) {
+export default function ChangePassword(props) {
   const classes = useStyles();
-  const { alert } = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const {alert} = useSelector(state => state);
+  const { id } = useParams();
+
   const schema = yup.object().shape({
-    email: yup.string().required('Please enter your Email!').email('Please enter a valid email address!'),
-    password: yup.string().required('Please enter your password'),
+    password: yup.string().required('Please enter your password').min(6, 'Please enter least 6 character'),
+    // .matches(
+    //   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
+    //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character!'
+    // ),
+    retypePassword: yup
+      .string()
+      .required('Please retype your password!')
+      .oneOf([yup.ref('password')], 'Password does not match!'),
   });
+
   const form = useForm({
     defaultValues: {
-      email: '',
       password: '',
+      retypePassword: '',
     },
     resolver: yupResolver(schema),
   });
-  const handleSubmit = async (values) => {
-    const { onSubmit } = props;
-    if (onSubmit) {
-      await onSubmit(values);
-    }
-    // form.reset();
-  };
 
-  const { isSubmitting } = form.formState;
+  const handleSubmit = async (values) => {
+    const data = {...values, id};
+    delete data.retypePassword;
+    
+    await dispatch(resetPasswordChange(data))
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -94,42 +90,34 @@ function LoginForm(props) {
         {alert.loading && <LinearProgress />}
         <div className={classes.paper}>
           <Avatar className={classes.avatar} src={Logo}>
-            {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5">
-            Đăng nhập vào Dulcie
+            Thay đổi mật khẩu
           </Typography>
-          <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)} noValidate>
-            <InputField name="email" label="Email" form={form} />
+          <form className={classes.form} noValidate onSubmit={form.handleSubmit(handleSubmit)}>
             <PasswordField name="password" label="Password" form={form} />
-
+            <PasswordField name="retypePassword" label="Retype Password" form={form} />
             <Button
-              disabled={isSubmitting}
+              disabled={alert.loading}
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
             >
-              Login
+              Submit
             </Button>
+            <Grid container>
+              <Grid xs></Grid>
+              <Grid item>
+                <NavLink className={classes.navlink} to="/login">
+                  {'Already have an account? Log In'}
+                </NavLink>
+              </Grid>
+            </Grid>
           </form>
-          <Grid container>
-            <Grid item xs>
-              <NavLink className={classes.navlink} to="/reset-password">
-                  Forgot password?
-              </NavLink>
-            </Grid>
-            <Grid item>
-              <NavLink className={classes.navlink} to="/register">
-                {"Don't have an account? Sign Up"}
-              </NavLink>
-            </Grid>
-          </Grid>
         </div>
       </Grid>
     </Grid>
   );
 }
-
-export default LoginForm;
