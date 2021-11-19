@@ -105,9 +105,11 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                 <span className="span">{user.fullname}</span>
 
                 {user._id === auth.user._id ? (
+                  <>
                   <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
                     Chỉnh sửa
                   </Button>
+                  </>
                 ) : (
                   <FollowBtn user={user} />
                 )}
