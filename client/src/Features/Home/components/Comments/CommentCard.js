@@ -158,7 +158,7 @@ function CommentCard({ children, comment, post, commentId }) {
                             {content.length < 100 ? content : readMore ? content + ' ' : content.slice(0, 100) + '....'}
                             {content.length > 100 && (
                               <span className={classes.span} onClick={() => setReadMore(!readMore)}>
-                                {readMore ? 'Hide Comment' : 'Show Comment'}
+                                {readMore ? 'Xem thêm' : 'Thu gọn'}
                               </span>
                             )}
                           </Typography>
@@ -168,7 +168,7 @@ function CommentCard({ children, comment, post, commentId }) {
                       <Typography className={classes.cmtFooter}>
                         <Typography className={classes.typo}>{moment(comment.createdAt).fromNow()}</Typography>
                         <Typography className={classes.typo} style={{ fontWeight: 'bold' }}>
-                          {comment.likes.length} likes
+                          {comment.likes.length} Thích
                         </Typography>
                         {onEdit ? (
                           <>
@@ -177,14 +177,14 @@ function CommentCard({ children, comment, post, commentId }) {
                               onClick={handleUpdate}
                               style={{ fontWeight: 'bold', cursor: 'pointer' }}
                             >
-                              Update
+                              Sửa
                             </Typography>
                             <Typography
                               className={classes.typo}
                               onClick={() => setOnEdit(false)}
                               style={{ fontWeight: 'bold', cursor: 'pointer' }}
                             >
-                              Cancel
+                              Hủy
                             </Typography>
                           </>
                         ) : (
@@ -193,7 +193,7 @@ function CommentCard({ children, comment, post, commentId }) {
                             onClick={handleReply}
                             style={{ fontWeight: 'bold', cursor: 'pointer' }}
                           >
-                            {onReply ? 'Cancel' : 'reply'}
+                            {onReply ? 'Hủy' : 'Trả lời'}
                           </Typography>
                         )}
                         {children}

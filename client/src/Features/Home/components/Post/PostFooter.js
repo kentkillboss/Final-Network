@@ -86,15 +86,18 @@ function PostFooter({ post }) {
         </IconButton>
         <IconButton style={{ marginLeft: 'auto' }}>
           {saved ? (
-            <BookmarksRoundedIcon style={{ color: 'rgb(63, 81, 181)', filter: theme ? 'invert(1)' : 'invert(0)' }} onClick={handleUnSavePosts} />
+            <BookmarksRoundedIcon
+              style={{ color: 'rgb(63, 81, 181)', filter: theme ? 'invert(1)' : 'invert(0)' }}
+              onClick={handleUnSavePosts}
+            />
           ) : (
             <TurnedInNotRoundedIcon onClick={handleSavePosts} />
           )}
         </IconButton>
       </CardActions>
       <CardActions style={{ padding: '0 16px' }}>
-        <Typography>{post.likes.length} Like</Typography>
-        <Typography style={{ marginLeft: 'auto' }}>{post.comments.length} Comments</Typography>
+        <Typography>{post.likes.length} Thích</Typography>
+        <Typography style={{ marginLeft: 'auto' }}>{post.comments.length} Bình luận</Typography>
       </CardActions>
       {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`} setIsShare={setIsShare} />}
     </>

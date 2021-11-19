@@ -59,12 +59,12 @@ function Comment({ post }) {
         ))}
         {comments.length - next > 0 ? (
           <Typography onClick={() => setNext(next + 10)} className={classes.seeMore}>
-            See more comment
+            Xem thêm
           </Typography>
         ) : (
           comments.length > 2 && (
             <Typography onClick={() => setNext(2)} className={classes.seeMore}>
-              Hide more comment...
+              Thu gọn ...
             </Typography>
           )
         )}

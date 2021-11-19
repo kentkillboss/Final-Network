@@ -86,9 +86,9 @@ function StatusModal({ setShowModal }) {
     let err = '';
     let newImages = [];
     files.forEach((file) => {
-      if (!file) return (err = 'File does not exits.');
+      if (!file) return (err = 'File không tồn tại.');
       if (file.size > 1024 * 1024 * 10) {
-        return (err = 'The image largest is 10mb.');
+        return (err = 'Ảnh phải không quá 10mb.');
       }
       return newImages.push(file);
     });
@@ -197,7 +197,7 @@ function StatusModal({ setShowModal }) {
           <Close />
         </IconButton>
         <form onSubmit={handleSubmit}>
-          <DialogTitle className={classes.title}>Tao Bai Viet</DialogTitle>
+          <DialogTitle className={classes.title}>Tạo bài viết</DialogTitle>
           <hr color="#f1f1f1" style={{ width: '100%', margin: '0' }}></hr>
 
           <DialogContent className={classes.content}>
@@ -209,7 +209,7 @@ function StatusModal({ setShowModal }) {
               onChange={(e) => setContent(e.target.value)}
               aria-label="minimum height"
               minRows={7}
-              placeholder={`${auth.user.username}, What are you thinking ?`}
+              placeholder={`${auth.user.username}, Bạn đang nghĩ gì ?`}
             />
             <Box style={{ width: '95%', margin: '10px auto' }}>
               <ImageList rowHeight={160} className={classes.imageList} cols={3}>

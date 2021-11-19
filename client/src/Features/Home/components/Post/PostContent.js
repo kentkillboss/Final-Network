@@ -123,7 +123,7 @@ function PostContent({ post }) {
             onClick={() => setReadMore(!readMore)}
             className={classes.readMore}
           >
-            {readMore ? 'Hide content' : 'Read more'}
+            {readMore ? 'Thu gọn' : 'Xem thêm'}
           </Typography>
         )}
       </CardContent>
@@ -133,21 +133,21 @@ function PostContent({ post }) {
         {auth.user._id === post.user._id && (
           <Box>
             <MenuItem onClick={handleEditPost}>
-              <EditRoundedIcon className={classes.icon} /> Edit
+              <EditRoundedIcon className={classes.icon} /> Chỉnh sửa
             </MenuItem>
             <MenuItem onClick={handleDeletePost}>
               <DeleteRoundedIcon className={classes.icon} />
-              Delete
+              Xóa
             </MenuItem>
           </Box>
         )}
         <MenuItem onClick={handleCopyLink}>
           <FileCopyRoundedIcon className={classes.icon} />
-          Copy Link
+          Sao chép url
         </MenuItem>
         <MenuItem onClick={handleReportPost}>
           <ReportIcon className={classes.icon} />
-          Report this post
+          Báo cáo
         </MenuItem>
       </Menu>
     </>

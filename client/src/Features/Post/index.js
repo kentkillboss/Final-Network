@@ -5,7 +5,6 @@ import InputComment from 'Features/Home/components/Comments/InputComment';
 import PostBody from 'Features/Home/components/Post/PostBody';
 import PostContent from 'Features/Home/components/Post/PostContent';
 import PostFooter from 'Features/Home/components/Post/PostFooter';
-import LoadIcon from 'images/load.gif';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';

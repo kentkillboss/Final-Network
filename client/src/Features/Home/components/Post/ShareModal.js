@@ -23,7 +23,7 @@ function ShareModal({ setIsShare, url }) {
   };
   return (
     <Dialog onClose={handleClose} maxWidth="xs" aria-labelledby="simple-dialog-title" open={() => setIsShare(true)}>
-      <DialogTitle id="simple-dialog-title">Share to application</DialogTitle>
+      <DialogTitle id="simple-dialog-title">Chia sẻ với</DialogTitle>
       <List>
         <FacebookShareButton url={url} style={{ width: '100%' }}>
           <ListItem button>

@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RegisterForm(props) {
   const classes = useStyles();
-  const {alert} = useSelector(state => state);
+  const { alert } = useSelector((state) => state);
   const schema = yup.object().shape({
     // title: yup.string().required('Please enter title'),
     fullname: yup
@@ -136,13 +136,13 @@ function RegisterForm(props) {
               color="primary"
               className={classes.submit}
             >
-              Create account
+              Đăng ký
             </Button>
             <Grid container>
               <Grid xs></Grid>
               <Grid item>
                 <NavLink className={classes.navlink} to="/login">
-                  {'Already have an account? Log In'}
+                  {'Bạn đã có tài khoản? Đăng nhập ngay'}
                 </NavLink>
               </Grid>
             </Grid>

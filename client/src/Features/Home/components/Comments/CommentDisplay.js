@@ -36,12 +36,12 @@ function CommentDisplay({ comment, post, replyCm }) {
         )}
         {replyCm.length - next > 0 ? (
           <Typography component="span" onClick={() => setNext(next + 10)} className={classes.seeMore}>
-            See more comment
+            Xem thêm
           </Typography>
         ) : (
           replyCm.length > 1 && (
             <Typography component="span" onClick={() => setNext(1)} className={classes.seeMore}>
-              Hide more comment...
+              Thu gọn...
             </Typography>
           )
         )}

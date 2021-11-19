@@ -42,28 +42,28 @@ function CommentMenu({ post, comment, setOnEdit }) {
               comment.user._id === auth.user._id ? (
                 <Box>
                   <MenuItem onClick={() => setOnEdit(true)}>
-                    <EditRoundedIcon className={classes.icon} /> Edit
+                    <EditRoundedIcon className={classes.icon} /> Chỉnh sửa
                   </MenuItem>
                   <MenuItem onClick={handleRemove}>
                     <DeleteRoundedIcon className={classes.icon} />
-                    Delete
+                    Xóa
                   </MenuItem>
                 </Box>
               ) : (
                 <MenuItem onClick={handleRemove}>
                   <DeleteRoundedIcon className={classes.icon} />
-                  Delete
+                  Xóa
                 </MenuItem>
               )
             ) : (
               comment.user._id === auth.user._id && (
                 <Box>
                   <MenuItem onClick={() => setOnEdit(true)}>
-                    <EditRoundedIcon className={classes.icon} /> Edit
+                    <EditRoundedIcon className={classes.icon} /> Chỉnh sửa
                   </MenuItem>
                   <MenuItem onClick={handleRemove}>
                     <DeleteRoundedIcon className={classes.icon} />
-                    Delete
+                    Xóa
                   </MenuItem>
                 </Box>
               )

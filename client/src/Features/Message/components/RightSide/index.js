@@ -141,9 +141,9 @@ function RightSide(props) {
     let err = '';
     let newMedia = [];
     files.forEach((file) => {
-      if (!file) return (err = 'File does not exits.');
-      if (file.size > 1024 * 1024 * 5) {
-        return (err = 'The image/video largest is 5mb.');
+      if (!file) return (err = 'File không tồn tại.');
+      if (file.size > 1024 * 1024 * 10) {
+        return (err = 'Tệp phải không quá 10mb.');
       }
       return newMedia.push(file);
     });
@@ -366,7 +366,7 @@ function RightSide(props) {
               onChange={(e) => setText(e.target.value)}
               fullWidth
               disableUnderline
-              placeholder="Type a message"
+              placeholder="Nhập nội dung..."
               startAdornment={
                 <InputAdornment position="start">
                   <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>

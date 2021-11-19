@@ -53,7 +53,7 @@ function Home(props) {
           {posts.loading ? (
             <PostLoading />
           ) : posts.result === 0 && posts.posts.length === 0 ? (
-            <h2>No Post</h2>
+            <h2>Chưa có bài viết nào</h2>
           ) : (
             <Posts />
           )}

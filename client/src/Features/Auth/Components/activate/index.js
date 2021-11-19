@@ -64,14 +64,13 @@ function Activate(props) {
             <Typography variant="h2">Welcome!</Typography>
             <img className={classes.img} src="https://img.icons8.com/clouds/100/000000/handshake.png" alt="" />
             <Typography className={classes.typo}>
-              We're excited to have you get started. First, you need to confirm your account. Just press the button
-              below.
+              Chúng tôi rất vui khi bạn mở tài khoản. Vui lòng nhấn vào nút phía dưới để tiếp tục.
             </Typography>
             <Link to="/login">
               <button className={classes.btn}>Go to Login</button>
             </Link>
             <Typography className={classes.typo}>
-              If you have any questions, just reply to this email—we're always happy to help out.
+              Nếu bạn có bất kỳ câu hỏi nào, chỉ cần trả lời email này, chúng tôi luôn sẵn lòng trợ giúp.
             </Typography>
             <Typography className={classes.typo}>Cheers</Typography>
             <Typography className={classes.typo} style={{ marginTop: '0' }}>
