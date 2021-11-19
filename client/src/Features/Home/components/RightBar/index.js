@@ -63,12 +63,12 @@ function RightBar(props) {
   return (
     // <Paper elevation={1}>
     <Container className={classes.container} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
-      <Particles
+      {/* <Particles
         params={particlesConfig}
         height="100vh"
         width="30%"
         style={{ position: theme ? 'fixed' : 'fixed', marginLeft: '-110px' }}
-      ></Particles>
+      ></Particles> */}
       <Box className={classes.reload}>
         <Typography className={classes.title} gutterBottom>
           Đề xuất người dùng

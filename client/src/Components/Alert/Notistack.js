@@ -35,7 +35,7 @@ const Notistack = ({ msg, handleShow, bgColor }) => {
           vertical: 'bottom',
           horizontal: 'left',
         }}
-        autoHideDuration={4000}
+        autoHideDuration={7000}
         onClose={handleClose}
       >
         <Alert onClose={handleShow} severity={bgColor}>

@@ -30,6 +30,7 @@ import Admin from './Admin/components/layout/Layout';
 import Activate from './Features/Auth/Components/activate';
 import ResetPassword from './Features/Auth/Components/ResetPassword';
 import ResetPasswordWithId from './Features/Auth/Components/ChangePassword';
+import Weather from 'Features/Weather/index';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -121,6 +122,10 @@ function App() {
             <PrivateRouter
               path="/video"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : VideoPosts) : Login}
+            />
+            <PrivateRouter
+              path="/weather"
+              component={auth.token ? (auth.user.role === 'admin' ? Admin : Weather) : Login}
             />
             <Route component={NotFound} />
           </Switch>

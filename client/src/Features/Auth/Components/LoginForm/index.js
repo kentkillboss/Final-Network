@@ -111,18 +111,18 @@ function LoginForm(props) {
               color="primary"
               className={classes.submit}
             >
-              Login
+              Đăng nhập
             </Button>
           </form>
           <Grid container>
             <Grid item xs>
               <NavLink className={classes.navlink} to="/reset-password">
-                  Forgot password?
+                Quên mật khẩu?
               </NavLink>
             </Grid>
             <Grid item>
               <NavLink className={classes.navlink} to="/register">
-                {"Don't have an account? Sign Up"}
+                {'Bạn chưa có tài khoản? Đăng ký ngay'}
               </NavLink>
             </Grid>
           </Grid>

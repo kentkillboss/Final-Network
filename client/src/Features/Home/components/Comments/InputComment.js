@@ -82,7 +82,7 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
                 className={classes.textfield}
                 // variant="none"
                 type="text"
-                placeholder="Add your cmt..."
+                placeholder="Thêm bình luận..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 InputProps={{
@@ -100,7 +100,7 @@ function InputComment({ children, post, onReply, setOnReply, tag, link }) {
                 className={classes.textfield}
                 // variant="none"
                 type="text"
-                placeholder="Add your cmt..."
+                placeholder="Thêm bình luận..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
