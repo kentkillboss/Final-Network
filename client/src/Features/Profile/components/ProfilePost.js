@@ -6,7 +6,7 @@ import LoadIcon from 'images/load.gif';
 import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
 import { getDataAPI } from 'api/fetchData';
 import { PROFILE_TYPES } from 'Redux/Action/profileAction';
-import { Button, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -78,6 +78,7 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
 
   const [userData, setUserData] = useState([]);
   const [followed, setFollowed] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   const params = useParams();
 
@@ -147,6 +148,11 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    userData.map((user) => setIsPrivate(user.isPrivate))
+    
+  }, [userData])
+
   return (
     <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
       <AppBar position="static" color="default">
@@ -162,7 +168,7 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
           <Tab label="Đã lưu" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      {!userData.map((user) => user.isPrivate) ? (
+      {!isPrivate ? (
         <>
           {' '}
           <TabPanel value={value} index={0} dir={themee.direction}>
