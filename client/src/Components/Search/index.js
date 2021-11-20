@@ -129,8 +129,9 @@ function Search(props) {
           }}
           inputProps={{ 'aria-label': 'search' }}
           value={search}
-          onChange={(e) => setSearch(e.target.value.toLowerCase().replace(/ /g, ''))}
+          onChange={(e) => setSearch(e.target.value)}
         />
+        {/* .toLowerCase().replace(/ /g, '') */}
         {load && (
           <CircularProgress
             style={{ width: '20px', height: '20px', position: 'absolute', top: '7px', color: 'black' }}
