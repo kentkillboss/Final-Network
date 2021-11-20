@@ -6,7 +6,7 @@ import LoadIcon from 'images/load.gif';
 import LoadMoreBtn from 'Features/Discover/components/LoadMoreBtn';
 import { getDataAPI } from 'api/fetchData';
 import { PROFILE_TYPES } from 'Redux/Action/profileAction';
-import { Grid } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -58,9 +58,14 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
     },
   },
+  text: {
+    alignItems: 'center',
+    textAlign: 'center',
+    marginTop: '20px'
+  }
 }));
 
-function ProfilePost({ auth, id, dispatch, profile, theme }) {
+function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
   const [posts, setPosts] = useState([]);
   const [result, setResult] = useState(9);
   const [page, setPage] = useState(0);
@@ -70,7 +75,28 @@ function ProfilePost({ auth, id, dispatch, profile, theme }) {
   const [resultSave, setResultSave] = useState(9);
   const [pageSave, setPageSave] = useState(2);
   const [loadSave, setLoadSave] = useState(false);
+
+  const [userData, setUserData] = useState([]);
+  const [followed, setFollowed] = useState(false);
+
   const params = useParams();
+
+  useEffect(() => {
+    if (auth.user.following.find((item) => item._id === user._id)) {
+      setFollowed(true);
+    }
+    return () => setFollowed(false);
+  }, [auth.user.following, user._id]);
+
+  useEffect(() => {
+    if (id === auth.user._id) {
+      setUserData([auth.user]);
+    } else {
+      const newData = profile.users.filter((user) => user._id === id);
+      setUserData(newData);
+    }
+  }, [id, auth, dispatch, profile.users]);
+
   useEffect(() => {
     profile.userPosts.forEach((data) => {
       if (data._id === id) {
@@ -136,39 +162,87 @@ function ProfilePost({ auth, id, dispatch, profile, theme }) {
           <Tab label="Đã lưu" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0} dir={themee.direction}>
-        <div>
-          <Grid container>
-            {posts.map((post) => (
-              <Grid item xs={12} sm={6} md={4} lg={3}>
-                <Link to={`/post/${post._id}`}>
-                  <PostThumb posts={post} result={result} />
-                </Link>
+      {!userData.map((user) => user.isPrivate) ? (
+        <>
+          {' '}
+          <TabPanel value={value} index={0} dir={themee.direction}>
+            <div>
+              <Grid container>
+                {posts.map((post) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Link to={`/post/${post._id}`}>
+                      <PostThumb posts={post} result={result} />
+                    </Link>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-          {load && <img src={LoadIcon} alt="loading" />}
+              {load && <img src={LoadIcon} alt="loading" />}
 
-          <LoadMoreBtn result={result} page={page} load={load} handleLoadMore={handleLoadMore} />
-        </div>
-      </TabPanel>
-      {auth.user._id === params.id && (
-        <TabPanel value={value} index={1} dir={themee.direction}>
-          <div>
-            <Grid container>
-              {savePosts.map((postSave) => (
-                <Grid item xs={12} sm={6} md={4} lg={3}>
-                  <Link to={`/post/${postSave._id}`}>
-                    <PostThumb posts={postSave} result={resultSave} />
-                  </Link>
+              <LoadMoreBtn result={result} page={page} load={load} handleLoadMore={handleLoadMore} />
+            </div>
+          </TabPanel>
+          {auth.user._id === params.id && (
+            <TabPanel value={value} index={1} dir={themee.direction}>
+              <div>
+                <Grid container>
+                  {savePosts.map((postSave) => (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Link to={`/post/${postSave._id}`}>
+                        <PostThumb posts={postSave} result={resultSave} />
+                      </Link>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
-            {loadSave && <img src={LoadIcon} alt="loading1" />}
+                {loadSave && <img src={LoadIcon} alt="loading1" />}
 
-            <LoadMoreBtn result={resultSave} page={pageSave} load={loadSave} handleLoadMore={handleLoadMoreSave} />
-          </div>
-        </TabPanel>
+                <LoadMoreBtn result={resultSave} page={pageSave} load={loadSave} handleLoadMore={handleLoadMoreSave} />
+              </div>
+            </TabPanel>
+          )}
+        </>
+      ) : followed || auth.user._id === params.id ? (
+        <>
+          {' '}
+          <TabPanel value={value} index={0} dir={themee.direction}>
+            <div>
+              <Grid container>
+                {posts.map((post) => (
+                  <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <Link to={`/post/${post._id}`}>
+                      <PostThumb posts={post} result={result} />
+                    </Link>
+                  </Grid>
+                ))}
+              </Grid>
+              {load && <img src={LoadIcon} alt="loading" />}
+
+              <LoadMoreBtn result={result} page={page} load={load} handleLoadMore={handleLoadMore} />
+            </div>
+          </TabPanel>
+          {auth.user._id === params.id && (
+            <TabPanel value={value} index={1} dir={themee.direction}>
+              <div>
+                <Grid container>
+                  {savePosts.map((postSave) => (
+                    <Grid item xs={12} sm={6} md={4} lg={3}>
+                      <Link to={`/post/${postSave._id}`}>
+                        <PostThumb posts={postSave} result={resultSave} />
+                      </Link>
+                    </Grid>
+                  ))}
+                </Grid>
+                {loadSave && <img src={LoadIcon} alt="loading1" />}
+
+                <LoadMoreBtn result={resultSave} page={pageSave} load={loadSave} handleLoadMore={handleLoadMoreSave} />
+              </div>
+            </TabPanel>
+          )}
+        </>
+      ) : (
+        <>
+        <Typography className={classes.text}><b>Đây là tài khoản riêng tư</b></Typography>
+        <Typography className={classes.text}>Follow để xem ảnh và video của họ</Typography>
+        </>
       )}
     </div>
   );

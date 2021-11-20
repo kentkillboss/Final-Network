@@ -1,4 +1,4 @@
-import { getDataAPI, patchDataAPI } from 'api/fetchData';
+import { getDataAPI, patchDataAPI, postDataAPI } from 'api/fetchData';
 import { GLOBALTYPES, DeleteData } from 'Redux/Action/globalTypes';
 import { imageUpload } from 'utils/imageUpload';
 import { createNotify, removeNotify } from './notifyAction';
@@ -201,6 +201,87 @@ export const unFollow =
       };
 
       dispatch(removeNotify({ msg, auth, socket }));
+    } catch (error) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: error.response.data.msg },
+      });
+    }
+  };
+
+export const privateAccount = (auth) => async (dispatch) => {
+  dispatch({
+    type: GLOBALTYPES.AUTH,
+    payload: {
+      ...auth,
+      user: { ...auth.user, isPrivate: true },
+    },
+  });
+  
+  try {
+    await patchDataAPI(`/isPrivate/${auth.user._id}`, null, auth.token);
+   
+  } catch (err) {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
+  }
+}
+
+export const publicAccount = (auth) => async (dispatch) => {
+  dispatch({
+    type: GLOBALTYPES.AUTH,
+    payload: {
+      ...auth,
+      user: { ...auth.user, isPrivate: false },
+    },
+  });
+  try {
+    await patchDataAPI(`/isPublic/${auth.user._id}`, null, auth.token);
+
+  } catch (err) {
+    dispatch({ type: GLOBALTYPES.ALERT, payload: { error: err.response.data.msg } });
+  }
+}
+
+export const requestFollow =
+  ({data, user, auth, socket}) =>
+  async (dispatch) => {
+
+    try {
+      const res = await postDataAPI(`requestFollow`, data, auth.token);
+      // socket.emit('follow', res.data.newUser);
+
+      // //notify
+      const msg = {
+        id: res.data.id,
+        text: 'đã gửi yêu cầu theo dõi bạn',
+        recipients: [user._id],
+        request: true,
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
+    } catch (error) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: error.response.data.msg },
+      });
+    }
+  };
+
+  export const acceptFollow = ({id, notifyId, senderId, auth, socket}) => async (dispatch) => {
+    const data = {id, notifyId, senderId};
+    
+    try {
+      const res = await postDataAPI(`acceptFollow`, data, auth.token);
+      // socket.emit('follow', res.data.newUser);
+
+      // //notify
+      const msg = {
+        id: auth.user._id,
+        text: 'đã chấp nhận yêu cầu theo dõi',
+        recipients: [senderId.id],
+      };
+
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,

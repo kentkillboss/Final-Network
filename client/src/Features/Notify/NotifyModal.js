@@ -1,4 +1,4 @@
-import { Box, IconButton, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Box, Button, IconButton, makeStyles, Menu, MenuItem, Typography } from '@material-ui/core';
 import Avatar from '@material-ui/core/Avatar';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -13,6 +13,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteAllNotifies, isReadNotify, NOTIFY_TYPES } from 'Redux/Action/notifyAction';
+import { acceptFollow } from 'Redux/Action/profileAction';
 
 NotifyModal.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 function NotifyModal({ setShowMenu }) {
   const classes = useStyles();
   const dispatch = useDispatch((state) => state);
-  const { auth, notify } = useSelector((state) => state);
+  const { auth, notify, socket } = useSelector((state) => state);
 
   const handleClose = () => {
     setShowMenu(false);
@@ -82,6 +83,10 @@ function NotifyModal({ setShowMenu }) {
       return dispatch(deleteAllNotifies(auth.token));
     }
   };
+
+  const handleAccept = (id, notifyId, senderId) => {
+    dispatch(acceptFollow({id, notifyId, senderId, auth, socket}));
+  }
 
   return (
     <div>
@@ -119,7 +124,7 @@ function NotifyModal({ setShowMenu }) {
         {notify.data.length === 0 && <img src={ImageNotify} alt="imag" width="100%" />}
         {notify.data.map((msg, index) => (
           <Link
-            to={`${msg.url}`}
+            to={msg.url ? `${msg.url}` : ''}
             style={{ textDecoration: 'none' }}
             onClick={() => handleIsRead(msg)}
             className={classes.pc}
@@ -158,7 +163,9 @@ function NotifyModal({ setShowMenu }) {
                     )}
                   </>
                 )}
-
+                {msg.request && (
+                  <Button variant="contained" color='primary' style={{marginTop: '15px', fontSize: '12px', height: '25px'}} onClick={() => handleAccept(msg.id, msg._id, msg.user)}>Đồng ý</Button>
+                )}
                 <ListItemText secondary={moment(msg.createdAt).fromNow()} />
               </ListItemSecondaryAction>
               {!msg.isRead && (

@@ -19,6 +19,7 @@ export const createNotify =
       socket.emit('createNotify', {
         ...res.data.notify,
         user: {
+          id: auth.user._id,
           username: auth.user.username,
           avatar: auth.user.avatar,
         },

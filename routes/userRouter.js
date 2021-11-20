@@ -11,5 +11,9 @@ router.patch("/user/:id/unfollow", auth, userCtrl.unfollow);
 router.get("/suggestionUser", auth, userCtrl.suggestionUser);
 router.patch("/isBan/:id", auth, userCtrl.isBan);
 router.patch("/isUnBan/:id", auth, userCtrl.isUnBan);
+router.patch("/isPrivate/:id", auth, userCtrl.isPrivate);
+router.patch("/isPublic/:id", auth, userCtrl.isPublic);
+router.post("/requestFollow", auth, userCtrl.requestFollow);
+router.post("/acceptFollow", auth, userCtrl.acceptFollow);
 
 module.exports = router;

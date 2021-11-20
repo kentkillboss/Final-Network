@@ -3,6 +3,8 @@ const Posts = require("../models/postModel");
 const Comments = require("../models/commentModel");
 const Messages = require("../models/messageModels");
 const Conversations = require("../models/conversationModel");
+const pendingFollow = require("../models/pendingFollow");
+const Notify = require("../models/notifyModel");
 
 const userCtrl = {
   searchUser: async (req, res) => {
@@ -187,6 +189,82 @@ const userCtrl = {
       );
 
       return res.json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  isPrivate: async (req, res) => {
+    try {
+      const user = await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          isPrivate: true,
+        }
+      );
+
+      return res.json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  isPublic: async (req, res) => {
+    try {
+      const user = await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          isPrivate: false,
+        }
+      );
+
+      return res.json({ user });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  requestFollow: async (req, res) => {
+    const {senderId, recipientId} = req.body;
+    try {
+      const pFollow = await pendingFollow.findOne({ senderId });
+      if (pFollow)
+        return res.status(400).json({ msg: "Đã gửi yều cầu trước đây." });
+      const follow = new pendingFollow({senderId, recipientId});
+      
+      await follow.save();
+
+      res.json({id: follow._id, msg: 'Đã gửi yêu cầu theo dõi!'})
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  acceptFollow: async (req, res) => {
+    const {id, notifyId} = req.body;
+    
+    try {
+      const pFollow = await pendingFollow.findById(id);
+
+      const notify = await Notify.findById(notifyId);
+
+      const newUser = await Users.findOneAndUpdate(
+        { _id: pFollow.recipientId },
+        {
+          $push: { followers: pFollow.senderId },
+        },
+        { new: true }
+      ).populate("followers following", "-password");
+
+      await Users.findOneAndUpdate(
+        { _id: pFollow.senderId },
+        {
+          $push: { following: pFollow.recipientId },
+        },
+        { new: true }
+      );
+
+      await pFollow.remove();
+      await notify.remove();
+
+      res.json({ newUser });
+
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

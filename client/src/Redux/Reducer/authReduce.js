@@ -1,4 +1,4 @@
-import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import { EditData, GLOBALTYPES } from 'Redux/Action/globalTypes';
 
 const initialState = {
   token: '',
@@ -21,6 +21,11 @@ const authReducer = (state = initialState, action) => {
         followingSug: state.followingSug.map((user) =>
           action.payload.includes(user._id) ? { ...user, online: true } : { ...user, online: false }
         ),
+      };
+    case GLOBALTYPES.UPDATE_USER:
+      return {
+        ...state,
+        user: EditData(state.user, action.payload._id, action.payload),
       };
     default:
       return state;

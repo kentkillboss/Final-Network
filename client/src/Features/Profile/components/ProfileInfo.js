@@ -6,6 +6,7 @@ import WcIcon from '@material-ui/icons/Wc';
 import React, { useEffect, useState } from 'react';
 import EditProfile from './EditProfileForm/EditProfileForm';
 import FollowBtn from './FollowBtn';
+import PrivateBtn from './PrivateBtn';
 import Followers from './Followers';
 import Following from './Following';
 import './profile.css';
@@ -109,6 +110,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
                     Chỉnh sửa
                   </Button>
+                  <PrivateBtn />
                   </>
                 ) : (
                   <FollowBtn user={user} />
@@ -220,7 +222,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
 
           <Grid item xs={12} md={8}>
             <Box spacing={3} style={{ margin: '40px' }}>
-              <ProfilePost auth={auth} profile={profile} dispatch={dispatch} id={id} theme={theme} />
+              <ProfilePost auth={auth} profile={profile} dispatch={dispatch} id={id} theme={theme} user={user} />
             </Box>
           </Grid>
 

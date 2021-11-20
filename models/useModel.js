@@ -62,7 +62,8 @@ const userSchema = new mongoose.Schema(
     followers: [{ type: mongoose.Types.ObjectId, ref: "user" }],
     following: [{ type: mongoose.Types.ObjectId, ref: "user" }],
     saved: [{type: mongoose.Types.ObjectId, ref: 'user'}],
-    isBan: {type: Boolean, default: false}
+    isBan: {type: Boolean, default: false},
+    isPrivate: {type: Boolean, default: false}
   },
   {
     timestamps: true,

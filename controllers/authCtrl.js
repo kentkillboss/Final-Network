@@ -70,7 +70,7 @@ const authCtrl = {
       const { email, password } = req.body;
       const user = await Users.findOne({ email }).populate(
         "followers following",
-        "avatar username fullname followers following role"
+        "avatar username fullname followers following role isPrivate"
       );
 
       if (!user)
