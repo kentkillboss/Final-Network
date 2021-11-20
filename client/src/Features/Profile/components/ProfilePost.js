@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
   text: {
     alignItems: 'center',
     textAlign: 'center',
-    marginTop: '20px'
-  }
+    marginTop: '20px',
+  },
 }));
 
 function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
@@ -146,6 +146,7 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log(userData);
 
   return (
     <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
@@ -240,8 +241,10 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
         </>
       ) : (
         <>
-        <Typography className={classes.text}><b>Đây là tài khoản riêng tư</b></Typography>
-        <Typography className={classes.text}>Follow để xem ảnh và video của họ</Typography>
+          <Typography className={classes.text}>
+            <b>Đây là tài khoản riêng tư</b>
+          </Typography>
+          <Typography className={classes.text}>Follow để xem ảnh và video của họ</Typography>
         </>
       )}
     </div>

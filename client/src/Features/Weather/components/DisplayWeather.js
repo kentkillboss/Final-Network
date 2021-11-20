@@ -1,54 +1,81 @@
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 
+const useStyles = makeStyles((theme) => ({
+  card: {
+    width: '40%',
+    height: '75%',
+    margin: '0 auto',
+    textAlign: 'center',
+    position: 'absolute',
+    top: '20%',
+    left: '30%',
+    backgroundColor: 'rgb(0 0 0 / 50%)',
+    borderRadius: '5px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      top: 140,
+      left: 0,
+      height: '100%',
+    },
+  },
+  temperature: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '53px',
+  },
+  section: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    marginTop: '67px',
+  },
+}));
+
 function DisplayWeather({ weather }) {
+  const classes = useStyles();
   return (
-    <div className="user-weather">
-      <div className="row">
-        <div className="col-md-3 weather-temp">
-          <h1>
+    <div className={classes.card}>
+      <Box>
+        <Typography variant="h4">
+          {weather.location}, {weather.country}
+        </Typography>
+        <Box className={classes.temperature}>
+          <Typography variant="h2" style={{ marginRight: '50px' }}>
             {weather.temperature}
-            <sup>o</sup>C , {weather.description}
-          </h1>
-          <h4>{weather.location}</h4>
-          <p>
-            {weather.region} , {weather.country}
-          </p>
-        </div>
-
-        <div className="col-md-9">
-          <img className="mainImg" src={weather.img} alt="weather-img" />
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-md-3 weather-info">
-          <p>
-            <b>Wind Speed</b>(km/hr)
-          </p>
-          <h2>{weather.wind_speed}</h2>
-        </div>
-
-        <div className="col-md-3 weather-info">
-          <p>
+            <sup>o</sup>C
+          </Typography>
+          <img src={weather.img} alt="weather-img" width="18%" style={{ borderRadius: '50%' }} />
+        </Box>
+        <Typography variant="h5">{weather.description}</Typography>
+      </Box>
+      <Box className={classes.section}>
+        <Box>
+          <Typography variant="h5">
+            <b>Wind Speed</b> (km/h)
+          </Typography>
+          <Typography variant="h4">{weather.wind_speed}</Typography>
+        </Box>
+        <Box>
+          <Typography variant="h5">
             <b>Preassure</b>(millibar)
-          </p>
-          <h2>{weather.pressure}</h2>
-        </div>
-
-        <div className="col-md-3 weather-info">
-          <p>
+          </Typography>
+          <Typography variant="h4">{weather.pressure}</Typography>
+        </Box>
+      </Box>
+      <Box className={classes.section}>
+        <Box>
+          <Typography variant="h5">
             <b>Precipitation</b>(mm)
-          </p>
-          <h2>{weather.precip}</h2>
-        </div>
-
-        <div className="col-md-3 weather-info">
-          <p>
+          </Typography>
+          <Typography variant="h4">{weather.precip}</Typography>
+        </Box>
+        <Box>
+          <Typography variant="h5">
             <b>Humidity</b>(%)
-          </p>
-          <h2>{weather.humidity}</h2>
-        </div>
-      </div>
+          </Typography>
+          <Typography variant="h4">{weather.humidity}</Typography>
+        </Box>
+      </Box>
     </div>
   );
 }

@@ -4,8 +4,23 @@ import axios from 'axios';
 import DisplayWeather from './components/DisplayWeather';
 import SearchCountry from './components/SearchCountry';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  bgImg: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: 'calc(100vh - 65px)',
+    margin: '0 auto',
+    color: 'white',
+  },
+}));
 
 function Weather(props) {
+  const classes = useStyles();
   const [coords, setCoords] = useState({
     latitude: 16,
     longitude: 108,
@@ -84,7 +99,7 @@ function Weather(props) {
     }
   };
   return (
-    <div>
+    <div className={classes.bgImg}>
       <SearchCountry changeLocation={changeLocation} changeWeather={changeInput} />
       <DisplayWeather weather={weather} />
     </div>
