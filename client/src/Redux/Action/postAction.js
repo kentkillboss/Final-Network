@@ -166,18 +166,17 @@ export const getPost =
 export const deletePost =
   ({ post, auth, socket }) =>
   async (dispatch) => {
+    console.log(post);
     dispatch({ type: POST_TYPES.DELETE_POST, payload: post });
     try {
       const res = await deleteDataAPI(`post/${post._id}`, auth.token);
-
-      //notify
+      // notify
       const msg = {
         id: post._id,
         text: 'added a new post',
         recipients: res.data.newPost.user.followers,
         url: `/post/${post._id}`,
       };
-
       dispatch(removeNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({

@@ -147,12 +147,11 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(userData);
 
   useEffect(() => {
-    userData.map((user) => setIsPrivate(user.isPrivate))
-    
-  }, [userData])
+    userData.map((user) => setIsPrivate(user.isPrivate));
+    console.log(userData);
+  }, [userData]);
 
   return (
     <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>

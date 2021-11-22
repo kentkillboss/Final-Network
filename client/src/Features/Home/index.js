@@ -20,6 +20,11 @@ const useStyles = makeStyles((theme) => ({
   container: {
     backgroundColor: '#f0f2f5',
   },
+  bookmark: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
 }));
 
 let scroll = 0;
@@ -44,11 +49,11 @@ function Home(props) {
   return (
     <div>
       <Grid container className={classes.container}>
-        <Grid item sm={3} xs={2}>
+        <Grid className={classes.bookmark} item sm={3} xs={0}>
           <LeftBar />
         </Grid>
         {/* <Grid item sm={0} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} /> */}
-        <Grid item sm={5} xs={10} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
+        <Grid item sm={5} xs={12} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
           <Status />
           {posts.loading ? (
             <PostLoading />

@@ -31,6 +31,9 @@ import Activate from './Features/Auth/Components/activate';
 import ResetPassword from './Features/Auth/Components/ResetPassword';
 import ResetPasswordWithId from './Features/Auth/Components/ChangePassword';
 import Weather from 'Features/Weather/index';
+import Covid from 'Features/Covid';
+import Notes from 'Features/Notes';
+import LeftBar from 'Features/Home/components/LeftBar';
 
 function App() {
   const { auth, status, call } = useSelector((state) => state);
@@ -126,6 +129,22 @@ function App() {
             <PrivateRouter
               path="/weather"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : Weather) : Login}
+            />
+            <PrivateRouter
+              path="/covid"
+              component={auth.token ? (auth.user.role === 'admin' ? Admin : Covid) : Login}
+            />
+            <PrivateRouter
+              path="/notes"
+              component={auth.token ? (auth.user.role === 'admin' ? Admin : Notes) : Login}
+            />
+            <PrivateRouter
+              path="/note/:id"
+              component={auth.token ? (auth.user.role === 'admin' ? Admin : Notes) : Login}
+            />
+            <PrivateRouter
+              path="/bookmarks"
+              component={auth.token ? (auth.user.role === 'admin' ? Admin : LeftBar) : Login}
             />
             <Route component={NotFound} />
           </Switch>

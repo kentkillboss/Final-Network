@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     border: 'none',
     resize: 'none',
     margin: '0 10px',
+    [theme.breakpoints.down('sm')]: {
+      width: '94%',
+    },
   },
   content: {
     padding: 0,
@@ -62,11 +65,27 @@ const useStyles = makeStyles((theme) => ({
   imageList: {
     width: 494,
     height: 166,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
   },
   image: {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
+  },
+  dialog: {
+    minWidth: 349,
+  },
+  video: {
+    width: '100%',
+    // height: 240,
+  },
+  boxVideo: {
+    width: '59%',
+    height: '50%',
+    margin: 'auto',
+    position: 'relative',
   },
 }));
 
@@ -185,111 +204,113 @@ function StatusModal({ setShowModal }) {
   return (
     <div>
       <Dialog open={status} className={classes.dialog}>
-        <IconButton
-          onClick={() =>
-            dispatch({
-              type: GLOBALTYPES.STATUS,
-              payload: false,
-            })
-          }
-          className={classes.close}
-        >
-          <Close />
-        </IconButton>
-        <form onSubmit={handleSubmit}>
-          <DialogTitle className={classes.title}>Tạo bài viết</DialogTitle>
-          <hr color="#f1f1f1" style={{ width: '100%', margin: '0' }}></hr>
+        <Box style={{ minWidth: '349px' }}>
+          <IconButton
+            onClick={() =>
+              dispatch({
+                type: GLOBALTYPES.STATUS,
+                payload: false,
+              })
+            }
+            className={classes.close}
+          >
+            <Close />
+          </IconButton>
+          <form onSubmit={handleSubmit}>
+            <DialogTitle className={classes.title}>Tạo bài viết</DialogTitle>
+            <hr color="#f1f1f1" style={{ width: '100%', margin: '0' }}></hr>
 
-          <DialogContent className={classes.content}>
-            <DialogContentText></DialogContentText>
-            <TextareaAutosize
-              name="content"
-              value={content}
-              className={classes.textarea}
-              onChange={(e) => setContent(e.target.value)}
-              aria-label="minimum height"
-              minRows={7}
-              placeholder={`${auth.user.username}, Bạn đang nghĩ gì ?`}
-            />
-            <Box style={{ width: '95%', margin: '10px auto' }}>
-              <ImageList rowHeight={160} className={classes.imageList} cols={3}>
-                {images.map((img, index) => (
-                  <ImageListItem key={index} cols={1}>
-                    {img.camera ? (
-                      imageShow(img.camera)
-                    ) : img.url ? (
-                      <>{img.url.match(/video/i) ? videoShow(img.url) : imageShow(img.url)}</>
-                    ) : (
-                      <>
-                        {img.type.match(/video/i)
-                          ? videoShow(URL.createObjectURL(img))
-                          : imageShow(URL.createObjectURL(img))}
-                      </>
-                    )}
-                    <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
-                      <CancelIcon />
-                    </IconButton>
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </Box>
-            {stream && (
-              <Box style={{ width: '50%', height: '50%', margin: 'auto' }}>
-                <video autoPlay muted ref={videoRef} width="320" height="240" />
-
-                <IconButton onClick={handleStopStream} style={{ position: 'absolute', bottom: '287px', right: '72px' }}>
-                  <CancelIcon />
-                </IconButton>
-                <canvas ref={refCanvas} style={{ display: 'none' }} />
+            <DialogContent className={classes.content}>
+              <DialogContentText></DialogContentText>
+              <TextareaAutosize
+                name="content"
+                value={content}
+                className={classes.textarea}
+                onChange={(e) => setContent(e.target.value)}
+                aria-label="minimum height"
+                minRows={7}
+                placeholder={`${auth.user.username}, Bạn đang nghĩ gì ?`}
+              />
+              <Box style={{ width: '95%', margin: '10px auto' }}>
+                <ImageList rowHeight={160} className={classes.imageList} cols={3}>
+                  {images.map((img, index) => (
+                    <ImageListItem key={index} cols={1}>
+                      {img.camera ? (
+                        imageShow(img.camera)
+                      ) : img.url ? (
+                        <>{img.url.match(/video/i) ? videoShow(img.url) : imageShow(img.url)}</>
+                      ) : (
+                        <>
+                          {img.type.match(/video/i)
+                            ? videoShow(URL.createObjectURL(img))
+                            : imageShow(URL.createObjectURL(img))}
+                        </>
+                      )}
+                      <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
+                        <CancelIcon />
+                      </IconButton>
+                    </ImageListItem>
+                  ))}
+                </ImageList>
               </Box>
-            )}
-            <Box className={classes.boxIcon}>
-              <Typography>Thêm vào bài viết</Typography>
-              <Box style={{ display: 'flex', justifyContent: 'space-around', width: '25%' }}>
-                {stream ? (
-                  <IconButton onClick={handleCapture} style={{ padding: '4px' }}>
-                    <CameraAltRoundedIcon style={{ color: 'green', cursor: 'pointer' }} />
+              {stream && (
+                <Box className={classes.boxVideo}>
+                  <video autoPlay muted ref={videoRef} className={classes.video} />
+
+                  <IconButton onClick={handleStopStream} style={{ position: 'absolute', top: '0px', right: '-7px' }}>
+                    <CancelIcon />
                   </IconButton>
-                ) : (
-                  <>
-                    <IconButton onClick={handleStream} style={{ padding: '4px' }}>
+                  <canvas ref={refCanvas} style={{ display: 'none' }} />
+                </Box>
+              )}
+              <Box className={classes.boxIcon}>
+                <Typography>Thêm vào bài viết</Typography>
+                <Box style={{ display: 'flex', justifyContent: 'space-around', width: '25%' }}>
+                  {stream ? (
+                    <IconButton onClick={handleCapture} style={{ padding: '4px' }}>
                       <CameraAltRoundedIcon style={{ color: 'green', cursor: 'pointer' }} />
                     </IconButton>
-                    <IconButton
-                      aria-controls="simple-menu"
-                      aria-haspopup="true"
-                      onClick={handleClick}
-                      style={{ padding: '4px' }}
-                    >
-                      <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
-                    </IconButton>
+                  ) : (
+                    <>
+                      <IconButton onClick={handleStream} style={{ padding: '4px' }}>
+                        <CameraAltRoundedIcon style={{ color: 'green', cursor: 'pointer' }} />
+                      </IconButton>
+                      <IconButton
+                        aria-controls="simple-menu"
+                        aria-haspopup="true"
+                        onClick={handleClick}
+                        style={{ padding: '4px' }}
+                      >
+                        <EmojiEmotionsRoundedIcon style={{ color: 'yellow', cursor: 'pointer' }} />
+                      </IconButton>
 
-                    <IconButton component="label" size="sm" style={{ padding: '4px' }}>
-                      <PhotoLibraryRoundedIcon style={{ color: 'blue', cursor: 'pointer' }} />
-                      <input
-                        type="file"
-                        multiple
-                        name="file"
-                        id="file"
-                        accept="image/*, video/*"
-                        hidden
-                        onChange={handleChangeImages}
-                      />
-                    </IconButton>
-                  </>
-                )}
+                      <IconButton component="label" size="sm" style={{ padding: '4px' }}>
+                        <PhotoLibraryRoundedIcon style={{ color: 'blue', cursor: 'pointer' }} />
+                        <input
+                          type="file"
+                          multiple
+                          name="file"
+                          id="file"
+                          accept="image/*, video/*"
+                          hidden
+                          onChange={handleChangeImages}
+                        />
+                      </IconButton>
+                    </>
+                  )}
+                </Box>
               </Box>
-            </Box>
-          </DialogContent>
-          <DialogActions>
-            <Button type="submit" color="primary" fullWidth variant="contained">
-              Lưu thay đổi
-            </Button>
-          </DialogActions>
-          {showIcon && (
-            <Icons showIcon={showIcon} setShowIcon={setShowIcon} setContent={setContent} content={content} />
-          )}
-        </form>
+            </DialogContent>
+            <DialogActions>
+              <Button type="submit" color="primary" fullWidth variant="contained">
+                Lưu thay đổi
+              </Button>
+            </DialogActions>
+            {showIcon && (
+              <Icons showIcon={showIcon} setShowIcon={setShowIcon} setContent={setContent} content={content} />
+            )}
+          </form>
+        </Box>
       </Dialog>
     </div>
   );

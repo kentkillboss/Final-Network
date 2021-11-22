@@ -18,6 +18,7 @@ import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import Brightness7RoundedIcon from '@material-ui/icons/Brightness7Rounded';
 import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 const useStyles = makeStyles((theme) => ({
   root: {
     zIndex: 1100,
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     width: '40px',
     height: '40px',
-    marginLeft: '-67px',
+    marginLeft: '-45px',
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
@@ -160,6 +161,11 @@ export default function Header() {
             <IconButton>
               <Search className={classes.searchButton} onClick={() => setOpen(true)} />
             </IconButton>
+            <Link to="/bookmarks" style={{ color: '#ffff', textDecoration: 'none' }}>
+              <IconButton>
+                <MenuRoundedIcon className={classes.searchButton} />
+              </IconButton>
+            </Link>
             <Link to="/message" style={{ color: '#ffff', textDecoration: 'none' }}>
               <IconButton color="inherit">
                 <Mail style={{ color: 'black' }} />
