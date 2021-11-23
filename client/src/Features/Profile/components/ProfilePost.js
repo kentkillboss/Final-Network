@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme) => ({
   text: {
     alignItems: 'center',
     textAlign: 'center',
-    marginTop: '20px'
-  }
+    marginTop: '20px',
+  },
 }));
 
 function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
@@ -149,9 +149,9 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
   };
 
   useEffect(() => {
-    userData.map((user) => setIsPrivate(user.isPrivate))
-    
-  }, [userData])
+    userData.map((user) => setIsPrivate(user.isPrivate));
+    console.log(userData);
+  }, [userData]);
 
   useEffect(() => {
     var url = window.location.href.split('?')[1];
@@ -250,8 +250,10 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
         </>
       ) : (
         <>
-        <Typography className={classes.text}><b>Đây là tài khoản riêng tư</b></Typography>
-        <Typography className={classes.text}>Follow để xem ảnh và video của họ</Typography>
+          <Typography className={classes.text}>
+            <b>Đây là tài khoản riêng tư</b>
+          </Typography>
+          <Typography className={classes.text}>Follow để xem ảnh và video của họ</Typography>
         </>
       )}
     </div>

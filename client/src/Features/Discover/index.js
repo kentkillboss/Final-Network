@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { getDataAPI } from 'api/fetchData';
 import LeftBar from 'Features/Home/components/LeftBar';
@@ -12,7 +12,17 @@ import LoadMoreBtn from './components/LoadMoreBtn';
 
 Discover.propTypes = {};
 
+const useStyles = makeStyles((theme) => ({
+  bookmark: {
+    display: 'block',
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
+  },
+}));
+
 function Discover(props) {
+  const classes = useStyles();
   const { auth, discover, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
@@ -33,11 +43,11 @@ function Discover(props) {
   return (
     <div>
       <Grid container>
-        <Grid item xs={2} sm={3} style={{ display: 'block' }}>
+        <Grid className={classes.bookmark} item xs={0} sm={3}>
           <LeftBar />
         </Grid>
         <Grid item xs={0} sm={0} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}></Grid>
-        <Grid item xs={10} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
+        <Grid item xs={12} sm={8} style={{ display: 'block', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
           <Grid container>
             {discover.loading ? (
               <>
@@ -51,7 +61,7 @@ function Discover(props) {
               </>
             ) : (
               discover.posts.map((post) => (
-                <Grid item xs={12} sm={6} md={4} lg={3}>
+                <Grid item xs={6} sm={6} md={4} lg={3}>
                   <Link to={`/post/${post._id}`}>
                     <PostThumb posts={post} />
                   </Link>

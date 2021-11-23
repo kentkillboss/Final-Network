@@ -1,10 +1,41 @@
+import { makeStyles, TextField } from '@material-ui/core';
 import React from 'react';
 
+const useStyles = makeStyles((theme) => ({
+  card: {
+    width: '40%',
+    margin: '0 auto',
+    textAlign: 'center',
+    position: 'absolute',
+    top: '10%',
+    left: '30%',
+    backgroundColor: 'rgb(0 0 0 / 50%)',
+    borderRadius: '5px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      top: '10%',
+      left: 0,
+    },
+  },
+  multilineColor: {
+    color: 'white',
+  },
+}));
+
 function SearchCountry({ changeWeather, changeLocation }) {
+  const classes = useStyles();
   return (
-    <div>
+    <div className={classes.card}>
       <form onSubmit={(e) => changeLocation(e)}>
-        <input placeholder="Nhap thanh pho" onChange={(e) => changeWeather(e.target.value)} />
+        <TextField
+          InputProps={{
+            className: classes.multilineColor,
+          }}
+          fullWidth
+          variant="outlined"
+          placeholder="Enter Thành Phố Để Tìm Kiếm"
+          onChange={(e) => changeWeather(e.target.value)}
+        />
       </form>
     </div>
   );

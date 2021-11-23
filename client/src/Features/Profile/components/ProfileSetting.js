@@ -39,7 +39,7 @@ function ProfileSetting(props) {
   return (
     <div>
       <SettingsIcon
-        style={{float: 'right'}}
+        style={{float: 'right', cursor: 'pointer'}}
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"

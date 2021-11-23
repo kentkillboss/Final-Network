@@ -15,6 +15,7 @@ import online from 'Redux/Reducer/onlineReduce';
 import call from 'Redux/Reducer/callReduce';
 import peer from 'Redux/Reducer/peerReduce';
 import admin from 'Redux/Reducer/adminReduce';
+import noteList from 'Redux/Reducer/noteReduce';
 
 export default combineReducers({
   auth,
@@ -32,5 +33,6 @@ export default combineReducers({
   online,
   call,
   peer,
-  admin
+  admin,
+  noteList,
 });

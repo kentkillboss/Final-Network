@@ -19,12 +19,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#f0f2f5',
     position: 'sticky',
     top: theme.spacing(8),
-    [theme.breakpoints.down('sm')]: {
-      backgroundColor: '#5C8D89',
-      color: '#555',
-      border: '1px solid #ece7e7',
-      top: theme.spacing(7),
-    },
   },
   item: {
     display: 'flex',
@@ -46,26 +40,21 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     // fontSize: '35px',
     width: '40px',
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '18px',
-      color: '#fff',
-    },
+    // [theme.breakpoints.down('sm')]: {
+    //   fontSize: '18px',
+    //   color: '#fff',
+    // },
   },
   text: {
     fontWeight: 500,
     // color: 'grey',
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
+    // [theme.breakpoints.down('sm')]: {
+    //   display: 'none',
+    // },
   },
   navbarlink: {
     textDecoration: 'none',
     color: '#5C8D89',
-  },
-  info: {
-    [theme.breakpoints.down('sm')]: {
-      display: 'none',
-    },
   },
 }));
 
@@ -76,51 +65,6 @@ function LeftBar(props) {
     color: '#587850',
   };
   const navLinkItem = [
-    // {
-    //   text: 'Home',
-    //   icon: <HomeRoundedIcon className={classes.icon} style={{ fontSize: '33px' }} />,
-    //   path: '/',
-    // },
-    // {
-    //   text: 'Discover',
-    //   icon: <ExploreRoundedIcon className={classes.icon} style={{ fontSize: '31px' }} />,
-    //   path: '/discover',
-    // },
-    // {
-    //   text: 'Video',
-    //   icon: <PlayCircleOutline className={classes.icon} style={{ fontSize: '31px' }} />,
-    //   path: '/video',
-    // },
-    // {
-    //   text: 'Games',
-    //   icon: <VideogameAssetRoundedIcon className={classes.icon} style={{ fontSize: '31px' }} />,
-    //   path: '/games',
-    // },
-    // {
-    //   text: 'Message',
-    //   icon: <TelegramIcon className={classes.icon} style={{ fontSize: '31px' }} />,
-    //   path: '/message',
-    // },
-    // {
-    //   text: 'Notify',
-    //   icon: <FavoriteRoundedIcon className={classes.icon} style={{ fontSize: '31px' }} />,
-    //   path: '/notify',
-    // },
-    // {
-    //   text: 'List',
-    //   icon: <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yx/r/-XF4FQcre_i.png" className={classes.icon} alt="" />,
-    //   path: '/list',
-    // },
-    // // {
-    // //   text: 'List',
-    // //   icon: <List className={classes.icon} style={{ fontSize: '31px' }} />,
-    // //   path: '/list',
-    // // },
-    // {
-    //   text: 'Market Place',
-    //   icon: <Storefront className={classes.icon} style={{ fontSize: '31px' }} />,
-    //   path: '/market',
-    // },
     {
       text: 'Trang chủ',
       icon: <img src="https://static.xx.fbcdn.net/rsrc.php/v3/ys/r/9BDqQflVfXI.png" className={classes.icon} alt="" />,
@@ -151,6 +95,16 @@ function LeftBar(props) {
       icon: <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/kULMG0uFcEQ.png" className={classes.icon} alt="" />,
       path: '/weather',
     },
+    {
+      text: 'Covid-19',
+      icon: <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yk/r/qR88GIDM38e.png" className={classes.icon} alt="" />,
+      path: '/covid',
+    },
+    {
+      text: 'Ghi Chú',
+      icon: <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/9-o1e6LN_TX.png" className={classes.icon} alt="" />,
+      path: '/notes',
+    },
   ];
   return (
     <div className={classes.container} style={{ backgroundColor: theme ? '#e7e6e5' : '' }}>
@@ -171,11 +125,6 @@ function LeftBar(props) {
           <Typography className={classes.text}>Đã lưu</Typography>
         </div>
         </NavLink>
-        <Box className={classes.info}>
-          <Typography variant="body2" color="textSecondary" align="center" style={{ color: theme ? 'white' : 'grey' }}>
-            <span color="inherit">Quyền riêng tư - điều khoản - Lựa chọn quảng bá TA Network © 2021</span>{' '}
-          </Typography>
-        </Box>
       </Container>
     </div>
   );

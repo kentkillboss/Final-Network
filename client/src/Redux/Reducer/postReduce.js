@@ -1,5 +1,5 @@
-import { POST_TYPES } from 'Redux/Action/postAction';
 import { DeleteData, EditData } from 'Redux/Action/globalTypes';
+import { POST_TYPES } from 'Redux/Action/postAction';
 
 const initialState = {
   loading: false,
