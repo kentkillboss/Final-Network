@@ -135,7 +135,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <Typography> Số lượng người sử dụng của Dulcie: {admin.result}</Typography>
+      <Typography style={{marginBottom: '10px'}}> Số lượng người sử dụng của Dulcie: <b>{admin.result} người </b></Typography>
 
       <form className={classes.root} noValidate autoComplete="off" style={{ marginBottom: '5px' }}>
         <Input

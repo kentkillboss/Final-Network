@@ -1,19 +1,19 @@
 import { Box, Button, Card, CardHeader, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
-import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import WcIcon from '@material-ui/icons/Wc';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { MESS_TYPES } from 'Redux/Action/messageAction';
 import EditProfile from './EditProfileForm/EditProfileForm';
 import FollowBtn from './FollowBtn';
-import PrivateBtn from './PrivateBtn';
 import Followers from './Followers';
 import Following from './Following';
 import './profile.css';
 import ProfilePost from './ProfilePost';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import { MESS_TYPES } from 'Redux/Action/messageAction';
+import ProfileSetting from './ProfileSetting';
 
 ProfileInfo.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -107,10 +107,11 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
 
                 {user._id === auth.user._id ? (
                   <>
-                  <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
+                  {/* <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
                     Chỉnh sửa
                   </Button>
-                  <PrivateBtn />
+                  <PrivateBtn /> */}
+                  <ProfileSetting />
                   </>
                 ) : (
                   <FollowBtn user={user} />

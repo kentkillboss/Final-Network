@@ -271,7 +271,7 @@ export const requestFollow =
     const data = {id, notifyId, senderId};
     
     try {
-      const res = await postDataAPI(`acceptFollow`, data, auth.token);
+      await postDataAPI(`acceptFollow`, data, auth.token);
       // socket.emit('follow', res.data.newUser);
 
       // //notify
@@ -288,4 +288,30 @@ export const requestFollow =
         payload: { error: error.response.data.msg },
       });
     }
+  };
+
+  export const ChangePassword = ({data, auth}) => async (dispatch) => {
+    const newData = {...data, id: auth.user._id};
+    try {
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: true } });
+  
+      const res = await postDataAPI(`changePassword`, newData, auth.token);
+  
+      dispatch({ type: GLOBALTYPES.ALERT, payload: { loading: false } });
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          success: res.data.msg,
+        },
+      });
+    } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: {
+          error: err.response.data.msg,
+        },
+      });
+    }
+    
+  
   };

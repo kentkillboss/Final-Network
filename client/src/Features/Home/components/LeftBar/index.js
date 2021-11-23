@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LeftBar(props) {
   const classes = useStyles();
-  const { theme } = useSelector((state) => state);
+  const { theme, auth } = useSelector((state) => state);
   const isActive = {
     color: '#587850',
   };
@@ -165,10 +165,12 @@ function LeftBar(props) {
           </NavLink>
         ))}
         <hr></hr>
+        <NavLink className={classes.navbarlink} to={`/profile/${auth.user._id}?save-post`}>
         <div className={classes.item} style={{ color: 'grey' }}>
           <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/2uPlV4oORjU.png" className={classes.icon} alt="" />
           <Typography className={classes.text}>Đã lưu</Typography>
         </div>
+        </NavLink>
         <Box className={classes.info}>
           <Typography variant="body2" color="textSecondary" align="center" style={{ color: theme ? 'white' : 'grey' }}>
             <span color="inherit">Quyền riêng tư - điều khoản - Lựa chọn quảng bá TA Network © 2021</span>{' '}

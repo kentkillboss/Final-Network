@@ -5,6 +5,7 @@ const Messages = require("../models/messageModels");
 const Conversations = require("../models/conversationModel");
 const pendingFollow = require("../models/pendingFollow");
 const Notify = require("../models/notifyModel");
+const bcrypt = require("bcrypt");
 
 const userCtrl = {
   searchUser: async (req, res) => {
@@ -269,6 +270,38 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  changePassword: async (req, res) => {
+    const {id, oldPassword, newPassword} = req.body;
+    // console.log(id, oldPassword, newPassword);
+    try {
+      const user = await Users.findById(id);
+
+      bcrypt.compare(oldPassword, user.password, async (err, data) => {
+        if (err) return res.status(500).json({ msg: err.message });
+
+        if (data) {
+          const passwordHash = await bcrypt.hash(newPassword, 12);
+          await Users.findOneAndUpdate(
+            {
+              _id: id
+            },
+            {
+              password: passwordHash
+            }
+            );
+
+            res.json({msg: 'Change password success'});
+        }else {
+          return res.status(404).json({msg: 'Wrong password!'});
+        }
+    })
+      
+    
+
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  }
 };
 
 module.exports = userCtrl;

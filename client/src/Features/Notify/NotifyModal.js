@@ -202,6 +202,9 @@ function NotifyModal({ setShowMenu }) {
                     )}
                   </>
                 )}
+                {msg.request && (
+                  <Button variant="contained" color='primary' style={{marginTop: '15px', fontSize: '12px', height: '25px'}} onClick={() => handleAccept(msg.id, msg._id, msg.user)}>Đồng ý</Button>
+                )}
               </ListItemSecondaryAction>
               {!msg.isRead && (
                 <ListItemSecondaryAction style={{ right: '4px' }}>
