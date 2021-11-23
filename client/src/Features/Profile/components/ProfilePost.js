@@ -153,6 +153,10 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
     console.log(userData);
   }, [userData]);
 
+  useEffect(() => {
+    var url = window.location.href.split('?')[1];
+    if(url === 'save-post') setValue(1);
+  }, [])
   return (
     <div className={classes.root} style={{ backgroundColor: theme ? '#e7e6e5' : '#ffffff' }}>
       <AppBar position="static" color="default">
@@ -165,7 +169,7 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
           aria-label="full width tabs example"
         >
           <Tab label="Bài đăng" {...a11yProps(0)} />
-          <Tab label="Đã lưu" {...a11yProps(1)} />
+          <Tab label="Đã lưu"  {...a11yProps(1)} />
         </Tabs>
       </AppBar>
       {!isPrivate ? (

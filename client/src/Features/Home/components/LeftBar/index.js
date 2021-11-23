@@ -25,16 +25,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     paddingBottom: theme.spacing(2),
     paddingTop: theme.spacing(2),
-    // [theme.breakpoints.up('sm')]: {
-    //   paddingBottom: theme.spacing(1.5),
-    //   paddingTop: theme.spacing(1.5),
-    //   paddingLeft: theme.spacing(1),
-    //   cursor: 'pointer',
-    //   '&:hover': {
-    //     borderRadius: '5px',
-    //     backgroundColor: '#e0e0e0',
-    //   },
-    // },
+    [theme.breakpoints.up('sm')]: {
+      paddingBottom: theme.spacing(1.5),
+      paddingTop: theme.spacing(1.5),
+      paddingLeft: theme.spacing(1),
+      cursor: 'pointer',
+      '&:hover': {
+        borderRadius: '5px',
+        backgroundColor: '#e0e0e0',
+      },
+    },
   },
   icon: {
     marginRight: theme.spacing(1),
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 function LeftBar(props) {
   const classes = useStyles();
-  const { theme } = useSelector((state) => state);
+  const { theme, auth } = useSelector((state) => state);
   const isActive = {
     color: '#587850',
   };
@@ -119,10 +119,12 @@ function LeftBar(props) {
           </NavLink>
         ))}
         <hr></hr>
+        <NavLink className={classes.navbarlink} to={`/profile/${auth.user._id}?save-post`}>
         <div className={classes.item} style={{ color: 'grey' }}>
           <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/2uPlV4oORjU.png" className={classes.icon} alt="" />
           <Typography className={classes.text}>Đã lưu</Typography>
         </div>
+        </NavLink>
       </Container>
     </div>
   );

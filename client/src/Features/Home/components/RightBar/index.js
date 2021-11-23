@@ -14,11 +14,11 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
 import FollowBtn from 'Features/Profile/components/FollowBtn';
 import React from 'react';
-import Particles from 'react-particles-js';
+// import Particles from 'react-particles-js';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUserActions } from 'Redux/Action/suggestionAction';
-import particlesConfig from 'utils/paritcleConfig';
+// import particlesConfig from 'utils/paritcleConfig';
 
 const useStyles = makeStyles((theme) => ({
   paper: {},
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
   listitem: {
     padding: '10px 0',
+    
   },
   reload: {
     display: 'flex',
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   linkSuggestions: {
+    minWidth: '80%',
     textDecoration: 'none',
     color: 'black',
   },
@@ -86,19 +88,21 @@ function RightBar(props) {
       ) : (
         <List>
           {suggestions.users.map((user) => (
-            <Link key={user._id} className={classes.linkSuggestions} to={`/profile/${user._id}`}>
-              <ListItem style={{ padding: 0 }}>
+            
+              <ListItem key={user._id} style={{ padding: 0 }}>
+                <Link className={classes.linkSuggestions} to={`/profile/${user._id}`}>
                 <ListItem button className={classes.listitem}>
                   <ListItemAvatar>
                     <Avatar src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}></Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={user.username} />
                 </ListItem>
+                </Link>
                 <IconButton size="small" edge="end" style={{ padding: '0px' }}>
                   {auth.user._id !== user._id && <FollowBtn user={user} />}
                 </IconButton>
               </ListItem>
-            </Link>
+            
           ))}
         </List>
       )}

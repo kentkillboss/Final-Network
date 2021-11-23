@@ -181,7 +181,7 @@ const authCtrl = {
         } 
 
         const hash = new ResetPw({userId: user._id});
-        console.log(hash);
+        
         await hash.save();
 
         await sendResetPassword({ toUser: user, hash: hash._id });

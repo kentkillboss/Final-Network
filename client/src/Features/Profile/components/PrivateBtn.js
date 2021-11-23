@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { privateAccount, publicAccount } from 'Redux/Action/profileAction';
 
@@ -29,13 +29,13 @@ function PrivateBtn() {
   return (
     <>
       {privated ? (
-        <Button onClick={handleUnSetPrivate} className="btnEdit" variant="outlined">
-          Private
-        </Button>
+        <Typography onClick={handleUnSetPrivate} style={{color: 'black', width: '100%'}} variant="outlined">
+          Private Account
+        </Typography>
       ) : (
-        <Button onClick={handleSetPrivate} className="btnEdit" variant="outlined">
-          Public
-        </Button>
+        <Typography onClick={handleSetPrivate} style={{color: 'black', width: '100%'}} variant="outlined">
+          Public Account
+        </Typography>
       )}
     </>
   );
