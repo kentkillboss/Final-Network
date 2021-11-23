@@ -1,5 +1,5 @@
+import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Grid, Typography } from '@material-ui/core';
 import Chart from './Chart';
 import HighMap from './HighMap';
 
@@ -14,7 +14,7 @@ function MapVn({ data, selectedCountry }) {
   }, [selectedCountry]);
   return (
     <div>
-      <Grid container spacing={3}>
+      <Grid container>
         <Grid item sm={8} xs={12}>
           <Chart data={data} />
         </Grid>

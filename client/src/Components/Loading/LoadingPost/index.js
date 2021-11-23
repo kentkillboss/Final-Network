@@ -11,7 +11,7 @@ function Loader(props) {
         <div className="shadow" />
         <div className="shadow" />
         <div className="shadow" />
-        <span>Chờ xíu nè...</span>
+        <span>Loading...</span>
       </div>
     </div>
   );

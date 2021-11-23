@@ -27,7 +27,7 @@ function Char({ data }) {
       <Grid container>
         {arr.map((item, index) => (
           <Grid item sm={4} xs={12}>
-            <Card>
+            <Card style={{ borderTop: '3px solid grey' }}>
               <CardContent>
                 <Typography variant="h6">{item.title}</Typography>
                 <Typography variant="h5">{item.count}</Typography>

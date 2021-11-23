@@ -25,7 +25,14 @@ import { Link } from 'react-router-dom';
 import { createNote, deleteNote, getNotes } from 'Redux/Action/noteAction';
 import EditNote from './components/EditNote';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+
 const useStyles = makeStyles((theme) => ({
+  root: {
+    textAlign: 'center',
+    marginTop: '10px',
+  },
   textfield: {
     marginBottom: theme.spacing(1),
   },
@@ -41,11 +48,26 @@ const useStyles = makeStyles((theme) => ({
   text: {
     color: 'grey',
   },
-  accordion: {
+  boxAccordion: {
     display: 'flex',
   },
-  accordionbtn: {
-    marginTop: '9px',
+  button: {
+    margin: theme.spacing(0.5),
+  },
+  accordion: {
+    width: '80%',
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+    textAlign: 'left',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+    textAlign: 'left',
+    fontWeight: 500,
   },
 }));
 function Notes(props) {
@@ -92,41 +114,53 @@ function Notes(props) {
   };
 
   return (
-    <div>
-      <Button onClick={handleOpen}>Create Note</Button>
-      {/* <Grid container> */}
-      {noteList.notes.map((item) => (
-        //   <Grid key={item._id} xs={12} item>
-        //     {item.title}
-        //   </Grid>
-        <Box className={classes.accordion}>
-          <Accordion style={{ width: '500px' }}>
-            <AccordionSummary
-              style={{ backgroundColor: '#5C8D89' }}
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography className={classes.heading}>{item.title}</Typography>
-            </AccordionSummary>
-            <AccordionDetails style={{ backgroundColor: '#F9F8EB' }}>
-              <Typography>{item.content}</Typography>
-            </AccordionDetails>
-          </Accordion>
-          <Box>
-            <Link to={`/note/${item._id}`}>
-              <Button className={classes.accordionbtn} onClick={() => setEditNote(true)}>
-                Edit
+    <div className={classes.root}>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        Tạo ghi chú
+      </Button>
+      <Box paddingLeft="4%">
+        {noteList.notes.map((item) => (
+          <Box className={classes.boxAccordion}>
+            <Accordion className={classes.accordion}>
+              <AccordionSummary
+                style={{ backgroundColor: '#5C8D89', borderRadius: '4px', marginTop: '3px' }}
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Typography className={classes.heading}>{item.category}</Typography>
+                <Typography className={classes.secondaryHeading}>{item.title}</Typography>
+              </AccordionSummary>
+              <AccordionDetails style={{ backgroundColor: '#F9F8EB' }}>
+                <Typography style={{ textAlign: 'left' }}>{item.content}</Typography>
+              </AccordionDetails>
+            </Accordion>
+            <Box style={{ paddingTop: '5px' }}>
+              <Link to={`/note/${item._id}`} style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setEditNote(true)}
+                  className={classes.button}
+                  startIcon={<EditRoundedIcon />}
+                >
+                  Sửa
+                </Button>
+              </Link>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleDeleteNote(item._id)}
+                className={classes.button}
+                startIcon={<DeleteRoundedIcon />}
+              >
+                Xóa
               </Button>
-            </Link>
-            <Button className={classes.accordionbtn} onClick={() => handleDeleteNote(item._id)}>
-              Delete
-            </Button>
+            </Box>
+            {editNote && <EditNote setEditNote={setEditNote} />}
           </Box>
-          {editNote && <EditNote setEditNote={setEditNote} />}
-        </Box>
-      ))}
-      {/* </Grid> */}
+        ))}
+      </Box>
 
       <Dialog open={open}>
         {alert.loading && <LinearProgress />}
@@ -180,7 +214,6 @@ function Notes(props) {
             </Button>
           </DialogActions>
         </form>
-        <p>{new Date().toLocaleDateString()}</p>
       </Dialog>
     </div>
   );

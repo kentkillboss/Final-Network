@@ -38,8 +38,10 @@ function Covid(props) {
   }, [country, selectedCountry]);
   return (
     <div>
-      <Typography variant="h3">Thông tin Covid 19</Typography>
-      <Typography>{moment().format('LLL')}</Typography>
+      <Typography variant="h3" style={{ marginLeft: '10px' }}>
+        Thông tin Covid 19
+      </Typography>
+      <Typography style={{ marginLeft: '15px' }}>{moment().format('LLL')}</Typography>
       <CountrySelect country={country} handleSelect={handleSelect} selectedCountry={selectedCountry} />
       <Char data={data} />
       <MapVn data={data} selectedCountry={selectedCountry} />
