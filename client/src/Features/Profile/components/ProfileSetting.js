@@ -8,6 +8,7 @@ import MenuList from '@material-ui/core/MenuList';
 import EditProfileForm from './EditProfileForm/EditProfileForm';
 import PrivateBtn from './PrivateBtn';
 import EditPasswordForm from './EditPasswordForm/EditPasswordForm';
+import { Typography } from '@material-ui/core';
 
 function ProfileSetting(props) {
   const [edit, setEdit] = useState(false);
@@ -39,7 +40,7 @@ function ProfileSetting(props) {
   return (
     <div>
       <SettingsIcon
-        style={{float: 'right', cursor: 'pointer'}}
+        style={{ float: 'right', cursor: 'pointer' }}
         ref={anchorRef}
         aria-controls={open ? 'menu-list-grow' : undefined}
         aria-haspopup="true"
@@ -63,9 +64,15 @@ function ProfileSetting(props) {
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList autoFocusItem={open} id="menu-list-grow">
-              <MenuItem onClick={() => setEdit(true)} style={{color: 'black'}}>Edit info</MenuItem>
-              <MenuItem><PrivateBtn /></MenuItem>
-              <MenuItem onClick={() => setEditPassword(true)} style={{color: 'black'}}>Change Password</MenuItem>
+              <MenuItem onClick={() => setEdit(true)} style={{ color: 'black' }}>
+                <Typography>Chỉnh sửa</Typography>
+              </MenuItem>
+              <MenuItem>
+                <PrivateBtn />
+              </MenuItem>
+              <MenuItem onClick={() => setEditPassword(true)} style={{ color: 'black' }}>
+                <Typography>Thay đổi Password</Typography>
+              </MenuItem>
             </MenuList>
           </ClickAwayListener>
         </Paper>

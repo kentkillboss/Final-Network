@@ -3,20 +3,16 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
   IconButton,
-  InputLabel,
   LinearProgress,
   makeStyles,
-  OutlinedInput,
   TextField,
+  Typography,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { getDataAPI } from 'api/fetchData';
 import { getNoteById, updateNote } from 'Redux/Action/noteAction';
 const useStyles = makeStyles((theme) => ({
   textfield: {
@@ -49,9 +45,9 @@ function EditNote({ setEditNote }) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const inititalState = {
-    title: '',
-    content: '',
-    category: '',
+    title: '...',
+    content: '...',
+    category: '...',
   };
   const [userData, setUserData] = useState(inititalState);
   const { title, content, category } = userData;
@@ -82,43 +78,39 @@ function EditNote({ setEditNote }) {
           <Close />
         </IconButton>
         <form onSubmit={handleSubmit}>
+          <Typography component="h1" variant="h5" style={{ textAlign: 'center', margin: '10px' }}>
+            Chỉnh sửa
+          </Typography>
           <DialogContent className={classes.conten}>
-            <FormControl fullWidth margin="normal" variant="outlined" style={{ marginTop: '30px', marginBottom: 0 }}>
-              {/* <InputLabel htmlFor="outlined-adornment-password">Title</InputLabel> */}
-              <OutlinedInput
-                id="outlined-adornment-password"
-                className={classes.textfield}
-                // label="Title"
-                name="title"
-                fullWidth
-                variant="outlined"
-                value={title}
-                onChange={handleInput}
-              />
-            </FormControl>
-
-            <FormControl fullWidth margin="normal" variant="outlined">
-              {/* <InputLabel htmlFor="outlined-adornment-password">Content</InputLabel> */}
-              <OutlinedInput
-                id="outlined-adornment-password"
-                multiline
-                rows={3}
-                maxRows={10}
-                // label="Content"
-                name="content"
-                value={content}
-                fullWidth
-                variant="outlined"
-                onChange={handleInput}
-              />
-            </FormControl>
             <TextField
               className={classes.textfield}
-              //   label="Category"
+              label="Title"
+              name="title"
+              fullWidth
+              variant="outlined"
+              value={title ? title : ' '}
+              onChange={handleInput}
+            />
+
+            <TextField
+              className={classes.textfield}
+              label="Content"
+              name="content"
+              fullWidth
+              multiline
+              rows={3}
+              maxRows={10}
+              variant="outlined"
+              value={content ? content : ' '}
+              onChange={handleInput}
+            />
+            <TextField
+              className={classes.textfield}
+              label="Category"
               name="category"
               fullWidth
               variant="outlined"
-              value={category}
+              value={category ? category : ' '}
               onChange={handleInput}
             />
           </DialogContent>

@@ -10,12 +10,12 @@ PrivateBtn.propTypes = {
 
 function PrivateBtn() {
   const [privated, setPrivated] = useState(false);
-  const {auth} = useSelector(state => state);
+  const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
     setPrivated(auth.user.isPrivate);
-  }, [auth])
+  }, [auth]);
 
   const handleSetPrivate = () => {
     setPrivated(true);
@@ -29,12 +29,12 @@ function PrivateBtn() {
   return (
     <>
       {privated ? (
-        <Typography onClick={handleUnSetPrivate} style={{color: 'black', width: '100%'}} variant="outlined">
-          Private Account
+        <Typography onClick={handleUnSetPrivate} style={{ color: 'black', width: '100%' }}>
+          Riêng tư
         </Typography>
       ) : (
-        <Typography onClick={handleSetPrivate} style={{color: 'black', width: '100%'}} variant="outlined">
-          Public Account
+        <Typography onClick={handleSetPrivate} style={{ color: 'black', width: '100%' }}>
+          Công khai
         </Typography>
       )}
     </>

@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     padding: 0,
+    overflowY: 'none',
   },
   title: {
     padding: '7px 0',
@@ -86,6 +87,13 @@ const useStyles = makeStyles((theme) => ({
     height: '50%',
     margin: 'auto',
     position: 'relative',
+  },
+  boxImageList: {
+    width: '95%',
+    margin: '10px auto',
+    [theme.breakpoints.down('sm')]: {
+      // width: '90%',
+    },
   },
 }));
 
@@ -204,7 +212,7 @@ function StatusModal({ setShowModal }) {
   return (
     <div>
       <Dialog open={status} className={classes.dialog}>
-        <Box style={{ minWidth: '349px' }}>
+        <Box style={{ minWidth: '311px' }}>
           <IconButton
             onClick={() =>
               dispatch({
@@ -231,7 +239,7 @@ function StatusModal({ setShowModal }) {
                 minRows={7}
                 placeholder={`${auth.user.username}, Bạn đang nghĩ gì ?`}
               />
-              <Box style={{ width: '95%', margin: '10px auto' }}>
+              <Box className={classes.boxImageList}>
                 <ImageList rowHeight={160} className={classes.imageList} cols={3}>
                   {images.map((img, index) => (
                     <ImageListItem key={index} cols={1}>

@@ -8,9 +8,7 @@ import {
   DialogActions,
   DialogContent,
   FormControl,
-  Grid,
   IconButton,
-  InputAdornment,
   InputLabel,
   LinearProgress,
   makeStyles,
@@ -19,19 +17,27 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { createNote, deleteNote, getNotes } from 'Redux/Action/noteAction';
 import EditNote from './components/EditNote';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     marginTop: '10px',
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: 'calc(100vh - 65px)',
+    margin: '0 auto',
+    color: 'white',
   },
   textfield: {
     marginBottom: theme.spacing(1),
@@ -115,21 +121,21 @@ function Notes(props) {
 
   return (
     <div className={classes.root}>
-      <Button variant="contained" color="primary" onClick={handleOpen}>
+      <Button variant="contained" color="primary" onClick={handleOpen} style={{ marginBottom: '15px' }}>
         Tạo ghi chú
       </Button>
-      <Box paddingLeft="4%">
+      <Box paddingLeft="4%" style={{ opacity: '0.8' }}>
         {noteList.notes.map((item) => (
           <Box className={classes.boxAccordion}>
             <Accordion className={classes.accordion}>
               <AccordionSummary
-                style={{ backgroundColor: '#5C8D89', borderRadius: '4px', marginTop: '3px' }}
+                style={{ backgroundColor: 'rgb(169 205 202)', borderRadius: '4px', marginTop: '3px' }}
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography className={classes.heading}>{item.category}</Typography>
-                <Typography className={classes.secondaryHeading}>{item.title}</Typography>
+                <Typography className={classes.heading}>{item.title}</Typography>
+                <Typography className={classes.secondaryHeading}>{item.category}</Typography>
               </AccordionSummary>
               <AccordionDetails style={{ backgroundColor: '#F9F8EB' }}>
                 <Typography style={{ textAlign: 'left' }}>{item.content}</Typography>

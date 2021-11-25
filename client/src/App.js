@@ -78,11 +78,9 @@ function App() {
   return (
     <>
       <input type="checkbox" id="theme" />
-      {/* <Loading /> */}
       <Alert />
       <div className="App">
         <div className="main">
-          {/* {auth.token && <Header/>} */}
           {auth.token ? auth.user.role === 'admin' ? <></> : <Header /> : <></>}
 
           {status && <StatusModal />}
@@ -92,9 +90,9 @@ function App() {
             <Route path="/" component={auth.token ? (auth.user.role === 'admin' ? Admin : Home) : Login} exact />
             <Route path="/login" component={auth.token ? Home : Login} />
             <Route path="/register" component={Register} />
-            <Route path="/activate/user/:id" component={Activate} />
-            <Route path="/reset-password" component={ResetPassword} exact />
-            <Route path="/reset-password/:id" component={ResetPasswordWithId} />
+            <Route path="/activate/user/:id" component={auth.token ? Home : Activate} />
+            <Route path="/reset-password" component={auth.token ? Home : ResetPassword} exact />
+            <Route path="/reset-password/:id" component={auth.token ? Home : ResetPasswordWithId} />
             <PrivateRouter
               path="/post/:id"
               component={auth.token ? (auth.user.role === 'admin' ? Admin : Post) : Login}

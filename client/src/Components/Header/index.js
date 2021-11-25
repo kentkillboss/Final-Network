@@ -205,7 +205,7 @@ export default function Header() {
       >
         <MenuItem onClick={handleClose}>
           <Link className={classes.link} style={{ display: 'flex' }} to={`/profile/${auth.user._id}`}>
-            <PersonRoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} /> Profile
+            <PersonRoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} /> Trang cá nhân
           </Link>
         </MenuItem>
         <MenuItem>
@@ -222,13 +222,13 @@ export default function Header() {
           >
             {theme ? (
               <Box style={{ display: 'flex' }}>
-                <Brightness7RoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} /> Light mode{' '}
+                <Brightness7RoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} /> Chế độ sáng{' '}
               </Box>
             ) : (
               <Box style={{ display: 'flex' }}>
                 {' '}
                 <Brightness4RoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} />
-                Dark mode{' '}
+                Chế độ tối{' '}
               </Box>
             )}
           </label>
@@ -236,7 +236,7 @@ export default function Header() {
         <MenuItem onClick={() => dispatch(logout())} style={{ borderTop: '1px solid #74B49B' }}>
           <Link className={classes.link} to="/" style={{ display: 'flex' }}>
             <ExitToAppRoundedIcon style={{ marginRight: '10px', marginLeft: '-7px' }} />
-            Logout
+            Đăng xuất
           </Link>
         </MenuItem>
       </Menu>

@@ -1,4 +1,4 @@
-import { Box, Container, makeStyles, Typography } from '@material-ui/core';
+import { Container, makeStyles, Typography } from '@material-ui/core';
 // import { Bookmark, List, PlayCircleOutline, Storefront } from '@material-ui/icons';
 // import ExploreRoundedIcon from '@material-ui/icons/ExploreRounded';
 // import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
@@ -120,10 +120,10 @@ function LeftBar(props) {
         ))}
         <hr></hr>
         <NavLink className={classes.navbarlink} to={`/profile/${auth.user._id}?save-post`}>
-        <div className={classes.item} style={{ color: 'grey' }}>
-          <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/2uPlV4oORjU.png" className={classes.icon} alt="" />
-          <Typography className={classes.text}>Đã lưu</Typography>
-        </div>
+          <div className={classes.item} style={{ color: 'grey' }}>
+            <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/2uPlV4oORjU.png" className={classes.icon} alt="" />
+            <Typography className={classes.text}>Đã lưu</Typography>
+          </div>
         </NavLink>
       </Container>
     </div>

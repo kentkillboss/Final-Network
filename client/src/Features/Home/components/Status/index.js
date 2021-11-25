@@ -41,12 +41,16 @@ const useStyles = makeStyles((theme) => ({
     color: '#555',
     height: '40px',
     width: '96%',
+    justifyContent: 'flex-start',
     [theme.breakpoints.down('sm')]: {
       height: 35,
       width: '90%',
     },
   },
   text: {
+    justifyContent: 'flex-start',
+    display: 'inherit',
+    alignItems: 'inherit',
     [theme.breakpoints.down('sm')]: {
       fontSize: '12px',
     },

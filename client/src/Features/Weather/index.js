@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles } from '@material-ui/core';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import DisplayWeather from './components/DisplayWeather';
 import SearchCountry from './components/SearchCountry';
-import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   bgImg: {

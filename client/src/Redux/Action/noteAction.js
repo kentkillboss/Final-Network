@@ -38,7 +38,6 @@ export const createNote =
 export const getNotes = (token) => async (dispatch) => {
   try {
     const res = await getDataAPI('notes', token);
-    console.log(res);
     dispatch({
       type: NOTE_TYPES.GET_NOTES,
       payload: { ...res.data, page: 2 },

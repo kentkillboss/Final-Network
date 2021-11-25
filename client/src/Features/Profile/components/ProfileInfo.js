@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   info: {
     [theme.breakpoints.down('sm')]: {
-      marginTop: theme.spacing(6),
+      marginTop: theme.spacing(8),
     },
   },
 }));
@@ -101,17 +101,21 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                 />
               </Box>
               <Box className="user_profile_headline">
-                <img src={user.avatar} alt="img" style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover' }} />
+                <img
+                  src={user.avatar}
+                  alt="img"
+                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover' }}
+                />
                 <h2>{user.username}</h2>
                 <span className="span">{user.fullname}</span>
 
                 {user._id === auth.user._id ? (
                   <>
-                  {/* <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
+                    {/* <Button onClick={() => setEdit(true)} className="btnEdit" variant="outlined">
                     Chỉnh sửa
                   </Button>
                   <PrivateBtn /> */}
-                  <ProfileSetting />
+                    <ProfileSetting />
                   </>
                 ) : (
                   <FollowBtn user={user} />

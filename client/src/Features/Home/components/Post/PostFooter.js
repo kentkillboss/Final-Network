@@ -96,7 +96,7 @@ function PostFooter({ post }) {
         </IconButton>
       </CardActions>
       <CardActions style={{ padding: '0 16px' }}>
-        <Typography>{post.likes.length} Thích</Typography>
+        <Typography>{post.likes.length} Lượt thích</Typography>
         <Typography style={{ marginLeft: 'auto' }}>{post.comments.length} Bình luận</Typography>
       </CardActions>
       {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`} setIsShare={setIsShare} />}
