@@ -21,10 +21,10 @@ function Message(props) {
   return (
     <div>
       <Grid container >
-        <Grid item xs={12} sm={4} style={{ display: 'block'}}>
+        <Grid item lg={4} md={4} xs={12} sm={12} style={{ display: 'block'}}>
           <LeftSide />
         </Grid>
-        <Grid item xs={0} sm={8} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
+        <Grid item lg={8} md={8} xs={0} sm={0} style={{ display: 'block', backgroundColor: theme ? '#e7e6e5' : '#ffffff'}}>
           <img className={classes.img} src={ImgMess} alt="mess"  style={{filter: theme ? 'invert(1)' : 'invert(0)'}}></img>
         </Grid>
       </Grid>

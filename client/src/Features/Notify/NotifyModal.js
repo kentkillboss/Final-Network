@@ -13,7 +13,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { deleteAllNotifies, isReadNotify, NOTIFY_TYPES } from 'Redux/Action/notifyAction';
-import { acceptFollow } from 'Redux/Action/profileAction';
+import { acceptFollow, unAcceptFollow } from 'Redux/Action/profileAction';
 
 NotifyModal.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +86,12 @@ function NotifyModal({ setShowMenu }) {
 
   const handleAccept = (id, notifyId, senderId) => {
     dispatch(acceptFollow({id, notifyId, senderId, auth, socket}));
+  }
+
+  const handleUnAccept = (id, notifyId, socket) => {
+    if (window.confirm('Bạn chắc chắn không chấp nhận?')) {
+    dispatch(unAcceptFollow({id, notifyId, auth, socket}));
+    }
   }
 
   return (
@@ -164,7 +170,10 @@ function NotifyModal({ setShowMenu }) {
                   </>
                 )}
                 {msg.request && (
+                  <>
                   <Button variant="contained" color='primary' style={{marginTop: '15px', fontSize: '12px', height: '25px'}} onClick={() => handleAccept(msg.id, msg._id, msg.user)}>Đồng ý</Button>
+                  <Button variant="outlined" color='outlined' style={{marginTop: '15px', fontSize: '12px', height: '25px'}} onClick={() => handleUnAccept(msg.id, msg._id, msg.user)}>Xoá</Button>
+                  </>
                 )}
                 <ListItemText secondary={moment(msg.createdAt).fromNow()} />
               </ListItemSecondaryAction>

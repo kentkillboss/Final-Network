@@ -49,11 +49,11 @@ function Home(props) {
   return (
     <div>
       <Grid container className={classes.container}>
-        <Grid className={classes.bookmark} item sm={3} xs={0}>
+        <Grid className={classes.bookmark} item lg={3} md={3} sm={0} xs={0}>
           <LeftBar />
         </Grid>
         {/* <Grid item sm={0} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} /> */}
-        <Grid item sm={5} xs={12} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
+        <Grid item lg={5} md={5} sm={12} xs={12} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }}>
           <Status />
           {posts.loading ? (
             <PostLoading />
@@ -63,8 +63,8 @@ function Home(props) {
             <Posts />
           )}
         </Grid>
-        <Grid item sm={1} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} />
-        <Grid item sm={3} xs={0} className={classes.right}>
+        <Grid item lg={1} md={1} sm={0} xs={0} className={classes.box} style={{ backgroundColor: theme ? '#e7e6e5' : '#f0f2f5' }} />
+        <Grid item lg={3} md={3} sm={0} xs={0} className={classes.right}>
           <RightBar />
         </Grid>
       </Grid>

@@ -16,5 +16,8 @@ router.patch("/isPublic/:id", auth, userCtrl.isPublic);
 router.post("/requestFollow", auth, userCtrl.requestFollow);
 router.post("/acceptFollow", auth, userCtrl.acceptFollow);
 router.post("/changePassword", auth, userCtrl.changePassword);
+router.get("/pendingFollow", auth, userCtrl.getPendingFollows);
+router.post("/cancelRequest", auth, userCtrl.cancelRequest);
+router.post("/unAcceptFollow", auth, userCtrl.unAcceptFollow);
 
 module.exports = router;

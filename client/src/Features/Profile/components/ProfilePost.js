@@ -150,7 +150,7 @@ function ProfilePost({ auth, id, dispatch, profile, theme, user }) {
 
   useEffect(() => {
     userData.map((user) => setIsPrivate(user.isPrivate));
-    console.log(userData);
+  
   }, [userData]);
 
   useEffect(() => {

@@ -186,3 +186,25 @@ export const resetPasswordChange = (data) => async (dispatch) => {
   
 
 };
+
+export const getRequest = (token) => async (dispatch) => {
+  try {
+    const res = await getDataAPI(`pendingFollow`, token);
+    
+    dispatch({
+      type: GLOBALTYPES.REQUEST,
+      payload: {
+        request: res.data.requestFollow
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: GLOBALTYPES.ALERT,
+      payload: {
+        error: err.response.data.msg,
+      },
+    });
+  }
+  
+
+};

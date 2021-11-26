@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { cancelRequest, follow, requestFollow, unFollow } from 'Redux/Action/profileAction';
+import { follow, requestFollow, unFollow } from 'Redux/Action/profileAction';
 
 FollowBtn.propTypes = {
   user: PropTypes.object,
@@ -10,8 +10,8 @@ FollowBtn.propTypes = {
 
 function FollowBtn({ user }) {
   const [followed, setFollowed] = useState(false);
-  const [requestFollows, setRequestFollows] = useState(false);
-  const { auth, profile, request, socket } = useSelector((state) => state);
+  const [request, setRequest] = useState(false);
+  const { auth, profile, socket } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,17 +20,6 @@ function FollowBtn({ user }) {
     }
     return () => setFollowed(false);
   }, [auth.user.following, user._id]);
-
-  useEffect(() => {
-    // if (request.find((item) => item.senderId === auth.user._id) && request.find((item) => item.recipientId === user._id)) {
-    //   setRequestFollow(true);
-    // }
-    request.forEach(item => {
-      if(item.senderId === auth.user._id && item.recipientId === user._id){
-        setRequestFollows(true);
-      }
-    });
-  }, [request, auth.user, user._id])
 
   // useEffect(() => {
   //   if (user.isPrivate) {
@@ -41,9 +30,9 @@ function FollowBtn({ user }) {
 
   const handleFollow = () => {
     if (user.isPrivate) {
-      setRequestFollows(true);
+      setRequest(true);
       const data = { senderId: auth.user._id, recipientId: user._id };
-      dispatch(requestFollow({ data, user, auth, socket }));
+      dispatch(requestFollow({ data, users: profile.users, user, auth, socket }));
     } else {
       setFollowed(true);
       dispatch(
@@ -68,21 +57,11 @@ function FollowBtn({ user }) {
     );
   };
 
-  const handleUnRequest = () => {
-    setRequestFollows(false);
-    const data = { senderId: auth.user._id, recipientId: user._id };
-    dispatch(cancelRequest({data, auth}))
-  }
-
   return (
     <>
-      {requestFollows ? (
-        <Button onClick={handleUnRequest} className="btnEdit" variant="outlined">
-          Request
-        </Button>
-      ) : followed ? (
+      {request ? (
         <Button onClick={handleUnFollow} className="btnEdit" variant="outlined">
-          UnFollow
+          Request
         </Button>
       ) : (
         <Button onClick={handleFollow} className="btnEdit" variant="outlined">
