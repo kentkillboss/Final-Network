@@ -16,6 +16,7 @@ import call from 'Redux/Reducer/callReduce';
 import peer from 'Redux/Reducer/peerReduce';
 import admin from 'Redux/Reducer/adminReduce';
 import noteList from 'Redux/Reducer/noteReduce';
+import request from 'Redux/Reducer/requestReduce';
 
 export default combineReducers({
   auth,
@@ -35,4 +36,5 @@ export default combineReducers({
   peer,
   admin,
   noteList,
+  request
 });

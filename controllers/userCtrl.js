@@ -295,13 +295,54 @@ const userCtrl = {
           return res.status(404).json({msg: 'Wrong password!'});
         }
     })
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  getPendingFollows: async (req, res) => {
+    try {
+      const user = await pendingFollow.find({});
+
+      res.json({msg: 'get request user success',
+      requestFollow: user
+      })
+
       
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  cancelRequest: async (req, res) => {
+    const {senderId, recipientId} = req.body;
+    try {
+      const pFollow = await pendingFollow.findOne({ senderId, recipientId });
+      const Notifies = await Notify.findOne({ user: senderId, request: true, recipients: {$in: [recipientId]} });
+      
+      await pFollow.remove();
+      await Notifies.remove();
+
+      res.json({msg: 'Đã huỷ yêu cầu!'})
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
+  unAcceptFollow: async (req, res) => {
+    const {id, notifyId} = req.body;
     
+    try {
+      const pFollow = await pendingFollow.findById(id);
+
+      const notify = await Notify.findById(notifyId);
+
+      await pFollow.remove();
+      await notify.remove();
+
+      res.json({ msg: 'Không chấp nhận yêu cầu' });
 
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
-  }
+  },
 };
 
 module.exports = userCtrl;

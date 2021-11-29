@@ -11,7 +11,8 @@ export const GLOBALTYPES = {
   CALL: 'CALL',
   PEER: 'PEER',
   CHECK_ON_OFF: 'CHECK_ON_OFF',
-  UPDATE_USER: 'UPDATE_USER'
+  UPDATE_USER: 'UPDATE_USER',
+  REQUEST: 'REQUEST'
 };
 
 export const EditData = (data, id, post) => {

@@ -82,6 +82,7 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
     }
   }, [id, auth, dispatch, profile.users]);
 
+
   const handleLinkMessage = (user) => {
     dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
     return history.push(`/message/${user._id}`);

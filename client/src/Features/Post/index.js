@@ -30,12 +30,12 @@ function Post(props) {
       {post.length === 0 && <Loader />}
       {post.map((item) => (
         <Grid container style={{ justifyContent: 'center', backgroundColor: theme ? '#dbdad9' : '#ffffff' }}>
-          <Grid item xs={12} sm={8}>
+          <Grid item lg={8} md={8} xs={12} sm={12}>
             <Card key={item._id} style={{ margin: '0', marginBottom: '25px' }}>
               <PostBody post={item} />
             </Card>
           </Grid>
-          <Grid item xs={0} sm={4} style={{ overflowY: 'scroll', maxHeight: '87vh' }}>
+          <Grid item lg={4} md={4} xs={0} sm={0} style={{ overflowY: 'scroll', maxHeight: '87vh' }}>
             <PostContent post={item} />
 
             <PostFooter post={item} />

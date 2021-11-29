@@ -15,7 +15,7 @@ import Peer from 'peerjs';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { refreshToken } from 'Redux/Action/authAction';
+import { getRequest, refreshToken } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
 import { getNotifies } from 'Redux/Action/notifyAction';
 import { getAllPosts, getPosts } from 'Redux/Action/postAction';
@@ -51,6 +51,7 @@ function App() {
       dispatch(getUserActions(auth.token));
       dispatch(getNotifies(auth.token));
       dispatch(getAllPosts(auth.token));
+      dispatch(getRequest(auth.token));
     }
   }, [dispatch, auth.token]);
 

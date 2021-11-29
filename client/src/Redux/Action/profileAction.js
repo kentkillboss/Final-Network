@@ -1,7 +1,7 @@
 import { getDataAPI, patchDataAPI, postDataAPI } from 'api/fetchData';
 import { GLOBALTYPES, DeleteData } from 'Redux/Action/globalTypes';
 import { imageUpload } from 'utils/imageUpload';
-import { createNotify, removeNotify } from './notifyAction';
+import { createNotify, NOTIFY_TYPES, removeNotify } from './notifyAction';
 
 export const PROFILE_TYPES = {
   LOADING: 'LOADING_PROFILE',
@@ -282,6 +282,23 @@ export const requestFollow =
       };
 
       dispatch(createNotify({ msg, auth, socket }));
+      
+      dispatch({type: NOTIFY_TYPES.REMOVE_NOTIFY, payload: {id}})
+    } catch (error) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: error.response.data.msg },
+      });
+    }
+  };
+
+  export const unAcceptFollow = ({id, notifyId, senderId, auth, socket}) => async (dispatch) => {
+    const data = {id, notifyId};
+    
+    try {
+      await postDataAPI(`unAcceptFollow`, data, auth.token);
+
+      dispatch({type: NOTIFY_TYPES.REMOVE_NOTIFY, payload: {id}})
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
@@ -314,4 +331,19 @@ export const requestFollow =
     }
     
   
+  };
+
+  export const cancelRequest =
+  ({data, auth}) =>
+  async (dispatch) => {
+
+    try {
+      await postDataAPI(`cancelRequest`, data, auth.token);
+
+    } catch (error) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: error.response.data.msg },
+      });
+    }
   };

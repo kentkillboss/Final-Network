@@ -100,12 +100,12 @@ const useStyles = makeStyles((theme) => ({
     color: '#ffff',
   },
   searchButton: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
   cancel: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
     alignItems: 'center',
