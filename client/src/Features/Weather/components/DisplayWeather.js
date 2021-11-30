@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import 'weather-icons/css/weather-icons.css';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -27,37 +28,46 @@ const useStyles = makeStyles((theme) => ({
   section: {
     display: 'flex',
     justifyContent: 'space-around',
-    marginTop: '67px',
+    marginTop: '60px',
   },
 }));
 
-function DisplayWeather({ weather }) {
+function DisplayWeather({ weather, icon }) {
   const classes = useStyles();
   return (
     <div className={classes.card}>
       <Box>
         <Typography variant="h4">
-          {weather.location}, {weather.country}
+          {weather.city}, {weather.country}
         </Typography>
         <Box className={classes.temperature}>
           <Typography variant="h2" style={{ marginRight: '50px' }}>
-            {weather.temperature}
+            {weather.celsius}
             <sup>o</sup>C
           </Typography>
-          <img src={weather.img} alt="weather-img" width="18%" style={{ borderRadius: '50%' }} />
+          <i className={`wi ${icon}`} style={{ fontSize: '63px' }}></i>
         </Box>
-        <Typography variant="h5">{weather.description}</Typography>
       </Box>
+      <span style={{ marginRight: '10px', fontSize: '17px' }}>
+        Max: {weather.temp_max}
+        <sup>o</sup>C
+      </span>
+      <span style={{ fontSize: '17px' }}>
+        Min: {weather.temp_min} <sup>o</sup>C
+      </span>
+      <Typography style={{ fontWeight: '500' }} variant="h5">
+        {weather.description}
+      </Typography>
       <Box className={classes.section}>
         <Box>
           <Typography variant="h5">
             <b>Wind Speed</b> (km/h)
           </Typography>
-          <Typography variant="h4">{weather.wind_speed}</Typography>
+          <Typography variant="h4">{weather.wind}</Typography>
         </Box>
         <Box>
           <Typography variant="h5">
-            <b>Preassure</b>(millibar)
+            <b>Preassure</b>(mil)
           </Typography>
           <Typography variant="h4">{weather.pressure}</Typography>
         </Box>
@@ -65,9 +75,9 @@ function DisplayWeather({ weather }) {
       <Box className={classes.section}>
         <Box>
           <Typography variant="h5">
-            <b>Precipitation</b>(mm)
+            <b>Gust</b>
           </Typography>
-          <Typography variant="h4">{weather.precip}</Typography>
+          <Typography variant="h4">{weather.gust ? weather.gust : '...'}</Typography>
         </Box>
         <Box>
           <Typography variant="h5">
