@@ -32,6 +32,7 @@ import MessageDisplay from '../messageDisplay/meChat';
 import MessageDisplayOther from '../messageDisplay/otherChat';
 import fileIcon from 'images/file.png';
 import AttachFileRoundedIcon from '@material-ui/icons/AttachFileRounded';
+import './isTyping.scss';
 const useStyles = makeStyles((theme) => ({
   container: {
     height: 'calc(100vh - 200px)',
@@ -91,6 +92,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(1),
     backgroundColor: '#e1e7eb',
   },
+  isTyping: {
+    position: 'absolute',
+    bottom: 73,
+  },
 }));
 
 function RightSide(props) {
@@ -111,6 +116,7 @@ function RightSide(props) {
   const [result, setResult] = useState(9);
   const [page, setPage] = useState(0);
   const [isLoadMore, setIsLoadMore] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
     const newData = message.data.find((item) => item._id === id);
@@ -283,6 +289,33 @@ function RightSide(props) {
   const handleClick = (event) => {
     setShowIcon(event.currentTarget);
   };
+  const typingref = useRef();
+  const handleChange = (e) => {
+    setText(e.target.value);
+    if (typingref.current) {
+      clearTimeout(typingref.current);
+    }
+    typingref.current = setTimeout(() => {
+      setText(e.target.value);
+    }, 300);
+    // setIsTyping(true);
+    socket.emit('typing', 'nhap');
+  };
+  const handleTyping = () => {
+    // setTimeout(() => {
+    //   setIsTyping(false);
+    // }, 2000);
+    if (typingref.current) {
+      clearTimeout(typingref.current);
+    }
+    typingref.current = setTimeout(() => {
+      setIsTyping(false);
+    }, 300);
+  };
+  socket.on('typing', (data) => {
+    setIsTyping(true);
+    handleTyping();
+  });
 
   return (
     <>
@@ -358,12 +391,22 @@ function RightSide(props) {
               ))}
             </ImageList>
           </Box>
+          {isTyping && (
+            <div className={classes.isTyping}>
+              <div className="typing-indicator">
+                <span className="span"></span>
+                <span className="span"></span>
+                <span className="span"></span>
+              </div>
+            </div>
+          )}
         </Box>
+        {/* className={classes.isTyping} */}
         <form onSubmit={handleSubmit}>
           <Box className={classes.box}>
             <Input
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={handleChange}
               fullWidth
               disableUnderline
               placeholder="Nhập nội dung..."

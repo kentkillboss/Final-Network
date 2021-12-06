@@ -49,6 +49,12 @@ const SocketServer = (socket) => {
     }
   });
 
+  //
+
+  socket.on("typing", () => {
+    socket.broadcast.emit("typing", "nhap");
+  });
+
   //unLike
   socket.on("unLikePost", (newPost) => {
     const ids = [...newPost.user.followers, newPost.user._id];
