@@ -104,13 +104,11 @@ const SocketServer = (socket) => {
   });
   socket.on("removeNotify", (msg) => {
     const client = users.find((user) => msg.recipients.includes(user.id));
-    console.log(client);
     client && socket.to(`${client.socketId}`).emit("removeNotifyToClient", msg);
   });
 
   //Message
   socket.on("addMessage", (msg) => {
-    console.log(msg);
     const user = users.find((user) => user.id === msg.recipient);
     user && socket.to(`${user.socketId}`).emit("addMessageToClient", msg);
   });
@@ -152,7 +150,6 @@ const SocketServer = (socket) => {
   });
 
   socket.on("endCall", (data) => {
-    console.log(data);
     const client = users.find((user) => user.id === data.sender);
 
     if (client) {

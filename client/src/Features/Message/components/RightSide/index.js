@@ -297,7 +297,7 @@ function RightSide(props) {
     }
     typingref.current = setTimeout(() => {
       setText(e.target.value);
-    }, 300);
+    }, 2000);
     // setIsTyping(true);
     socket.emit('typing', 'nhap');
   };
@@ -310,7 +310,7 @@ function RightSide(props) {
     }
     typingref.current = setTimeout(() => {
       setIsTyping(false);
-    }, 300);
+    }, 2000);
   };
   socket.on('typing', (data) => {
     setIsTyping(true);
