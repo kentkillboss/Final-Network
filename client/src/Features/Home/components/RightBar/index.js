@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
   listitem: {
     padding: '10px 0',
-    
   },
   reload: {
     display: 'flex',
@@ -52,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   linkSuggestions: {
-    minWidth: '80%',
+    minWidth: '70%',
     textDecoration: 'none',
     color: 'black',
   },
@@ -88,21 +87,19 @@ function RightBar(props) {
       ) : (
         <List>
           {suggestions.users.map((user) => (
-            
-              <ListItem key={user._id} style={{ padding: 0 }}>
-                <Link className={classes.linkSuggestions} to={`/profile/${user._id}`}>
+            <ListItem key={user._id} style={{ padding: 0 }}>
+              <Link className={classes.linkSuggestions} to={`/profile/${user._id}`}>
                 <ListItem button className={classes.listitem}>
                   <ListItemAvatar>
                     <Avatar src={user.avatar} style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}></Avatar>
                   </ListItemAvatar>
                   <ListItemText primary={user.username} />
                 </ListItem>
-                </Link>
-                <IconButton size="small" edge="end" style={{ padding: '0px' }}>
-                  {auth.user._id !== user._id && <FollowBtn user={user} />}
-                </IconButton>
-              </ListItem>
-            
+              </Link>
+              <IconButton size="small" edge="end" style={{ padding: '0px' }}>
+                {auth.user._id !== user._id && <FollowBtn user={user} />}
+              </IconButton>
+            </ListItem>
           ))}
         </List>
       )}
