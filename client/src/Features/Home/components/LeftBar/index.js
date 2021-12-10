@@ -15,10 +15,11 @@ const useStyles = makeStyles((theme) => ({
   container: {
     height: 'calc(100vh - 65px)',
     color: 'white',
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
     backgroundColor: '#f0f2f5',
     position: 'sticky',
     top: theme.spacing(8),
+    overflow: 'scroll'
   },
   item: {
     display: 'flex',
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       paddingBottom: theme.spacing(1.5),
       paddingTop: theme.spacing(1.5),
-      paddingLeft: theme.spacing(1),
+      // paddingLeft: theme.spacing(1),
       cursor: 'pointer',
       '&:hover': {
         borderRadius: '5px',
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(1),
     // fontSize: '35px',
-    width: '40px',
+    width: '35px',
     // [theme.breakpoints.down('sm')]: {
     //   fontSize: '18px',
     //   color: '#fff',
@@ -109,7 +110,7 @@ function LeftBar(props) {
   return (
     <div className={classes.container} style={{ backgroundColor: theme ? '#e7e6e5' : '' }}>
       {/* <Particles params={particlesConfig} height="100vh" width="25%" style={{ position: 'fixed' }}></Particles> */}
-      <Container style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
+      <Container style={{ filter: theme ? 'invert(1)' : 'invert(0)', paddingLeft: '10px', paddingRight: '10px' }}>
         {navLinkItem.map((link, index) => (
           <NavLink exact activeStyle={isActive} key={index} to={link.path} className={classes.navbarlink}>
             <div className={classes.item}>

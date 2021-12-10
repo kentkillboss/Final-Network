@@ -4,7 +4,7 @@
 }
 ::-webkit-scrollbar-track {
   /* background: #f0f2f5; */
-  background: #ffffff;
+  background: #f0f2f5;
 }
 ::-webkit-scrollbar-thumb {
   background-image: linear-gradient(rgb(151, 151, 151), grey);

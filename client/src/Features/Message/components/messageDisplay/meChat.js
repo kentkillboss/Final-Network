@@ -63,7 +63,9 @@ const useStyles = makeStyles((theme) => ({
   deleteIcon: {
     cursor: 'pointer',
     opacity: 0,
-    marginRight: '10px',
+    position: 'absolute',
+    top: '27%',
+    right: '102%'
   },
   iconVideo: {
     display: 'flex',
@@ -74,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
   boxContent: {
     display: 'flex',
     justifyContent: 'flex-end',
+    position: 'relative',
   },
   boxFlex: {
     '&:hover $deleteIcon': {
