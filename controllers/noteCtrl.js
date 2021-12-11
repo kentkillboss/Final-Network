@@ -116,24 +116,8 @@ const noteCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
-  noti: async (req, res) => {
-    try {
-      await Notes.findOneAndUpdate(
-        { _id: req.params.id },
-        {
-          notification: true,
-        }
-      );
-      res.json({
-        msg: "Update Notes",
-      });
-    } catch (error) {
-      return res.status(500).json({ msg: error.message });
-    }
-  },
   unNoti: async (req, res) => {
     try {
-      console.log(req.params);
       const note = await Notes.findOneAndUpdate(
         { _id: req.params.id },
         {

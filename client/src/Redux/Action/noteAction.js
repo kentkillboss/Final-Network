@@ -108,7 +108,7 @@ export const notifiNote =
   ({ item, auth }) =>
   async (dispatch) => {
     try {
-      await postDataAPI(`untoggle/${item._id}`);
+      await postDataAPI(`untoggle/${item._id}`, auth.token);
 
       const msg = {
         id: item._id,
@@ -116,11 +116,7 @@ export const notifiNote =
         recipients: [auth.user._id],
         url: '/notes',
       };
-      console.log('aaaaaaaaaa');
-      const res = await postDataAPI('notifiNote', msg, auth.token);
-      console.log('aaaaaaaabvbbbaa');
-
-      console.log(res);
+      await postDataAPI('notifiNote', msg, auth.token);
     } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,

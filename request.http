@@ -21,3 +21,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTIyNTQyY
 POST http://localhost:5000/api/untoggle/61b36fd998fe5afb098fdf6f
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYTRkMDEyZGNhNWQ4ZjQwZDdlYzc3ZCIsImlhdCI6MTYzOTE1MjM5NCwiZXhwIjoxNjM5MjM4Nzk0fQ.zYJfMdV5V3EdXY-16vc9kLaF-s_qquZwAdGIRubdeCo
+
+###
+
+POST http://localhost:5000/api/deleteMessage
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYTRkMDEyZGNhNWQ4ZjQwZDdlYzc3ZCIsImlhdCI6MTYzOTIxMjY0MywiZXhwIjoxNjM5Mjk5MDQzfQ.xaNcC-h-0aeGHy5igV_rA67mFwabq_uluWDUuVqPImM
+
+{
+    "sender": "61a4d3f1dca5d8f40d7ec91c",
+    "recipient": "61a4d012dca5d8f40d7ec77d",
+    "text": "111",
+    "media": []
+}
