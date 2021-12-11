@@ -16,4 +16,8 @@ Content-Type: application/json
 GET http://localhost:5000/api/posts
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOTIyNTQyYTBjYjg1ZjcyZTVjYTAwYyIsImlhdCI6MTYzNzU1NTE2MCwiZXhwIjoxNjM3NjQxNTYwfQ.QBTKYetkp0x_20JA5a2iPIgSq8Ib9ahcndbY0CvZghI
+###
 
+POST http://localhost:5000/api/untoggle/61b36fd998fe5afb098fdf6f
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYTRkMDEyZGNhNWQ4ZjQwZDdlYzc3ZCIsImlhdCI6MTYzOTE1MjM5NCwiZXhwIjoxNjM5MjM4Nzk0fQ.zYJfMdV5V3EdXY-16vc9kLaF-s_qquZwAdGIRubdeCo

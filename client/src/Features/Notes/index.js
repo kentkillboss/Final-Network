@@ -1,3 +1,4 @@
+import DateFnsUtils from '@date-io/date-fns';
 import {
   Accordion,
   AccordionDetails,
@@ -7,6 +8,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogTitle,
   FormControl,
   IconButton,
   InputLabel,
@@ -16,14 +18,17 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 import { Close } from '@material-ui/icons';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createNote, deleteNote, getNotes } from 'Redux/Action/noteAction';
+import { createNote, deleteNote, getNotes, notifiNote } from 'Redux/Action/noteAction';
 import EditNote from './components/EditNote';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +94,11 @@ function Notes(props) {
   const { title, content, category } = userData;
   const [open, setOpen] = React.useState(false);
   const [editNote, setEditNote] = useState(false);
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   useEffect(() => {
     dispatch(getNotes(auth.token));
   }, [auth.token, dispatch]);
@@ -106,7 +115,7 @@ function Notes(props) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createNote({ userData, auth }));
+    dispatch(createNote({ userData, selectedDate, auth }));
     const { title, content, category } = userData;
     if (!title || !content || !category) return;
     setOpen(false);
@@ -117,6 +126,24 @@ function Notes(props) {
       dispatch(deleteNote({ id, auth }));
       //   history.push('/');
     }
+  };
+  const toDay = new Date();
+  const date2 = toDay.getDate() + '-' + (toDay.getMonth() + 1) + '-' + toDay.getFullYear();
+  useEffect(() => {
+    noteList.notes.forEach((item) => {
+      if (item.notification === true) {
+        const tmp = new Date(item.timer);
+        const date = tmp.getDate() + '-' + (tmp.getMonth() + 1) + '-' + tmp.getFullYear();
+        if (date === date2) {
+          dispatch(notifiNote({ item, auth }));
+        }
+      }
+    });
+  }, [noteList, date2, auth, dispatch]);
+
+  const converTimer = (date) => {
+    const toDay = new Date(date);
+    return toDay.toLocaleString();
   };
 
   return (
@@ -135,7 +162,10 @@ function Notes(props) {
                 id="panel1a-header"
               >
                 <Typography className={classes.heading}>{item.title}</Typography>
-                <Typography className={classes.secondaryHeading}>{item.category}</Typography>
+                <Typography className={classes.secondaryHeading}>
+                  <b>{item.category}</b>
+                  {` - Ngày đến hạn: ${converTimer(item.timer)}`}
+                </Typography>
               </AccordionSummary>
               <AccordionDetails style={{ backgroundColor: '#F9F8EB' }}>
                 <Typography style={{ textAlign: 'left' }}>{item.content}</Typography>
@@ -173,8 +203,11 @@ function Notes(props) {
         <IconButton onClick={handleClose} className={classes.close}>
           <Close />
         </IconButton>
+        <DialogTitle id="alert-dialog-title" style={{ paddingBottom: '0' }}>
+          {'Tạo mới ghi chú'}
+        </DialogTitle>
         <form onSubmit={handleSubmit}>
-          <DialogContent className={classes.conten}>
+          <DialogContent className={classes.conten} style={{ paddingTop: '10px' }}>
             <FormControl fullWidth margin="normal" variant="outlined" style={{ marginTop: '30px', marginBottom: 0 }}>
               <InputLabel htmlFor="outlined-adornment-password">Title</InputLabel>
               <OutlinedInput
@@ -213,6 +246,31 @@ function Notes(props) {
               value={category}
               onChange={handleInput}
             />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justifyContent="space-around">
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  label="Date picker dialog"
+                  format="MM/dd/yyyy"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+                <KeyboardTimePicker
+                  margin="normal"
+                  id="time-picker"
+                  label="Time picker"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change time',
+                  }}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
             <Button disabled={alert.loading} color="primary" mg={1} type="submit" fullWidth variant="contained">

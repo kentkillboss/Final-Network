@@ -17,7 +17,7 @@ class APIfeatures {
 const noteCtrl = {
   createNote: async (req, res) => {
     try {
-      const { title, content, category } = req.body;
+      const { title, content, category, selectedDate } = req.body;
 
       if (!title || !content || !category) {
         return res.status(400).json({ msg: "Hãy nhập đầy đủ các trường" });
@@ -27,6 +27,7 @@ const noteCtrl = {
         title,
         content,
         category,
+        timer: selectedDate,
         user: req.user._id,
       });
 
@@ -73,13 +74,14 @@ const noteCtrl = {
   },
   updateNote: async (req, res) => {
     try {
-      const { title, content, category } = req.body;
+      const { title, content, category, selectedDate } = req.body;
       const note = await Notes.findOneAndUpdate(
         { _id: req.params.id },
         {
           title,
           content,
           category,
+          timer: selectedDate,
         }
       );
       res.json({
@@ -89,6 +91,7 @@ const noteCtrl = {
           title,
           content,
           category,
+          timer: selectedDate,
         },
       });
     } catch (error) {
@@ -108,6 +111,37 @@ const noteCtrl = {
           ...note,
           user: req.user,
         },
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  noti: async (req, res) => {
+    try {
+      await Notes.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          notification: true,
+        }
+      );
+      res.json({
+        msg: "Update Notes",
+      });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  unNoti: async (req, res) => {
+    try {
+      console.log(req.params);
+      const note = await Notes.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          notification: false,
+        }
+      );
+      res.json({
+        msg: "Update Notes",
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

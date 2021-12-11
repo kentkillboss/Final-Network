@@ -14,6 +14,13 @@ const noteSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    timer: {
+      type: Date,
+    },
+    notification: {
+      type: Boolean,
+      default: true,
+    },
     user: { type: mongoose.Types.ObjectId, ref: "user" },
   },
   {

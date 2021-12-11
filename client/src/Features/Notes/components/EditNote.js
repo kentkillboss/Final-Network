@@ -14,6 +14,10 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getNoteById, updateNote } from 'Redux/Action/noteAction';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import 'date-fns';
 const useStyles = makeStyles((theme) => ({
   textfield: {
     marginBottom: theme.spacing(1),
@@ -48,9 +52,16 @@ function EditNote({ setEditNote }) {
     title: '...',
     content: '...',
     category: '...',
+    timer: '...',
   };
   const [userData, setUserData] = useState(inititalState);
-  const { title, content, category } = userData;
+  const { title, content, category, timer } = userData;
+
+  const [selectedDate, setSelectedDate] = React.useState();
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   useEffect(() => {
     setUserData(noteList.noteId);
   }, [noteList.noteId]);
@@ -68,7 +79,7 @@ function EditNote({ setEditNote }) {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateNote({ id, userData, auth }));
+    dispatch(updateNote({ id, userData, selectedDate, auth }));
   };
   return (
     <div>
@@ -113,6 +124,31 @@ function EditNote({ setEditNote }) {
               value={category ? category : ' '}
               onChange={handleInput}
             />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justifyContent="space-around">
+                <KeyboardDatePicker
+                  margin="normal"
+                  id="date-picker-dialog"
+                  label="Date picker dialog"
+                  format="MM/dd/yyyy"
+                  value={selectedDate ? selectedDate : timer}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                />
+                <KeyboardTimePicker
+                  margin="normal"
+                  id="time-picker"
+                  label="Time picker"
+                  value={selectedDate ? selectedDate : timer}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change time',
+                  }}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
             <Button disabled={alert.loading} color="primary" mg={1} type="submit" fullWidth variant="contained">

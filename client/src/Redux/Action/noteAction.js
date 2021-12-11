@@ -1,5 +1,6 @@
 import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from 'api/fetchData';
 import { GLOBALTYPES } from './globalTypes';
+import { createNotify } from './notifyAction';
 
 export const NOTE_TYPES = {
   GET_NOTES: 'GET_NOTES',
@@ -10,16 +11,15 @@ export const NOTE_TYPES = {
 };
 
 export const createNote =
-  ({ userData, auth }) =>
+  ({ userData, selectedDate, auth }) =>
   async (dispatch) => {
     try {
       const { title, content, category } = userData;
       dispatch({
         type: GLOBALTYPES.ALERTPOST,
-
         payload: { loadingg: true },
       });
-      const res = await postDataAPI('notes', { title, content, category }, auth.token);
+      const res = await postDataAPI('notes', { title, content, category, selectedDate }, auth.token);
       console.log(res);
       dispatch({ type: NOTE_TYPES.CREATE_NOTE, payload: { ...res.data.newNote, user: auth.user } });
       dispatch({
@@ -67,11 +67,11 @@ export const getNoteById = (id, token) => async (dispatch) => {
 };
 
 export const updateNote =
-  ({ id, userData, auth }) =>
+  ({ id, userData, selectedDate, auth }) =>
   async (dispatch) => {
     try {
       const { title, content, category } = userData;
-      const res = await patchDataAPI(`note/${id}`, { title, content, category }, auth.token);
+      const res = await patchDataAPI(`note/${id}`, { title, content, category, selectedDate }, auth.token);
       console.log(res);
       dispatch({
         type: NOTE_TYPES.UPDATE_NOTE,
@@ -97,6 +97,31 @@ export const deleteNote =
         payload: res.data.newNote,
       });
     } catch (err) {
+      dispatch({
+        type: GLOBALTYPES.ALERT,
+        payload: { error: 'Faild' },
+      });
+    }
+  };
+
+export const notifiNote =
+  ({ item, auth }) =>
+  async (dispatch) => {
+    try {
+      await postDataAPI(`untoggle/${item._id}`);
+
+      const msg = {
+        id: item._id,
+        text: `Nhắc nhở: ${item.title}`,
+        recipients: [auth.user._id],
+        url: '/notes',
+      };
+      console.log('aaaaaaaaaa');
+      const res = await postDataAPI('notifiNote', msg, auth.token);
+      console.log('aaaaaaaabvbbbaa');
+
+      console.log(res);
+    } catch (error) {
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: { error: 'Faild' },
