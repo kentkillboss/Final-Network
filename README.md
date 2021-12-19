@@ -8,10 +8,8 @@
 
 - `Tác giả`: [https://github.com/kentkillboss](https://github.com/kentkillboss)
 - `Tác giả`: [https://github.com/nyrmal](https://github.com/nyrmal)
-
-
-
-
+- `Facebook`: [https://www.facebook.com/](https://www.facebook.com/)
+- `Youtube`: [https://www.youtube.com/](https://www.youtube.com/)
 ## Cài đặt
 
 - `Bước 1`: Clone project
