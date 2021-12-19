@@ -4,7 +4,7 @@
 
 # Demo: [https://dulcie-network.herokuapp.com/](https://dulcie-network.herokuapp.com/)
 
-## Làm việc <a href="https://github.com/kentkillboss/Final-Network"><img align="left" width="auto" height="200" src="https://res.cloudinary.com/kimwy/image/upload/v1598840300/easyfrontend/programming_hgngx9.png"></a>
+## Làm việc <a href="https://github.com/kentkillboss/Final-Network"><img align="left" width="auto" height="170" src="https://res.cloudinary.com/kimwy/image/upload/v1598840300/easyfrontend/programming_hgngx9.png"></a>
 
 - `Tác giả`: [https://github.com/kentkillboss](https://github.com/kentkillboss)
 - `Tác giả`: [https://github.com/nyrmal](https://github.com/nyrmal)
