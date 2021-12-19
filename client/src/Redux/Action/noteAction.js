@@ -1,6 +1,5 @@
 import { deleteDataAPI, getDataAPI, patchDataAPI, postDataAPI } from 'api/fetchData';
 import { GLOBALTYPES } from './globalTypes';
-import { createNotify } from './notifyAction';
 
 export const NOTE_TYPES = {
   GET_NOTES: 'GET_NOTES',
@@ -108,7 +107,7 @@ export const notifiNote =
   ({ item, auth }) =>
   async (dispatch) => {
     try {
-      await postDataAPI(`untoggle/${item._id}`, auth.token);
+      await postDataAPI(`untoggle/${item._id}`);
 
       const msg = {
         id: item._id,

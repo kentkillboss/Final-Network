@@ -28,7 +28,7 @@
     "nodemailer": "^6.7.0",
     "peer": "^0.6.1",
     "socket.io": "^4.2.0",
-    "weather-icons": "git+https://github.com/erikflowers/weather-icons.git"
+    "weather-icons": "https://github.com/erikflowers/weather-icons.git"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
