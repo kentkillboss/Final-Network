@@ -14,17 +14,17 @@ const authCtrl = {
 
       const user_name = await Users.findOne({ username });
       if (user_name)
-        return res.status(400).json({ msg: "User name already exists." });
+        return res.status(400).json({ msg: "Biệt danh đã tồn tại." });
 
       const user_email = await Users.findOne({ email });
       const pUser = await PendingUser.findOne({ email });
       if (pUser || user_email)
-        return res.status(400).json({ msg: "Email already exists." });
+        return res.status(400).json({ msg: "Email đã tồn tại." });
 
       if (password.length < 6)
         return res
           .status(400)
-          .json({ msg: "Password must be at least 6 characters." });
+          .json({ msg: "Mật khẩu phải trên 6 ký tự." });
       // ma hoa pass
       const passwordHash = await bcrypt.hash(password, 12);
 
@@ -54,7 +54,7 @@ const authCtrl = {
       await sendConfirmationEmail({ toUser: newUser, hash: newUser._id });
 
       res.json({
-        msg: "Please visit your email address and active your account!",
+        msg: "Vui lòng xác nhận tài khoản tại Email vừa nhập!",
         // access_token,
         // user: {
         //   ...newUser._doc,
@@ -74,14 +74,14 @@ const authCtrl = {
       );
 
       if (!user)
-        return res.status(400).json({ msg: "This email does not exist." });
+        return res.status(400).json({ msg: "Email này không tồn tại." });
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch)
-        return res.status(400).json({ msg: "Password is incorrect." });
+        return res.status(400).json({ msg: "Mật khẩu không đúng." });
 
       if (user.isBan === true)
-        return res.status(400).json({ msg: "Your account has been banned." });
+        return res.status(400).json({ msg: "Tài khoản của bạn đã bị cấm." });
 
       const access_token = createAccessToken({ id: user._id });
       const refresh_token = createRefreshToken({ id: user._id });
@@ -92,7 +92,7 @@ const authCtrl = {
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30day
       });
       res.json({
-        msg: "Login Successfully!",
+        msg: "Đăng nhập thành công!",
         access_token,
         user: {
           ...user._doc,
@@ -106,7 +106,7 @@ const authCtrl = {
   logout: async (req, res) => {
     try {
       res.clearCookie("refreshtoken", { path: "/api/refresh_token" });
-      return res.json({ msg: "Logged out!" });
+      return res.json({ msg: "Đăng xuất!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -114,13 +114,13 @@ const authCtrl = {
   generateAccessToken: async (req, res) => {
     try {
       const rf_token = req.cookies.refreshtoken;
-      if (!rf_token) return res.status(400).json({ msg: "Please login now." });
+      if (!rf_token) return res.status(400).json({ msg: "Vui lòng đăng nhập." });
 
       jwt.verify(
         rf_token,
         process.env.REFRESH_TOKEN_SECRET,
         async (err, result) => {
-          if (err) return res.status(400).json({ msg: "Please login now." });
+          if (err) return res.status(400).json({ msg: "Vui lòng đăng nhập." });
 
           const user = await Users.findById(result.id)
             .select("-password")
@@ -130,7 +130,7 @@ const authCtrl = {
             );
 
           if (!user)
-            return res.status(400).json({ msg: "This does not exist." });
+            return res.status(400).json({ msg: "Người dùng không tồn tại." });
 
           const access_token = createAccessToken({ id: result.id });
 
@@ -161,7 +161,7 @@ const authCtrl = {
       await newUser.save();
       await user.remove();
 
-      res.json({ msg: `User ${id} has been activated` });
+      res.json({ msg: `Người dùng ${id} đã được kích hoạt` });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -172,12 +172,12 @@ const authCtrl = {
       try {
         const user = await Users.findOne({ email });
  
-        if(!user) return res.status(400).json({ msg: "This user does not exist." });
+        if(!user) return res.status(400).json({ msg: "Người dùng không tồn tại." });
 
         const hasHash = await ResetPw.findOne({userId: user._id});
         
         if(hasHash){
-          return res.status(400).json({ msg: "Email to reset password already send." });
+          return res.status(400).json({ msg: "Email yêu cầu đổi mật khẩu đã được gửi trước đó." });
         } 
 
         const hash = new ResetPw({userId: user._id});
@@ -186,7 +186,7 @@ const authCtrl = {
 
         await sendResetPassword({ toUser: user, hash: hash._id });
 
-        res.json({msg: "Please check your email to reset password."})
+        res.json({msg: "Vui lòng kiếm tra Email để đổi mật khẩu."})
       } catch (err) {
         return res.status(500).json({ msg: err.message });
       }
@@ -198,7 +198,7 @@ const authCtrl = {
     try {
       const aHash = await ResetPw.findOne({_id: id});
       if (!aHash || !aHash.userId) {
-        return res.status(404).json({msg: 'Cannot reset a password!'});
+        return res.status(404).json({msg: 'Không thể đổi mật khẩu!'});
       }
 
       const passwordHash = await bcrypt.hash(password, 12);
@@ -210,7 +210,7 @@ const authCtrl = {
         }
       );
       await aHash.remove();
-      res.json({ msg: "Update Success!" });
+      res.json({ msg: "Cập nhập thành công!" });
 
       // const user = await Users.findOne({_id: aHash.userId});
       // if (!user) {

@@ -34,9 +34,11 @@ import Weather from 'Features/Weather/index';
 import Covid from 'Features/Covid';
 import Notes from 'Features/Notes';
 import LeftBar from 'Features/Home/components/LeftBar';
+import { logout } from 'Redux/Action/authAction';
+import { notifiNote } from 'Redux/Action/noteAction';
 
 function App() {
-  const { auth, status, call } = useSelector((state) => state);
+  const { auth, status, call, noteList } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshToken());
@@ -75,6 +77,27 @@ function App() {
 
     dispatch({ type: GLOBALTYPES.PEER, payload: newPeer });
   }, [dispatch]);
+
+  useEffect(() => {
+    if(auth.user.isBan) {
+      dispatch(logout());
+    }
+    
+  }, [auth.user.isBan, dispatch])
+
+  const toDay = new Date();
+  const date2 = toDay.getDate() + '-' + (toDay.getMonth() + 1) + '-' + toDay.getFullYear();
+  useEffect(() => {
+    noteList.notes.forEach((item) => {
+      if (item.notification === true) {
+        const tmp = new Date(item.timer);
+        const date = tmp.getDate() + '-' + (tmp.getMonth() + 1) + '-' + tmp.getFullYear();
+        if (date === date2) {
+          dispatch(notifiNote({ item, auth }));
+        }
+      }
+    });
+  }, [noteList, date2, auth, dispatch]);
 
   return (
     <>

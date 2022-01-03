@@ -46,6 +46,7 @@ const columns = [
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    position: 'relative',
   },
   container: {
     maxHeight: 440,
@@ -58,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     width: '54px',
-    right: '63%',
-    top: '22.5%',
+    left: '180px',
+    top: '5px',
     cursor: 'pointer',
     color: '#577875',
     [theme.breakpoints.down('sm')]: {

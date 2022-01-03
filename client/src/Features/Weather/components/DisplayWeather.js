@@ -38,7 +38,7 @@ function DisplayWeather({ weather, icon }) {
     <div className={classes.card}>
       <Box>
         <Typography variant="h4">
-          {weather.city}, {weather.country}
+          {weather.city === 'Turan' ? 'Da Nang' : weather.city}, {weather.country}         
         </Typography>
         <Box className={classes.temperature}>
           <Typography variant="h2" style={{ marginRight: '50px' }}>
@@ -49,11 +49,11 @@ function DisplayWeather({ weather, icon }) {
         </Box>
       </Box>
       <span style={{ marginRight: '10px', fontSize: '17px' }}>
-        Max: {weather.temp_max}
+        Tối đa: {weather.temp_max}
         <sup>o</sup>C
       </span>
       <span style={{ fontSize: '17px' }}>
-        Min: {weather.temp_min} <sup>o</sup>C
+        Tối thiểu: {weather.temp_min} <sup>o</sup>C
       </span>
       <Typography style={{ fontWeight: '500' }} variant="h5">
         {weather.description}
@@ -61,13 +61,13 @@ function DisplayWeather({ weather, icon }) {
       <Box className={classes.section}>
         <Box>
           <Typography variant="h5">
-            <b>Wind Speed</b> (km/h)
+            <b>Tốc độ gió</b> (km/h)
           </Typography>
           <Typography variant="h4">{weather.wind}</Typography>
         </Box>
         <Box>
           <Typography variant="h5">
-            <b>Preassure</b>(mil)
+            <b>Áp suất</b>(mil)
           </Typography>
           <Typography variant="h4">{weather.pressure}</Typography>
         </Box>
@@ -75,13 +75,13 @@ function DisplayWeather({ weather, icon }) {
       <Box className={classes.section}>
         <Box>
           <Typography variant="h5">
-            <b>Gust</b>
+            <b>Gió giật</b>
           </Typography>
           <Typography variant="h4">{weather.gust ? weather.gust : '...'}</Typography>
         </Box>
         <Box>
           <Typography variant="h5">
-            <b>Humidity</b>(%)
+            <b>Độ ẩm</b>(%)
           </Typography>
           <Typography variant="h4">{weather.humidity}</Typography>
         </Box>

@@ -20,7 +20,7 @@ const adminReducer = (state = initialState, action) => {
                 users: action.payload.users,
                 result: action.payload.result,
             };
-        case ADMIN_TYPES.UPDATE_USER:
+        case ADMIN_TYPES.ADMIN_UPDATE_USER:
             return {
                 ...state,
                 users: EditData(state.users, action.payload._id, action.payload),

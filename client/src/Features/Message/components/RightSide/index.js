@@ -381,8 +381,8 @@ function RightSide(props) {
                     : img.type.includes('image/png') ||
                       img.type.includes('image/jpeg') ||
                       img.type.includes('image/gif')
-                    ? imageShow(URL.createObjectURL(img))
-                    : fileShow()}
+                      ? imageShow(URL.createObjectURL(img))
+                      : fileShow()}
 
                   <IconButton onClick={() => handleDeleteImages(index)} className={classes.cancel}>
                     <CancelIcon />

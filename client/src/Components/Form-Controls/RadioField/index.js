@@ -19,14 +19,14 @@ function RadioField(props) {
     <Controller
       rules={{ required: true }}
       control={form.control}
-      defaultValue="male"
+      defaultValue="nam"
       name={name}
       render={({ name, onBlur, onChange, value }) => {
         return (
           <RadioGroup row name={name} value={value} onBlur={onBlur} onChange={onChange}>
-            <FormControlLabel value="male" control={<Radio />} label="Male" />
-            <FormControlLabel value="female" control={<Radio />} label="Female" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
+            <FormControlLabel value="nam" control={<Radio />} label="Nam" />
+            <FormControlLabel value="nữ" control={<Radio />} label="Nữ" />
+            <FormControlLabel value="khác" control={<Radio />} label="Khác" />
           </RadioGroup>
         );
       }}

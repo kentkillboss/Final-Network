@@ -49,7 +49,7 @@ const messageCtrl = {
 
       await newMessage.save();
 
-      res.json({ msg: "Create success" });
+      res.json({ msg: "Tạo thành công!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -104,7 +104,7 @@ const messageCtrl = {
         sender: req.user._id,
       });
       res.json({
-        msg: "Delete Success",
+        msg: "Xoá thành công!",
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
@@ -120,7 +120,7 @@ const messageCtrl = {
       });
       await Messages.deleteMany({ conversation: newConver._id });
       res.json({
-        msg: "Delete Success",
+        msg: "Xoá thành công!",
       });
     } catch (err) {
       return res.status(500).json({ msg: err.message });

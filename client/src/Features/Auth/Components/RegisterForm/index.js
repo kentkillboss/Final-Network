@@ -69,20 +69,21 @@ function RegisterForm(props) {
     // title: yup.string().required('Please enter title'),
     fullname: yup
       .string()
-      .required('Please enter your full name!')
-      .test('should two word', 'Please enter least two words!', (value) => {
+      .required('Vui lòng nhập họ và tên!')
+      .test('should two word', 'Vui lòng nhập ít nhất 2 ký chữ cái!', (value) => {
         return value.split(' ').length >= 2;
       }),
-    email: yup.string().required('Please enter your Email!').email('Please enter a valid email address!'),
-    password: yup.string().required('Please enter your password').min(6, 'Please enter least 6 character'),
+    username: yup.string().required('Vui lòng nhập biệt danh!'),
+    email: yup.string().required('Vui lòng nhập Email!').email('Vui lòng nhập đúng định dạng email!'),
+    password: yup.string().required('Vui lòng nhập mật khẩu').min(6, 'Vui lòng nhập ít nhất 6 ký tự'),
     // .matches(
     //   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
     //   'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character!'
     // ),
     retypePassword: yup
       .string()
-      .required('Please retype your password!')
-      .oneOf([yup.ref('password')], 'Password does not match!'),
+      .required('vui lòng nhập lại mật khẩu!')
+      .oneOf([yup.ref('password')], 'Mật khẩu không trùng!'),
   });
   const form = useForm({
     defaultValues: {
@@ -91,7 +92,7 @@ function RegisterForm(props) {
       email: '',
       password: '',
       retypePassword: '',
-      gender: 'male',
+      gender: 'nam',
     },
     resolver: yupResolver(schema),
   });
@@ -121,11 +122,11 @@ function RegisterForm(props) {
             Đăng ký tài khoản Dulcie
           </Typography>
           <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)} noValidate>
-            <InputField name="fullname" label="Full Name" form={form} />
-            <InputField name="username" label="Username" form={form} />
+            <InputField name="fullname" label="Họ và tên" form={form} />
+            <InputField name="username" label="Biệt danh" form={form} />
             <InputField name="email" label="Email" form={form} />
-            <PasswordField name="password" label="Password" form={form} />
-            <PasswordField name="retypePassword" label="Retype Password" form={form} />
+            <PasswordField name="password" label="Mật khẩu" form={form} />
+            <PasswordField name="retypePassword" label="Nhập lại mật khẩu" form={form} />
             <RadioField name="gender" label="Male" form={form} />
 
             <Button

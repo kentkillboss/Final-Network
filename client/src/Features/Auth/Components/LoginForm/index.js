@@ -64,8 +64,8 @@ function LoginForm(props) {
   const classes = useStyles();
   const { alert } = useSelector((state) => state);
   const schema = yup.object().shape({
-    email: yup.string().required('Please enter your Email!').email('Please enter a valid email address!'),
-    password: yup.string().required('Please enter your password'),
+    email: yup.string().required('Vui lòng nhập Email!').email('Vui lòng nhập đúng định dạng email!'),
+    password: yup.string().required('Vui lòng nhập mật khẩu'),
   });
   const form = useForm({
     defaultValues: {
@@ -99,7 +99,7 @@ function LoginForm(props) {
           </Typography>
           <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)} noValidate>
             <InputField name="email" label="Email" form={form} />
-            <PasswordField name="password" label="Password" form={form} />
+            <PasswordField name="password" label="Mật khẩu" form={form} />
 
             <Button
               disabled={isSubmitting}

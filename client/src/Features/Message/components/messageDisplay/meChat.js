@@ -170,7 +170,7 @@ function MessageDisplay({ user, msg, data }) {
   return (
     <>
       <Box className={classes.boxContent}>
-        <Box style={{ display: 'flex' }} className={classes.boxFlex}>
+        <Box style={{ display: 'flex' }} className={!msg._id ? classes.newBox : classes.boxFlex}>
           <DeleteIcon className={classes.deleteIcon} onClick={handleDeleteMessages} />
           <Box className={classes.contentBox}>
             {msg.text && (

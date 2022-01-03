@@ -1,4 +1,16 @@
-import { Box, Button, Card, CardHeader, Divider, Grid, Link, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  Dialog,
+  DialogActions,
+  Divider,
+  Grid,
+  Link,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import EmailIcon from '@material-ui/icons/Email';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
@@ -73,6 +85,9 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
   const [edit, setEdit] = useState(false);
   const [showFollowers, setShowFollowers] = useState(false);
   const [showFollowing, setShowFollowing] = useState(false);
+
+  const [openPicture, setOpenPicture] = useState(false);
+  const [isAvatar, setIsAvatar] = useState(false);
   useEffect(() => {
     if (id === auth.user._id) {
       setUserData([auth.user]);
@@ -81,7 +96,6 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
       setUserData(newData);
     }
   }, [id, auth, dispatch, profile.users]);
-
 
   const handleLinkMessage = (user) => {
     dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
@@ -96,16 +110,21 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
             <Box className="user_profile_cap">
               <Box className="user_profile_cover">
                 <img
+                  onClick={() => setOpenPicture(true)}
                   src={user.background}
                   alt="img"
-                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover' }}
+                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover', cursor: 'pointer' }}
                 />
               </Box>
               <Box className="user_profile_headline">
                 <img
+                  onClick={() => {
+                    setOpenPicture(true);
+                    setIsAvatar(true);
+                  }}
                   src={user.avatar}
                   alt="img"
-                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover' }}
+                  style={{ filter: theme ? 'invert(1)' : 'invert(0)', objectFit: 'cover', cursor: 'pointer' }}
                 />
                 <h2>{user.username}</h2>
                 <span className="span">{user.fullname}</span>
@@ -137,6 +156,35 @@ function ProfileInfo({ id, auth, profile, dispatch }) {
                   // </Link>
                 )}
               </Box>
+              {openPicture && (
+                <Dialog open={openPicture} maxWidth="lg">
+                  <img
+                    onClick={() => setOpenPicture(true)}
+                    src={isAvatar ? user.avatar : user.background}
+                    alt="img"
+                    style={{
+                      filter: theme ? 'invert(1)' : 'invert(0)',
+                      maxHeight: 'calc(100vh - 125px)',
+                      minHeight: 'calc(100vh - 125px)',
+                      maxWidth: '100%',
+                      minWidth: '100%',
+                      objectFit: 'contain',
+                    }}
+                  />
+                  <DialogActions>
+                    <Button
+                      onClick={() => {
+                        setOpenPicture(false);
+                        setIsAvatar(false);
+                      }}
+                      color="primary"
+                      autoFocus
+                    >
+                      Tắt
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              )}
             </Box>
           </Grid>
 

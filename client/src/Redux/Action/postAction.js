@@ -133,7 +133,7 @@ export const unLikePost =
       //notify
       const msg = {
         id: auth.user._id,
-        text: 'liked your post',
+        text: 'đã thích bài viết của bạn',
         recipients: [post.user._id],
         url: `/post/${post._id}`,
       };
@@ -173,7 +173,7 @@ export const deletePost =
       // notify
       const msg = {
         id: post._id,
-        text: 'added a new post',
+        text: 'đã thêm bài viết mới',
         recipients: res.data.newPost.user.followers,
         url: `/post/${post._id}`,
       };

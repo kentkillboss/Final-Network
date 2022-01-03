@@ -28,7 +28,7 @@ import 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { createNote, deleteNote, getNotes, notifiNote } from 'Redux/Action/noteAction';
+import { createNote, deleteNote, getNotes } from 'Redux/Action/noteAction';
 import EditNote from './components/EditNote';
 
 const useStyles = makeStyles((theme) => ({
@@ -127,19 +127,6 @@ function Notes(props) {
       //   history.push('/');
     }
   };
-  const toDay = new Date();
-  const date2 = toDay.getDate() + '-' + (toDay.getMonth() + 1) + '-' + toDay.getFullYear();
-  useEffect(() => {
-    noteList.notes.forEach((item) => {
-      if (item.notification === true) {
-        const tmp = new Date(item.timer);
-        const date = tmp.getDate() + '-' + (tmp.getMonth() + 1) + '-' + tmp.getFullYear();
-        if (date === date2) {
-          dispatch(notifiNote({ item, auth }));
-        }
-      }
-    });
-  }, [noteList, date2, auth, dispatch]);
 
   const converTimer = (date) => {
     const toDay = new Date(date);

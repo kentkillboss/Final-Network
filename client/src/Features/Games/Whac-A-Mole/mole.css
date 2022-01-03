@@ -13,6 +13,9 @@
 
 .body1 {
   min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,9 +24,6 @@
   font-family: 'Fredoka One', cursive;
   background: var(--sky);
   z-index: 100000;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .moles {
@@ -43,7 +43,6 @@
   z-index: 2000;
   height: 100vh;
   width: 100vw;
-
   display: grid;
   place-items: center;
   background: linear-gradient(var(--sky) 0 44%, var(--grass) 44%);

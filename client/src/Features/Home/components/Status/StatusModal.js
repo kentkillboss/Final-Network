@@ -139,7 +139,10 @@ function StatusModal({ setShowModal }) {
           const track = mediaStream.getTracks();
           setTracks(track[0]);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          dispatch({type: GLOBALTYPES.ALERT, payload: {error: 'Vui lòng bật camera!'}});
+          setStream(false);
+        });
     }
   };
   const handleCapture = () => {

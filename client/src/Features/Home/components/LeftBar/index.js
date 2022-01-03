@@ -92,7 +92,7 @@ function LeftBar(props) {
       path: '/message',
     },
     {
-      text: 'Weather',
+      text: 'Thời tiết',
       icon: <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/kULMG0uFcEQ.png" className={classes.icon} alt="" />,
       path: '/weather',
     },

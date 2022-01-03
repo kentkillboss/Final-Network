@@ -6,6 +6,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Cancel, Mail, Notifications, Search } from '@material-ui/icons';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
+import Brightness7RoundedIcon from '@material-ui/icons/Brightness7Rounded';
+import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
+import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import SearchCard from 'Components/Search';
 import NotifyModal from 'Features/Notify/NotifyModal';
 import Logo from 'images/logo1.png';
@@ -14,11 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from 'Redux/Action/authAction';
 import { GLOBALTYPES } from 'Redux/Action/globalTypes';
-import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
-import Brightness7RoundedIcon from '@material-ui/icons/Brightness7Rounded';
-import Brightness4RoundedIcon from '@material-ui/icons/Brightness4Rounded';
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 const useStyles = makeStyles((theme) => ({
   root: {
     zIndex: 1100,

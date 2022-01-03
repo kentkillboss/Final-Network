@@ -38,7 +38,7 @@ const postCtrl = {
       });
       await newPost.save();
       res.json({
-        msg: "Create Post",
+        msg: "Đã tạo bài viết",
         newPost: {
           ...newPost._doc,
           user: req.user,
@@ -96,7 +96,7 @@ const postCtrl = {
         });
 
       res.json({
-        msg: "Update Post!",
+        msg: "Đã cập nhập bài viết!",
         newPost: {
           ...post._doc,
           content,
@@ -114,7 +114,7 @@ const postCtrl = {
         likes: req.user._id,
       });
       if (post.length > 0)
-        return res.status(400).json({ msg: "You liked this post." });
+        return res.status(400).json({ msg: "Bạn đã thích bài viết này." });
 
       const like = await Posts.findOneAndUpdate(
         { _id: req.params.id },
@@ -125,9 +125,9 @@ const postCtrl = {
       );
 
       if (!like)
-        return res.status(400).json({ msg: "This post does not exist." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
 
-      res.json({ msg: "Liked Post!" });
+      res.json({ msg: "Đã thích bài viết!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -143,9 +143,9 @@ const postCtrl = {
       );
 
       if (!like)
-        return res.status(400).json({ msg: "This post does not exist." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
 
-      res.json({ msg: "UnLiked Post!" });
+      res.json({ msg: "Đã huỷ thích bài viết!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -174,7 +174,7 @@ const postCtrl = {
           },
         });
       if (!post)
-        return res.status(400).json({ msg: "This post does not exist." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
       res.json({ post });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
@@ -218,7 +218,7 @@ const postCtrl = {
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
       res.json({
-        msg: "Deleted Post.",
+        msg: "Đã xoá bài viết.",
         newPost: {
           ...post,
           user: req.user,
@@ -235,7 +235,7 @@ const postCtrl = {
         saved: req.params.id,
       });
       if (user.length > 0)
-        return res.status(400).json({ msg: "You saved this post." });
+        return res.status(400).json({ msg: "Đã lưu bài viết." });
 
       const save = await Users.findOneAndUpdate(
         { _id: req.user._id },
@@ -246,9 +246,9 @@ const postCtrl = {
       );
 
       if (!save)
-        return res.status(400).json({ msg: "This post does not exist." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
 
-      res.json({ msg: "Saved Post!" });
+      res.json({ msg: "Đã lưu bài viết!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -264,9 +264,9 @@ const postCtrl = {
       );
 
       if (!save)
-        return res.status(400).json({ msg: "This post does not exist." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
 
-      res.json({ msg: "Unsaved Post!" });
+      res.json({ msg: "Đã huỷ lưu bài viết!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -297,7 +297,7 @@ const postCtrl = {
         report: req.user._id,
       });
       if (post.length > 0)
-        return res.status(400).json({ msg: "You reported this post." });
+        return res.status(400).json({ msg: "Bạn đã báo cáo bài viết này." });
 
       const report = await Posts.findOneAndUpdate(
         { _id: req.params.id },
@@ -308,9 +308,9 @@ const postCtrl = {
       );
 
       if (!report)
-        return res.status(400).json({ msg: "This post does not exist." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
 
-      res.json({ msg: "reported Post!" });
+      res.json({ msg: "Đã báo cáo bài viết!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -347,7 +347,7 @@ const postCtrl = {
       await Comments.deleteMany({ _id: { $in: post.comments } });
 
       res.json({
-        msg: "Deleted Post.",
+        msg: "Đã xoá bài viết.",
         newPost: {
           ...post,
           user: req.user,

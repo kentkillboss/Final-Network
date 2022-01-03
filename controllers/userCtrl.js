@@ -11,7 +11,8 @@ const userCtrl = {
   searchUser: async (req, res) => {
     try {
       const users = await Users.find({
-        username: { $regex: req.query.username },
+        // username: { $regex: req.query.username },
+        username: { $regex: new RegExp(req.query.username.toLowerCase(), "i") },
       })
         .limit(10)
         .select("fullname username avatar email mobile address isBan");
@@ -26,7 +27,8 @@ const userCtrl = {
       const user = await Users.findById(req.params.id)
         .select("-password")
         .populate("followers following", "-password");
-      if (!user) return res.status(400).json({ msg: "User does not exist." });
+      if (!user)
+        return res.status(400).json({ msg: "Người dùng không tồn tại." });
 
       res.json({ user });
     } catch (err) {
@@ -46,7 +48,7 @@ const userCtrl = {
         gender,
       } = req.body;
       if (!fullname)
-        return res.status(400).json({ msg: "Please add your fullname." });
+        return res.status(400).json({ msg: "Vui lòng nhập họ và tên." });
       await Users.findOneAndUpdate(
         { _id: req.user._id },
         {
@@ -60,7 +62,7 @@ const userCtrl = {
           gender,
         }
       );
-      res.json({ msg: "Update Success!" });
+      res.json({ msg: "Cập nhập thành công!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -72,7 +74,7 @@ const userCtrl = {
         followers: req.user._id,
       });
       if (user.length > 0)
-        return res.status(500).json({ msg: "You followed this user." });
+        return res.status(500).json({ msg: "Bạn đã theo dõi người này." });
 
       const newUser = await Users.findOneAndUpdate(
         { _id: req.params.id },
@@ -223,23 +225,23 @@ const userCtrl = {
     }
   },
   requestFollow: async (req, res) => {
-    const {senderId, recipientId} = req.body;
+    const { senderId, recipientId } = req.body;
     try {
       const pFollow = await pendingFollow.findOne({ senderId });
       if (pFollow)
         return res.status(400).json({ msg: "Đã gửi yều cầu trước đây." });
-      const follow = new pendingFollow({senderId, recipientId});
-      
+      const follow = new pendingFollow({ senderId, recipientId });
+
       await follow.save();
 
-      res.json({id: follow._id, msg: 'Đã gửi yêu cầu theo dõi!'})
+      res.json({ id: follow._id, msg: "Đã gửi yêu cầu theo dõi!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
   acceptFollow: async (req, res) => {
-    const {id, notifyId} = req.body;
-    
+    const { id, notifyId } = req.body;
+
     try {
       const pFollow = await pendingFollow.findById(id);
 
@@ -265,13 +267,12 @@ const userCtrl = {
       await notify.remove();
 
       res.json({ newUser });
-
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
   changePassword: async (req, res) => {
-    const {id, oldPassword, newPassword} = req.body;
+    const { id, oldPassword, newPassword } = req.body;
     // console.log(id, oldPassword, newPassword);
     try {
       const user = await Users.findById(id);
@@ -283,18 +284,18 @@ const userCtrl = {
           const passwordHash = await bcrypt.hash(newPassword, 12);
           await Users.findOneAndUpdate(
             {
-              _id: id
+              _id: id,
             },
             {
-              password: passwordHash
+              password: passwordHash,
             }
-            );
+          );
 
-            res.json({msg: 'Change password success'});
-        }else {
-          return res.status(404).json({msg: 'Wrong password!'});
+          res.json({ msg: "Đổi mật khẩu thành công" });
+        } else {
+          return res.status(404).json({ msg: "Sai mật khẩu!" });
         }
-    })
+      });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -303,32 +304,32 @@ const userCtrl = {
     try {
       const user = await pendingFollow.find({});
 
-      res.json({msg: 'get request user success',
-      requestFollow: user
-      })
-
-      
+      res.json({ msg: "get request user success", requestFollow: user });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
   cancelRequest: async (req, res) => {
-    const {senderId, recipientId} = req.body;
+    const { senderId, recipientId } = req.body;
     try {
       const pFollow = await pendingFollow.findOne({ senderId, recipientId });
-      const Notifies = await Notify.findOne({ user: senderId, request: true, recipients: {$in: [recipientId]} });
-      
+      const Notifies = await Notify.findOne({
+        user: senderId,
+        request: true,
+        recipients: { $in: [recipientId] },
+      });
+
       await pFollow.remove();
       await Notifies.remove();
 
-      res.json({msg: 'Đã huỷ yêu cầu!'})
+      res.json({ msg: "Đã huỷ yêu cầu!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
   },
   unAcceptFollow: async (req, res) => {
-    const {id, notifyId} = req.body;
-    
+    const { id, notifyId } = req.body;
+
     try {
       const pFollow = await pendingFollow.findById(id);
 
@@ -337,8 +338,7 @@ const userCtrl = {
       await pFollow.remove();
       await notify.remove();
 
-      res.json({ msg: 'Không chấp nhận yêu cầu' });
-
+      res.json({ msg: "Không chấp nhận yêu cầu" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

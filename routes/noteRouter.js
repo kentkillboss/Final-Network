@@ -12,6 +12,6 @@ router
   .patch(auth, noteCtrl.updateNote)
   .get(auth, noteCtrl.getNoteById)
   .delete(auth, noteCtrl.deleteNote);
-router.route("/untoggle/:id").post(auth, noteCtrl.unNoti);
+router.route("/untoggle/:id").post(noteCtrl.unNoti);
 
 module.exports = router;

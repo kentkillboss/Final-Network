@@ -147,11 +147,11 @@ function EditProfileForm({ setEdit }) {
             </div>
 
             <FormControl fullWidth margin="normal" variant="outlined" style={{ marginTop: '30px', marginBottom: 0 }}>
-              <InputLabel htmlFor="outlined-adornment-password">Fullname</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">Họ và tên</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
                 className={classes.textfield}
-                label="Fullname"
+                label="Họ và tên"
                 name="fullname"
                 fullWidth
                 variant="outlined"
@@ -167,7 +167,7 @@ function EditProfileForm({ setEdit }) {
 
             <TextField
               className={classes.textfield}
-              label="Mobie"
+              label="Số điện thoại"
               name="mobile"
               fullWidth
               variant="outlined"
@@ -176,7 +176,7 @@ function EditProfileForm({ setEdit }) {
             />
             <TextField
               className={classes.textfield}
-              label="Address"
+              label="Địa chỉ"
               name="address"
               fullWidth
               variant="outlined"
@@ -185,7 +185,7 @@ function EditProfileForm({ setEdit }) {
             />
             <TextField
               className={classes.textfield}
-              label="Website"
+              label="Trang web"
               name="website"
               fullWidth
               variant="outlined"
@@ -194,14 +194,14 @@ function EditProfileForm({ setEdit }) {
             />
 
             <FormControl fullWidth margin="normal" variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-password">Story</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-password">Giới thiệu</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
                 className={classes.textfield}
                 multiline
                 rows={3}
                 maxRows={10}
-                label="Story"
+                label="Giới thiệu"
                 name="story"
                 fullWidth
                 variant="outlined"
@@ -218,16 +218,16 @@ function EditProfileForm({ setEdit }) {
               className={classes.textfield}
               fullWidth
               select
-              label="Gender"
+              label="Giới tính"
               name="gender"
               id="gender"
               value={gender}
               onChange={handleInput}
               variant="outlined"
             >
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="female">FeMale</MenuItem>
-              <MenuItem value="other">Other</MenuItem>
+              <MenuItem value="nam">Nam</MenuItem>
+              <MenuItem value="nữ">Nữ</MenuItem>
+              <MenuItem value="khác">Khác</MenuItem>
             </TextField>
           </DialogContent>
           <DialogActions className={classes.btn}>

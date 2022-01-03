@@ -110,7 +110,7 @@ export const activatedUser = (id) => async (dispatch) => {
       dispatch({
         type: GLOBALTYPES.ALERT,
         payload: {
-          error: 'Cannot validate an User!',
+          error: 'Không thể tìm thấy người dùng!',
         },
       });
     }

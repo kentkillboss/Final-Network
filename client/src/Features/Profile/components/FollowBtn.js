@@ -78,15 +78,15 @@ function FollowBtn({ user }) {
     <>
       {requestFollows ? (
         <Button onClick={handleUnRequest} className="btnEdit" variant="outlined">
-          Request
+          Đã yêu cầu
         </Button>
       ) : followed ? (
         <Button onClick={handleUnFollow} className="btnEdit" variant="outlined">
-          UnFollow
+          Huỷ theo dõi
         </Button>
       ) : (
         <Button onClick={handleFollow} className="btnEdit" variant="outlined">
-          Follow
+          Theo dõi
         </Button>
       )}
     </>

@@ -9,10 +9,12 @@ import EditProfileForm from './EditProfileForm/EditProfileForm';
 import PrivateBtn from './PrivateBtn';
 import EditPasswordForm from './EditPasswordForm/EditPasswordForm';
 import { Typography } from '@material-ui/core';
+import ShowQR from './ShowQR';
 
 function ProfileSetting(props) {
   const [edit, setEdit] = useState(false);
   const [editPassword, setEditPassword] = useState(false);
+  const [openQR, setOpenQR] = useState(false);
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -71,7 +73,10 @@ function ProfileSetting(props) {
                 <PrivateBtn />
               </MenuItem>
               <MenuItem onClick={() => setEditPassword(true)} style={{ color: 'black' }}>
-                <Typography>Thay đổi Password</Typography>
+                <Typography>Thay đổi mật khẩu</Typography>
+              </MenuItem>
+              <MenuItem onClick={() => setOpenQR(true)} style={{ color: 'black' }}>
+                <Typography>QR code</Typography>
               </MenuItem>
             </MenuList>
           </ClickAwayListener>
@@ -79,6 +84,7 @@ function ProfileSetting(props) {
       </Popover>
       {edit && <EditProfileForm setEdit={setEdit} />}
       {editPassword && <EditPasswordForm setEditPassword={setEditPassword} />}
+      {openQR && <ShowQR setOpenQR={setOpenQR} />}
     </div>
   );
 }

@@ -56,7 +56,7 @@ function Followers({ users, setShowFollowers }) {
                   <ListItemAvatar>
                     <Avatar src={user.avatar}></Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={user.fullname} />
+                  <ListItemText primary={user.username} />
                 </ListItem>
                 <IconButton size="large" edge="end" style={{ padding: '0px' }}>
                   {auth.user._id !== user._id && <FollowBtn user={user} />}

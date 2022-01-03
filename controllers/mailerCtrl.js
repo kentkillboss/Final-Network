@@ -25,11 +25,11 @@ exports.sendConfirmationEmail = function ({ toUser, hash }) {
     from: process.env.GOOGLE_USER,
     to: toUser.email,
     // to: process.env.GOOGLE_USER,
-    subject: 'DULCIE - Active account',
+    subject: 'DULCIE - Kích hoạt tài khoản',
     html: `
-      <h3>Hello ${toUser.username} </h3>
-      <p>Thank you for registering into our application. Just one more step...</p>
-      <p>To active your account please follow this link: <a target="_" href="${process.env.DOMAIN}/activate/user/${hash}">Activate Link</a></p>
+      <h3>Chào ${toUser.username} </h3>
+      <p>Cảm ơn bạn đã đăng ký vào ứng dụng của chúng tôi. Chỉ còn một bước nữa...</p>
+      <p>Để kích hoạt tài khoản hãy nhấn vào liên kết sau: <a target="_" href="${process.env.DOMAIN}/activate/user/${hash}">Liên kết kích hoạt</a></p>
       <p>Cheers,</p>
       <p>DATN-DULCIE</p>    
     `
@@ -46,8 +46,8 @@ exports.sendResetPassword = function ({ toUser, hash }) {
     // to: process.env.GOOGLE_USER,
     subject: 'DULCIE - Reset Password',
     html: `
-      <h3>Hello ${toUser.username} </h3>
-      <p>To reset your password please follow this link: <a target="_" href="${process.env.DOMAIN}/reset-password/${hash}">Reset Password Link</a></p>
+      <h3>Chào ${toUser.username} </h3>
+      <p>Để đổi mật khẩu hãy nhấn vào liên kết sau: <a target="_" href="${process.env.DOMAIN}/reset-password/${hash}">Liên kết đôi mật khẩu</a></p>
       <p>Cheers,</p>
       <p>DATN-DULCIE</p>    
     `

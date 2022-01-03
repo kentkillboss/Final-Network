@@ -33,7 +33,7 @@ const noteCtrl = {
 
       await newNote.save();
       res.json({
-        msg: "Create Notes",
+        msg: "Đã tạo ghi chú!",
         newNote: {
           ...newNote._doc,
           user: req.user,
@@ -54,7 +54,7 @@ const noteCtrl = {
       const notes = await features.query.sort("-createdAt");
 
       res.json({
-        msg: "Success!",
+        msg: "Thành công!",
         result: notes.length,
         notes,
       });
@@ -65,7 +65,7 @@ const noteCtrl = {
   getNoteById: async (req, res) => {
     try {
       const note = await Notes.findById(req.params.id);
-      if (!note) return res.status(400).json({ msg: "Note không tồn tại" });
+      if (!note) return res.status(400).json({ msg: "Ghi chú không tồn tại" });
 
       res.json({ note });
     } catch (error) {
@@ -85,7 +85,7 @@ const noteCtrl = {
         }
       );
       res.json({
-        msg: "Update Notes",
+        msg: "Cập nhập ghi chú",
         newNote: {
           ...note._doc,
           title,
@@ -106,7 +106,7 @@ const noteCtrl = {
       });
 
       res.json({
-        msg: "Deleted Note.",
+        msg: "Đã xoá ghi chú.",
         newNote: {
           ...note,
           user: req.user,
@@ -125,7 +125,7 @@ const noteCtrl = {
         }
       );
       res.json({
-        msg: "Update Notes",
+        msg: "CậP nhập ghi chú!",
       });
     } catch (error) {
       return res.status(500).json({ msg: error.message });

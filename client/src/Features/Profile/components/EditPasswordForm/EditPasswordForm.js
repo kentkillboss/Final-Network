@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     position: 'absolute',
-    left: '23%',
+    left: '28%',
     top: theme.spacing(2),
   },
 }));
@@ -101,7 +101,7 @@ function EditPasswordForm({ setEditPassword }) {
       <Dialog open={setEditPassword}>
         {alert.loading && <LinearProgress />}
         <Typography className={classes.title}>
-          <b> Change Password </b>
+          <b> Đổi mật khẩu </b>
         </Typography>
         <IconButton onClick={handleClose} className={classes.close}>
           <Close />
@@ -112,7 +112,7 @@ function EditPasswordForm({ setEditPassword }) {
               <TextField
                 className={classes.textfield}
                 name="oldPassword"
-                label="Old Password"
+                label="Mật khẩu cũ"
                 type="password"
                 variant="outlined"
                 onChange={handleInput}
@@ -121,7 +121,7 @@ function EditPasswordForm({ setEditPassword }) {
               <TextField
                 className={classes.textfield}
                 name="newPassword"
-                label="New Password"
+                label="Mật khẩu mới"
                 type="password"
                 variant="outlined"
                 onChange={handleInput}
@@ -130,7 +130,7 @@ function EditPasswordForm({ setEditPassword }) {
               <TextField
                 className={classes.textfield}
                 name="rtPassword"
-                label="Retype Password"
+                label="Nhập lại mật khẩu"
                 type="password"
                 variant="outlined"
                 onChange={handleInput}

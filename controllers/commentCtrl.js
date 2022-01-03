@@ -8,12 +8,12 @@ const commentCtrl = {
 
       const post = await Posts.findById(postId);
       if (!post)
-        return res.status(400).json({ msg: "This post does not exits." });
+        return res.status(400).json({ msg: "Bài viết này không tồn tại." });
 
       if (reply) {
         const cm = await Comments.findById(reply);
         if (!cm)
-          return res.status(400).json({ msg: "This comment does not exits." });
+          return res.status(400).json({ msg: "Bình luận này không tồn tại." });
       }
 
       const newComment = new Comments({
@@ -54,7 +54,7 @@ const commentCtrl = {
         { content }
       );
 
-      res.json({ msg: "Update Success!" });
+      res.json({ msg: "Cập nhập thành công!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -66,7 +66,7 @@ const commentCtrl = {
         likes: req.user._id,
       });
       if (comment.length > 0)
-        return res.status(400).json({ msg: "You liked this post." });
+        return res.status(400).json({ msg: "Đã thích bài viết này." });
 
       await Comments.findOneAndUpdate(
         { _id: req.params.id },
@@ -75,7 +75,7 @@ const commentCtrl = {
         },
         { new: true }
       );
-      res.json({ msg: "Liked Comment!" });
+      res.json({ msg: "Đã thích bình luận này!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -90,7 +90,7 @@ const commentCtrl = {
         { new: true }
       );
 
-      res.json({ msg: "UnLiked Comment!" });
+      res.json({ msg: "Đã huỷ thích bình luận này!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
@@ -108,7 +108,7 @@ const commentCtrl = {
           $pull: { comments: req.params.id },
         }
       );
-      res.json({ msg: "Deleted Comment!" });
+      res.json({ msg: "Đã xoá bình luận này!" });
     } catch (error) {
       return res.status(500).json({ msg: error.message });
     }
