@@ -12,11 +12,7 @@ const userCtrl = {
     try {
       const users = await Users.find({
         // username: { $regex: req.query.username },
-<<<<<<< HEAD
         username: { $regex: new RegExp(req.query.username.toLowerCase(), "i") },
-=======
-        username: { $regex: new RegExp(req.query.username.toLowerCase(), "i") }
->>>>>>> 135fdf1ab700baaab8a69de1b4ad1d1130bfb644
       })
         .limit(10)
         .select("fullname username avatar email mobile address isBan");
